@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.ServiceLoader;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 
 import com.holonplatform.core.Expression;
 import com.holonplatform.core.Expression.InvalidExpressionException;

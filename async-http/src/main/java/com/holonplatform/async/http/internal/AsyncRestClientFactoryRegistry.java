@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 import java.util.WeakHashMap;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 
 import com.holonplatform.async.http.AsyncRestClient;
 import com.holonplatform.async.http.AsyncRestClientFactory;

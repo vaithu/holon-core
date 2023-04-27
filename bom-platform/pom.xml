@@ -37,11 +37,13 @@
 			</dependency>
 
 			<!-- Validation API -->
+			<!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
 			<dependency>
-				<groupId>javax.validation</groupId>
-				<artifactId>validation-api</artifactId>
-				<version>${bean.validation.version}</version>
+				<groupId>jakarta.validation</groupId>
+				<artifactId>jakarta.validation-api</artifactId>
+				<version>3.0.2</version>
 			</dependency>
+
 
 			<!-- Spring -->
 			<dependency>

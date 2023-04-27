@@ -110,7 +110,7 @@ include::{examplesdir}/com/holonplatform/core/examples/ExampleBeans.java[tag=pos
 ----
 <1> Register a `BeanPropertyPostProcessor` which adds a `test` property configuration attribute to all the processed properties
 
-TIP: The `javax.annotation.Priority` annotation can be used on a `BeanPropertyPostProcessor` implementation class to assign a priority order within the registered processors list, where lower values corresponds to higher priority.
+TIP: The `jakarta.annotation.Priority` annotation can be used on a `BeanPropertyPostProcessor` implementation class to assign a priority order within the registered processors list, where lower values corresponds to higher priority.
 
 [[BeanPropertySetPostProcessor]]
 ==== BeanPropertySetPostProcessor
@@ -133,7 +133,7 @@ include::{examplesdir}/com/holonplatform/core/examples/ExampleBeans.java[tag=pos
 ----
 <1> Register a `BeanPropertySetPostProcessor` which adds a `test` property configuration attribute to the Bean property set
 
-TIP: The `javax.annotation.Priority` annotation can be used on a `BeanPropertySetPostProcessor` implementation class to assign a priority order within the registered processors list, where lower values corresponds to higher priority.
+TIP: The `jakarta.annotation.Priority` annotation can be used on a `BeanPropertySetPostProcessor` implementation class to assign a priority order within the registered processors list, where lower values corresponds to higher priority.
 
 [[BuiltinBeanPostProcessors]]
 ==== Builtin Bean post processors
@@ -212,7 +212,7 @@ include::{examplesdir}/com/holonplatform/core/examples/ExampleBeans.java[tag=con
  
 The Bean property <<PropertyValidation,validation>> can be configured in one of the following ways:
 
-* Using the standard _javax.validation.constraints_ bean validation API annotations. The supported annotations are: `@Null`, `@NotNull`, `@Size`, `@Min`, `@Max`, `@DecimalMin`, `@DecimalMax`, `@Digits`, `@Future`, `@Past`, `@Pattern`. A Bean validation API implementation must be available in classpath.
+* Using the standard _jakarta.validation.constraints_ bean validation API annotations. The supported annotations are: `@Null`, `@NotNull`, `@Size`, `@Min`, `@Max`, `@DecimalMin`, `@DecimalMax`, `@Digits`, `@Future`, `@Past`, `@Pattern`. A Bean validation API implementation must be available in classpath.
 
 * Using the additional platform validation annotations: `@NotEmpty` (`CharSequence` not null and not empty), `@NotBlank` (`CharSequence` not null and not empty trimming spaces), `@NotNegative` (`Number` not negative) and `@Email` (`String` is a valid e-mail address).
 
@@ -224,8 +224,8 @@ IMPORTANT: For bean validation API and builtin validation annotations, the `mess
 ----
 include::{examplesdir}/com/holonplatform/core/examples/ExampleBeans.java[tag=validation,indent=0]
 ----
-<1> Set the _mininum_ value for the `id` bean property using the standard _javax.validation.constraints_ annotation
-<2> Set the _maximum_ value for the `id` bean property using the standard _javax.validation.constraints_ annotation and providing the invalid value message localization code
+<1> Set the _mininum_ value for the `id` bean property using the standard _jakarta.validation.constraints_ annotation
+<2> Set the _maximum_ value for the `id` bean property using the standard _jakarta.validation.constraints_ annotation and providing the invalid value message localization code
 <3> Set the `name` bean property as _not blank_ using the additional platform validation annotation. The `@ValidationMessage` annotation is used to specify the invalid value default message and localization message code
 <4> Set two custom `Validator` implementations for the `value` bean property using the `@Validator` repeteable annotation
 

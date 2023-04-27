@@ -17,7 +17,7 @@ package com.holonplatform.core.beans;
 
 import java.util.ServiceLoader;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 
 import com.holonplatform.core.beans.BeanIntrospector.BeanIntrospectionException;
 

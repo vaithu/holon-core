@@ -26,6 +26,7 @@ import java.util.Optional;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.HttpMessageConverterExtractor;
@@ -237,7 +238,7 @@ public class SpringResponseEntity<T> implements ResponseEntity<T> {
 		 * @see org.springframework.http.client.ClientHttpResponse#getStatusCode()
 		 */
 		@Override
-		public HttpStatus getStatusCode() throws IOException {
+		public HttpStatusCode getStatusCode() throws IOException {
 			return responseEntity.getStatusCode();
 		}
 
@@ -256,7 +257,8 @@ public class SpringResponseEntity<T> implements ResponseEntity<T> {
 		 */
 		@Override
 		public String getStatusText() throws IOException {
-			return responseEntity.getStatusCode().getReasonPhrase();
+//			return responseEntity.getStatusCode().getReasonPhrase();
+			return HttpStatus.valueOf(responseEntity.getStatusCode().value()).getReasonPhrase();
 		}
 
 		/*

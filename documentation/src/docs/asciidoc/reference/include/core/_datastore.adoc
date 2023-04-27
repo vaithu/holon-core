@@ -36,7 +36,7 @@ A generic `ResolutionContext` object is provided to the `ExpressionResolver` res
 A set of `ExpressionResolver` can be handled using an link:{apidir}/com/holonplatform/core/ExpressionResolverRegistry.html[ExpressionResolverRegistry^]. When an `Expression` must be resolved, all the available resolvers which declare to resolve the given expression type and provide a consistent resolution type will be taken into account. These resolvers are invoked sequentially, 
 returning the first valid resolved expression, if any.
 
-To order the expression resolvers with the same expression types, the `javax.annotation.Priority` annotation can be used on the `ExpressionResolver` implementation class to assign a priority order, where lower values corresponds to higher priority.
+To order the expression resolvers with the same expression types, the `jakarta.annotation.Priority` annotation can be used on the `ExpressionResolver` implementation class to assign a priority order, where lower values corresponds to higher priority.
 
 The `Datastore` API , extending the `ExpressionResolverSupport` interface, supports the registration of new `ExpressionResolver` instances. This is the recommended way to implement `Datastore` *extensions* and persistence operations *customization*.
 

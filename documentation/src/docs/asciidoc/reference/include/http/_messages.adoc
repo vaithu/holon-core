@@ -76,7 +76,7 @@ include::{examplesdir}/com/holonplatform/core/examples/ExampleMessage.java[tag=h
 [[ServletHttpMessage]]
 ==== Servlet API integration
 
-The link:{apidir}/com/holonplatform/http/servlet/ServletHttpRequest.html[ServletHttpRequest^] API represents a `HttpRequest` backed by a `javax.servlet.http.HttpServletRequest` instance, and can be used as an adapter to deal with servlet request messages using the Holon Platform `HttpRequest` API.
+The link:{apidir}/com/holonplatform/http/servlet/ServletHttpRequest.html[ServletHttpRequest^] API represents a `HttpRequest` backed by a `jakarta.servlet.http.HttpServletRequest` instance, and can be used as an adapter to deal with servlet request messages using the Holon Platform `HttpRequest` API.
 
 The `ServletHttpRequest` API provides additional methods to obtain servlet related message information:
 

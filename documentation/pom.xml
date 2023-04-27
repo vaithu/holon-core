@@ -106,20 +106,22 @@
 
 		<!-- Bean validation -->
 		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
 			<version>${bean.validation.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<!-- Servlet -->
+		<!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>${servlet.api}</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
+
 	</dependencies>
 
 </project>

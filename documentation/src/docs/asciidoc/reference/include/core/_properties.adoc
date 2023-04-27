@@ -540,7 +540,7 @@ The property value presenters are organized in a registry (the link:{apidir}/com
 
 This way, the registry uses a _fallback_ strategy to obtain the most suitable presenter for a property, searching for the presenter associated to the condition which best matches a given property, or falling back to another presenter consistent with the property, if available.
 
-The registry supports a *priority* indication for a `PropertyValuePresenter`, which can be expressed by using standard `javax.annotation.Priority` annotation on presenter implementation class, where lower values corresponds to higher priority. Priority can be used when a set of *conditions* are not clearly one more restrictive than others in the same registry, so an explicit lookup order has to be defined.
+The registry supports a *priority* indication for a `PropertyValuePresenter`, which can be expressed by using standard `jakarta.annotation.Priority` annotation on presenter implementation class, where lower values corresponds to higher priority. Priority can be used when a set of *conditions* are not clearly one more restrictive than others in the same registry, so an explicit lookup order has to be defined.
 
 ==== PropertyValuePresenter registration
 
@@ -560,7 +560,7 @@ include::{examplesdir}/com/holonplatform/core/examples/ExampleProperty.java[tag=
 
 Create a file named _com.holonplatform.core.property.PropertyValuePresenter_ containing the fully qualified class name(s) of the `PropertyValuePresenter` implementation and put it under the `META-INF/services` folder of your project to register the presenter in the default PropertyValuePresenterRegistry.
 
-IMPORTANT: When a `PropertyValuePresenter` is registered using service extensions an *always true* condition is used, i.e. the presenter is available for any property. Use this method only for general purpose presenters. The `javax.annotation.Priority` annotation can be used on presenter's implementation class to assign a priority order to the presenter.
+IMPORTANT: When a `PropertyValuePresenter` is registered using service extensions an *always true* condition is used, i.e. the presenter is available for any property. Use this method only for general purpose presenters. The `jakarta.annotation.Priority` annotation can be used on presenter's implementation class to assign a priority order to the presenter.
 
 ==== Default PropertyValuePresenter
 
@@ -594,7 +594,7 @@ This paradigm can be used to provide property representation or management objec
 
 NOTE: No default `PropertyRenderer` is provided by the core platform module, because the renderers are very related to the specific application logic or UI technology.
 
-The registry supports a *priority* indication for a `PropertyRenderer`, which can be expressed using standard `javax.annotation.Priority` annotation on renderer implementation class, where lower values corresponds to higher priority. Priority can be used when a set of *conditions* is not clearly more restrictive than another, so an explicit lookup order has to be defined.
+The registry supports a *priority* indication for a `PropertyRenderer`, which can be expressed using standard `jakarta.annotation.Priority` annotation on renderer implementation class, where lower values corresponds to higher priority. Priority can be used when a set of *conditions* is not clearly more restrictive than another, so an explicit lookup order has to be defined.
 
 ==== PropertyRenderer registration
 
@@ -608,7 +608,7 @@ Property renderers can be registered to a `PropertyRendererRegistry` using the `
 
 Create a file named _com.holonplatform.core.property.PropertyRenderer_ containing the fully qualified class name(s) of the `PropertyRenderer` implementation and put it under the `META-INF/services` folder of your project to register the renderer in the default PropertyRendererRegistry.
 
-IMPORTANT: When a `PropertyRenderer` is registered using service extensions an *always true* condition is used, i.e. the renderer is available for any property. The `javax.annotation.Priority` annotation can be used on the renderer's implementation class to assign a priority order to the renderer.
+IMPORTANT: When a `PropertyRenderer` is registered using service extensions an *always true* condition is used, i.e. the renderer is available for any property. The `jakarta.annotation.Priority` annotation can be used on the renderer's implementation class to assign a priority order to the renderer.
 
 ==== Using the Property renderers
 

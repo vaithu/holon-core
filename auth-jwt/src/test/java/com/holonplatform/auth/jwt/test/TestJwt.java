@@ -33,7 +33,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.crypto.SecretKey;
+import jakarta.crypto.SecretKey;
 
 import org.junit.jupiter.api.Test;
 

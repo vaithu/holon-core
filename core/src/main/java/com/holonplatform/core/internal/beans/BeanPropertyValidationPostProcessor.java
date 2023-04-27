@@ -15,7 +15,7 @@
  */
 package com.holonplatform.core.internal.beans;
 
-import javax.annotation.Priority;
+import jakarta.annotation.Priority;
 
 import com.holonplatform.core.Validator;
 import com.holonplatform.core.beans.BeanIntrospector;
