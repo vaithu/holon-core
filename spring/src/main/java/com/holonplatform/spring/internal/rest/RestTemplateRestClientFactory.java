@@ -17,7 +17,6 @@ package com.holonplatform.spring.internal.rest;
 
 import java.util.Optional;
 
-import javax.annotation.Priority;
 
 import org.springframework.web.client.RestTemplate;
 
@@ -28,6 +27,10 @@ import com.holonplatform.http.rest.RestClient;
 import com.holonplatform.http.rest.RestClientFactory;
 import com.holonplatform.spring.SpringRestClient;
 import com.holonplatform.spring.internal.SpringLogger;
+
+import jakarta.annotation.*;
+
+
 
 /**
  * {@link RestClientFactory} to create {@link RestTemplateRestClient} instances.
