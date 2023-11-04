@@ -29,8 +29,6 @@ import com.holonplatform.http.exceptions.RestClientCreationException;
 import com.holonplatform.http.exceptions.UnsuccessfulResponseException;
 import com.holonplatform.http.internal.rest.RestClientFactoryRegistry;
 import com.holonplatform.http.rest.RestClient.RequestDefinition;
-import com.holonplatform.http.rest.RestClientOperations.InvocationOperations;
-import com.holonplatform.http.rest.RestClientOperations.RequestConfiguration;
 
 /**
  * HTTP REST client to build and execute client requests in order to consume the responses returned.
