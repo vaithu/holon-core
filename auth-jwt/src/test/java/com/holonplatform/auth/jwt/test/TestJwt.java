@@ -33,7 +33,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.crypto.SecretKey;
+import javax.crypto.SecretKey;
 
 import org.junit.jupiter.api.Test;
 
@@ -260,7 +260,7 @@ public class TestJwt {
 		assertNotNull(authenticated.getParameter(Claims.EXPIRATION, Integer.class).get());
 		assertFalse(authenticated.getParameter(AuthenticationClaims.CLAIM_NAME_ROOT, boolean.class).get());
 
-		assertEquals(new Integer(1), authenticated.getParameter("testd", Integer.class).get());
+		assertEquals(Integer.valueOf(1), authenticated.getParameter("testd", Integer.class).get());
 
 	}
 

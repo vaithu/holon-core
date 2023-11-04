@@ -55,7 +55,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Annotation api -->
-		<annotation-api.version>2.1.1</annotation-api.version>
+		<annotation-api.version>3.0.0-M1</annotation-api.version>
 
 		<!--Servlet API-->
 		<servlet.api>6.0.0</servlet.api>
@@ -73,13 +73,13 @@
 		<jsonwebtoken.version>0.11.2</jsonwebtoken.version>
 
 		<!-- Spring -->
-		<spring.version>6.0.8</spring.version>
+		<spring.version>6.0.13</spring.version>
 
 		<!-- Spring Security -->
-		<spring.security.version>6.0.3</spring.security.version>
+		<spring.security.version>6.1.5</spring.security.version>
 
 		<!-- Spring Boot -->
-		<spring.boot.version>3.0.6</spring.boot.version>
+		<spring.boot.version>3.1.5</spring.boot.version>
 
 		<!-- Jackson test/provided -->
 		<jackson.databind.version>2.11.1</jackson.databind.version>
@@ -126,7 +126,7 @@
 
 	<build>
 		<plugins>
-			<!-- Aggregate javadocs -->
+			<!--&lt;!&ndash; Aggregate javadocs &ndash;&gt;
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -146,7 +146,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Assembly apidocs -->
+			&lt;!&ndash; Assembly apidocs &ndash;&gt;
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -164,6 +164,20 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>-->
+			<!-- Exclude the attach-javadocs goal -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>none</phase>
 					</execution>
 				</executions>
 			</plugin>

@@ -17,9 +17,11 @@ package com.holonplatform.http.rest;
 
 import java.util.ServiceLoader;
 
-import jakarta.annotation.Priority;
+//import jakarta.annotation.Priority;
 
 import com.holonplatform.http.exceptions.RestClientCreationException;
+import jakarta.annotation.Priority;
+//import jakarta.annotation.Priority;
 
 /**
  * Factory to create {@link RestClient} instances.

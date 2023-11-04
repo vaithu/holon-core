@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.ServiceLoader;
 import java.util.WeakHashMap;
 
-import jakarta.annotation.Priority;
 
 import com.holonplatform.core.internal.Logger;
 import com.holonplatform.core.internal.utils.ClassUtils;
@@ -32,6 +31,7 @@ import com.holonplatform.http.exceptions.RestClientCreationException;
 import com.holonplatform.http.internal.HttpLogger;
 import com.holonplatform.http.rest.RestClient;
 import com.holonplatform.http.rest.RestClientFactory;
+import jakarta.annotation.Priority;
 
 /**
  * {@link RestClientFactory} registry.
