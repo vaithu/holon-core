@@ -50,6 +50,18 @@ public interface QueryConfiguration extends ParameterSet, Expression, Expression
 	Optional<Integer> getOffset();
 
 	/**
+	 * Get result set page.
+	 * @return Results page, an empty Optional indicates no page.
+	 */
+//	Optional<Integer> getPage();
+
+	/**
+	 * Get 0-based results pageSize.
+	 * @return Results v 0-based index. an empty Optional indicates no pageSize.
+	 */
+//	Optional<Integer> getPageSize();
+
+	/**
 	 * Get the query filter.
 	 * @return Optional query filter
 	 */

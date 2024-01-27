@@ -17,10 +17,12 @@ package com.holonplatform.core.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +30,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.holonplatform.core.CollectionConstantExpression;
@@ -70,10 +71,10 @@ import com.holonplatform.core.test.data.TestBoxBeanPk;
 import com.holonplatform.core.test.data.TestFilterVisitor;
 import com.holonplatform.core.test.data.TestPropertySet;
 
-public class TestQueryData {
+class TestQueryData {
 
 	@Test
-	public void testSorts() throws InvalidExpressionException {
+	void testSorts() throws InvalidExpressionException {
 		SortDirection sd = SortDirection.ASCENDING;
 		SortDirection op = sd.getOpposite();
 		assertEquals(SortDirection.DESCENDING, op);
@@ -215,7 +216,7 @@ public class TestQueryData {
 	}
 
 	@Test
-	public void testFilters() throws InvalidExpressionException {
+	void testFilters() throws InvalidExpressionException {
 
 		FilterOperator op = FilterOperator.EQUAL;
 		String sid = op.getSerializedId();
@@ -260,7 +261,7 @@ public class TestQueryData {
 		assertNotNull(f.toString());
 		((VisitableQueryFilter) f).accept(visitor, null);
 
-		assertFalse(nf1.equals(f));
+		assertNotEquals(nf1, f);
 
 		f = new NotEqualFilter<>(p, ConstantExpression.create("test"));
 		assertEquals(p, f.getLeftOperand());
@@ -438,8 +439,8 @@ public class TestQueryData {
 		AndFilter af3 = new AndFilter(fs);
 		OrFilter of3 = new OrFilter(fs);
 
-		assertFalse(af.equals(af3));
-		assertFalse(of.equals(of3));
+		assertNotEquals(af, af3);
+		assertNotEquals(of, of3);
 
 		af3.accept(visitor, null);
 		of3.accept(visitor, null);
@@ -511,7 +512,7 @@ public class TestQueryData {
 	}
 
 	@Test
-	public void testDataTarget() {
+	void testDataTarget() {
 
 		TestBoxBeanPk pk = new TestBoxBeanPk();
 		pk.setCode(1L);
@@ -563,7 +564,7 @@ public class TestQueryData {
 
 	private static void assertInstanceOf(Object object, Class<?> type) {
 		if (!type.isInstance(object)) {
-			Assertions.fail("Expected object type [" + type + "] but got type ["
+			fail("Expected object type [" + type + "] but got type ["
 					+ ((object == null) ? "NULL" : object.getClass().getName() + "]"));
 		}
 	}

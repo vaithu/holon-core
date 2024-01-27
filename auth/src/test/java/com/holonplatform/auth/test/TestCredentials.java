@@ -38,10 +38,10 @@ import com.holonplatform.auth.exceptions.UnexpectedCredentialsException;
 import com.holonplatform.auth.internal.DefaultCredentialsMatcher;
 import com.holonplatform.core.internal.utils.ConversionUtils;
 
-public class TestCredentials {
+class TestCredentials {
 
 	@Test
-	public void testUtils() throws IOException {
+	void testUtils() throws IOException {
 
 		assertThrows(IllegalArgumentException.class, () -> DefaultCredentialsMatcher.toBytes(null));
 
@@ -107,7 +107,7 @@ public class TestCredentials {
 	}
 
 	@Test
-	public void testCredentialsEncoder() throws UnsupportedEncodingException {
+	void testCredentialsEncoder() throws UnsupportedEncodingException {
 
 		assertThrows(IllegalStateException.class, () -> Credentials.encoder().build());
 
@@ -136,7 +136,7 @@ public class TestCredentials {
 	}
 
 	@Test
-	public void testMatcher() {
+	void testMatcher() {
 
 		final CredentialsMatcher matcher = CredentialsContainer.defaultMatcher();
 

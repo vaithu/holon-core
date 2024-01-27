@@ -30,7 +30,7 @@ import com.holonplatform.auth.jwt.JwtConfiguration;
 
 @SpringBootTest
 @ActiveProfiles("jwt")
-public class TestJwtAutoConfiguration {
+class TestJwtAutoConfiguration {
 
 	@Configuration
 	@EnableAutoConfiguration
@@ -42,7 +42,7 @@ public class TestJwtAutoConfiguration {
 	private JwtConfiguration jwtConfiguration;
 
 	@Test
-	public void testConfig() {
+	void testConfig() {
 		assertNotNull(jwtConfiguration);
 
 		assertTrue(jwtConfiguration.getIssuer().isPresent());

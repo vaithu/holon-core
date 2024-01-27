@@ -23,23 +23,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.holonplatform.core.config.ConfigPropertyProvider;
 import com.holonplatform.spring.EnvironmentConfigPropertyProvider;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestEnvironment.Config.class)
+@SpringJUnitConfig(classes = TestEnvironment.Config.class)
 @DirtiesContext
-public class TestEnvironment {
+class TestEnvironment {
 
 	@Configuration
 	@PropertySource("env.properties")
@@ -59,7 +56,7 @@ public class TestEnvironment {
 	private ConfigPropertyProvider provider;
 
 	@Test
-	public void testEnv() {
+	void testEnv() {
 		assertEquals("Test", provider.getProperty("test.env.str", String.class));
 		assertTrue(provider.containsProperty("test.env.str"));
 		assertFalse(provider.containsProperty("xxx"));

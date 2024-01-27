@@ -18,9 +18,9 @@ package com.holonplatform.core.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.holonplatform.core.Context;
@@ -32,10 +32,10 @@ import com.holonplatform.core.property.PropertyRendererRegistry;
 import com.holonplatform.core.property.PropertyRendererRegistry.NoSuitableRendererAvailableException;
 import com.holonplatform.core.test.data.TestPropertySet;
 
-public class TestPropertyRenderers {
+class TestPropertyRenderers {
 
 	@Test
-	public void testPropertyRendererRegistry() {
+	void testPropertyRendererRegistry() {
 
 		PropertyRendererRegistry r = PropertyRendererRegistry.getDefault();
 		assertNotNull(r);
@@ -50,7 +50,7 @@ public class TestPropertyRenderers {
 	}
 
 	@Test
-	public void testPropertyRenderer() {
+	void testPropertyRenderer() {
 
 		final PropertyRendererRegistry r1 = PropertyRendererRegistry.create(true);
 		assertNotNull(r1);
@@ -109,8 +109,8 @@ public class TestPropertyRenderers {
 	}
 
 	@Test
-	public void testPropertyRendererNotAvailable() {
-		Assertions.assertThrows(NoSuitableRendererAvailableException.class, () -> {
+	void testPropertyRendererNotAvailable() {
+		assertThrows(NoSuitableRendererAvailableException.class, () -> {
 			TestPropertySet.NAME.render(NotAvailableRenderTest.class);
 		});
 	}

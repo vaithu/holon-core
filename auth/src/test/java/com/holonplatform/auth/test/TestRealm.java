@@ -47,11 +47,11 @@ import com.holonplatform.auth.internal.DefaultPermission;
 import com.holonplatform.auth.token.AccountCredentialsToken;
 import com.holonplatform.core.Context;
 
-public class TestRealm {
+class TestRealm {
 
 	@SuppressWarnings("serial")
 	@Test
-	public void testRealm() {
+	void testRealm() {
 
 		final Realm realm = Realm.builder().name("rlm").withDefaultAuthorizer().build();
 
@@ -143,7 +143,7 @@ public class TestRealm {
 	}
 
 	@Test
-	public void testRealmContext() {
+	void testRealmContext() {
 
 		assertThrows(IllegalStateException.class, () -> Realm.require());
 
@@ -158,7 +158,7 @@ public class TestRealm {
 	}
 
 	@Test
-	public void testAuthenticationListeners() {
+	void testAuthenticationListeners() {
 
 		final AtomicInteger counter = new AtomicInteger(0);
 
@@ -187,7 +187,7 @@ public class TestRealm {
 	}
 
 	@Test
-	public void testAuthorization() {
+	void testAuthorization() {
 
 		Authorizer<TestPermission> atz = new Authorizer<TestRealm.TestPermission>() {
 

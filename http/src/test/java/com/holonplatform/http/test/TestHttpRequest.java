@@ -46,10 +46,10 @@ import com.holonplatform.http.HttpHeaders;
 import com.holonplatform.http.HttpMethod;
 import com.holonplatform.http.servlet.ServletHttpRequest;
 
-public class TestHttpRequest {
+class TestHttpRequest {
 
 	@Test
-	public void testServletHttpRequest() throws IOException {
+	void testServletHttpRequest() throws IOException {
 
 		HttpServletRequest servletRequest = buildHttpServletRequest("test");
 

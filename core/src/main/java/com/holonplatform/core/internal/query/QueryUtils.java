@@ -65,8 +65,8 @@ public final class QueryUtils implements Serializable {
 		List<QuerySort> flatten = new LinkedList<>();
 		if (sorts != null) {
 			for (QuerySort sort : sorts) {
-				if (sort instanceof CompositeQuerySort) {
-					flatten.addAll(flattenQuerySorts(((CompositeQuerySort) sort).getComposition()));
+				if (sort instanceof CompositeQuerySort querySort) {
+					flatten.addAll(flattenQuerySorts(querySort.getComposition()));
 				} else {
 					flatten.add(sort);
 				}

@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 import com.holonplatform.core.Path;
 import com.holonplatform.core.Path.FinalPath;
 
-public class TestPath {
+class TestPath {
 
 	@Test
-	public void testPath() {
+	void testPath() {
 
 		Path<String> path = Path.of("test", String.class);
 
@@ -42,7 +42,7 @@ public class TestPath {
 	}
 
 	@Test
-	public void testPathHierarchy() {
+	void testPathHierarchy() {
 
 		Path<String> ppath = Path.of("parent", String.class);
 		Path<String> path = Path.of("test", String.class).parent(ppath);
@@ -63,7 +63,7 @@ public class TestPath {
 	}
 
 	@Test
-	public void testPathNameMapper() {
+	void testPathNameMapper() {
 
 		Path<String> ppath = Path.of("parent", String.class);
 		Path<String> path = Path.of("test", String.class).parent(ppath);
@@ -75,7 +75,7 @@ public class TestPath {
 	}
 
 	@Test
-	public void testFinalPath() {
+	void testFinalPath() {
 
 		FinalPath<String> fp = FinalPath.of("test", String.class);
 

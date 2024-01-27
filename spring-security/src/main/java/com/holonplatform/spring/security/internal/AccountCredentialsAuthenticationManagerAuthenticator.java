@@ -70,17 +70,17 @@ public class AccountCredentialsAuthenticationManagerAuthenticator
 	 */
 	public static byte[] toBytes(Object o) {
 		if (o != null) {
-			if (o instanceof byte[]) {
-				return (byte[]) o;
+			if (o instanceof byte[] bytes) {
+				return bytes;
 			}
-			if (o instanceof char[]) {
-				return ConversionUtils.toBytes((char[]) o);
+			if (o instanceof char[] chars) {
+				return ConversionUtils.toBytes(chars);
 			}
-			if (o instanceof Credentials) {
-				return ((Credentials) o).getSecret();
+			if (o instanceof Credentials credentials) {
+				return credentials.getSecret();
 			}
-			if (o instanceof String) {
-				return ConversionUtils.toBytes((String) o);
+			if (o instanceof String string) {
+				return ConversionUtils.toBytes(string);
 			}
 		}
 		return null;

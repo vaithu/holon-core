@@ -16,8 +16,8 @@
 package com.holonplatform.spring.boot;
 
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Configuration;
 
 import com.holonplatform.core.Context;
 import com.holonplatform.core.ContextScope;
@@ -31,7 +31,7 @@ import com.holonplatform.spring.EnableBeanContext;
  * 
  * @since 5.0.0
  */
-@Configuration
+@AutoConfiguration
 @ConditionalOnClass(ContextScope.class)
 @EnableBeanContext
 public class EnableBeanContextAutoConfiguration {

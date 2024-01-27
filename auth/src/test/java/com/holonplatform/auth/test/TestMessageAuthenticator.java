@@ -40,10 +40,10 @@ import com.holonplatform.auth.exceptions.UnsupportedMessageException;
 import com.holonplatform.auth.token.AccountCredentialsToken;
 import com.holonplatform.core.messaging.Message;
 
-public class TestMessageAuthenticator {
+class TestMessageAuthenticator {
 
 	@Test
-	public void testMessageResolver() {
+	void testMessageResolver() {
 		AuthenticationTokenResolver<TestMessage> r1 = AuthenticationTokenResolver.create(TestMessage.class, msg -> {
 			return msg.getHeader("MY_HDR1").map(h -> new MyHeaderAuthenticationToken(h));
 		});
@@ -69,7 +69,7 @@ public class TestMessageAuthenticator {
 	}
 
 	@Test
-	public void testMessageAuthentication() {
+	void testMessageAuthentication() {
 
 		final Realm realmx = Realm.builder().build();
 

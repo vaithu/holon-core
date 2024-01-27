@@ -14,12 +14,12 @@ import com.holonplatform.core.internal.Logger.Level;
  * 
  * @since 5.1.0
  */
-public class TestLogger {
+class TestLogger {
 
 	private final static String TEST_LOGGER_NAME = "com.holonplatform.core.test.logger";
 
 	@Test
-	public void testSetup() {
+	void testSetup() {
 
 		assertTrue(Logger.SLF4J_PRESENT);
 
@@ -38,7 +38,7 @@ public class TestLogger {
 	}
 
 	@Test
-	public void testMethods() {
+	void testMethods() {
 
 		Logger logger = Logger.create(TEST_LOGGER_NAME);
 		assertNotNull(logger);

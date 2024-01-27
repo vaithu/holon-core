@@ -21,22 +21,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.holonplatform.core.Context;
 import com.holonplatform.core.ContextScope;
 import com.holonplatform.spring.EnableBeanContext;
 import com.holonplatform.spring.internal.context.BeanFactoryScope;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestBeanContextByName.Config.class)
+@SpringJUnitConfig(classes = TestBeanContextByName.Config.class)
 @DirtiesContext
-public class TestBeanContextByName {
+class TestBeanContextByName {
 
 	@Configuration
 	@EnableBeanContext
@@ -55,7 +52,7 @@ public class TestBeanContextByName {
 	}
 
 	@Test
-	public void testScope() {
+	void testScope() {
 
 		Optional<ContextScope> scope = Context.get().scope(BeanFactoryScope.NAME);
 		assertTrue(scope.isPresent());

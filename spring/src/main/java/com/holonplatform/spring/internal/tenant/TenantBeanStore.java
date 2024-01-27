@@ -157,7 +157,7 @@ class TenantBeanStore implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("%s[id=%x, name=%s]", getClass().getSimpleName(), System.identityHashCode(this), name);
+		return "%s[id=%x, name=%s]".formatted(getClass().getSimpleName(), System.identityHashCode(this), name);
 	}
 
 }

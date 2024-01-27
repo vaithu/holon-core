@@ -30,7 +30,7 @@ import com.holonplatform.core.ContextScope;
 import com.holonplatform.spring.internal.context.BeanFactoryScope;
 
 @SpringBootTest
-public class TestBeanContextAutoConfiguration {
+class TestBeanContextAutoConfiguration {
 
 	@Configuration
 	@EnableAutoConfiguration
@@ -44,7 +44,7 @@ public class TestBeanContextAutoConfiguration {
 	}
 
 	@Test
-	public void testScope() {
+	void testScope() {
 
 		Optional<ContextScope> scope = Context.get().scope(BeanFactoryScope.NAME);
 		assertTrue(scope.isPresent());

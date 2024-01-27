@@ -72,7 +72,7 @@ public enum DefaultKeyReader implements KeyReader {
 
 			// encoding
 			byte[] keySource = decodeKeySource(bytes, encoding,
-					(source instanceof KetSourceWithCharset) ? ((KetSourceWithCharset) source).getCharset().orElse(null)
+					(source instanceof KetSourceWithCharset kswc) ? kswc.getCharset().orElse(null)
 							: null);
 
 			// format
@@ -122,7 +122,7 @@ public enum DefaultKeyReader implements KeyReader {
 
 			// encoding
 			byte[] keySource = decodeKeySource(bytes, encoding,
-					(source instanceof KetSourceWithCharset) ? ((KetSourceWithCharset) source).getCharset().orElse(null)
+					(source instanceof KetSourceWithCharset kswc) ? kswc.getCharset().orElse(null)
 							: null);
 
 			// format

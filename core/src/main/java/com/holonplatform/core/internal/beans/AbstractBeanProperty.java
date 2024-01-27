@@ -102,8 +102,8 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	@Override
 	public Optional<BeanProperty<?>> getParentProperty() {
 		Path<?> parent = getParent().orElse(null);
-		if (parent != null && parent instanceof BeanProperty) {
-			return Optional.of((BeanProperty<?>) parent);
+		if (parent != null && parent instanceof BeanProperty property) {
+			return Optional.of(property);
 		}
 		return Optional.empty();
 	}

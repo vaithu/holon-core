@@ -26,10 +26,10 @@ import com.holonplatform.spring.security.SpringSecurity;
 import com.holonplatform.spring.security.internal.PermissionGrantedAuthority;
 import com.holonplatform.spring.security.internal.SpringSecurityPermission;
 
-public class TestPermission {
+class TestPermission {
 
 	@Test
-	public void testPermission() {
+	void testPermission() {
 
 		final GrantedAuthority ga1 = new SimpleGrantedAuthority("ga1");
 		assertEquals("ga1", ga1.getAuthority());
@@ -45,7 +45,7 @@ public class TestPermission {
 	}
 
 	@Test
-	public void testAuthority() {
+	void testAuthority() {
 
 		final Permission p1 = Permission.create("p1");
 

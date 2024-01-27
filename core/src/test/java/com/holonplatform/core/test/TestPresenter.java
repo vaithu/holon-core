@@ -29,10 +29,10 @@ import com.holonplatform.core.i18n.Localizable;
 import com.holonplatform.core.i18n.LocalizationContext;
 import com.holonplatform.core.presentation.StringValuePresenter;
 
-public class TestPresenter {
+class TestPresenter {
 
 	@Test
-	public void testStringValuePresenter() {
+	void testStringValuePresenter() {
 
 		StringValuePresenter presenter = StringValuePresenter.getDefault();
 		assertNotNull(presenter);

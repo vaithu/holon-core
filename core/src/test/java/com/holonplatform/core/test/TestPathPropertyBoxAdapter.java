@@ -28,7 +28,7 @@ import com.holonplatform.core.property.PropertyBox;
 import com.holonplatform.core.property.PropertySet;
 import com.holonplatform.core.property.StringProperty;
 
-public class TestPathPropertyBoxAdapter {
+class TestPathPropertyBoxAdapter {
 
 	private static final StringProperty P1 = StringProperty.create("p1");
 	private static final NumericProperty<Integer> P2 = NumericProperty.integerType("p2");
@@ -37,7 +37,7 @@ public class TestPathPropertyBoxAdapter {
 	private static final PropertySet<?> SET = PropertySet.builderOf(P1, P2, P3).withIdentifier(P1).build();
 
 	@Test
-	public void testAdapter() {
+	void testAdapter() {
 
 		final Path<String> PT1 = Path.of("p1", String.class);
 		final Path<Integer> PT2 = Path.of("p2", Integer.class);

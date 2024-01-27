@@ -15,7 +15,7 @@
  */
 package com.holonplatform.core.test.data;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.holonplatform.core.internal.query.QueryFilterVisitor;
 import com.holonplatform.core.internal.query.filter.AndFilter;
@@ -42,7 +42,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public QueryFilter visit(NullFilter filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -53,7 +53,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public QueryFilter visit(NotNullFilter filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -64,7 +64,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public <T> QueryFilter visit(EqualFilter<T> filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -75,7 +75,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public <T> QueryFilter visit(NotEqualFilter<T> filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -86,7 +86,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public <T> QueryFilter visit(GreaterFilter<T> filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -97,7 +97,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public <T> QueryFilter visit(LessFilter<T> filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -108,7 +108,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public <T> QueryFilter visit(InFilter<T> filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -119,7 +119,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public <T> QueryFilter visit(NotInFilter<T> filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -130,7 +130,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public <T> QueryFilter visit(BetweenFilter<T> filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -141,7 +141,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public QueryFilter visit(StringMatchFilter filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -152,7 +152,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public QueryFilter visit(AndFilter filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -163,7 +163,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public QueryFilter visit(OrFilter filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 
@@ -174,7 +174,7 @@ public class TestFilterVisitor implements QueryFilterVisitor<QueryFilter, Object
 	 */
 	@Override
 	public QueryFilter visit(NotFilter filter, Object context) {
-		Assertions.assertNotNull(filter);
+		assertNotNull(filter);
 		return filter;
 	}
 

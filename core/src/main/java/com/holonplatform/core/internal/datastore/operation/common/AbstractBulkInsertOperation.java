@@ -64,7 +64,7 @@ public abstract class AbstractBulkInsertOperation<R, O extends BulkInsertOperati
 	public <P extends Property> O propertySet(Iterable<P> properties) {
 		ObjectUtils.argumentNotNull(properties, "Properties must be not null");
 		getDefinition().setPropertySet(
-				(properties instanceof PropertySet) ? (PropertySet) properties : PropertySet.of(properties));
+				(properties instanceof PropertySet ps) ? ps : PropertySet.of(properties));
 		return getActualOperation();
 	}
 

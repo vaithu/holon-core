@@ -17,6 +17,7 @@ package com.holonplatform.core.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -42,10 +43,10 @@ import com.holonplatform.core.test.data.TestBeanPropertyBean;
 import com.holonplatform.core.test.data.TestEnum;
 import com.holonplatform.core.test.data.TestEnum2;
 
-public class TestBeanIntrospector {
+class TestBeanIntrospector {
 
 	@Test
-	public void testProperties() {
+	void testProperties() {
 
 		BeanPropertySet<TestBeanPropertyBean> set = BeanIntrospector.get().getPropertySet(TestBeanPropertyBean.class);
 
@@ -105,7 +106,7 @@ public class TestBeanIntrospector {
 	}
 
 	@Test
-	public void testPropertyReadWrite() {
+	void testPropertyReadWrite() {
 
 		BeanPropertySet<TestBeanPropertyBean> set = BeanIntrospector.get().getPropertySet(TestBeanPropertyBean.class);
 
@@ -133,7 +134,7 @@ public class TestBeanIntrospector {
 	}
 
 	@Test
-	public void testPropertyBox() {
+	void testPropertyBox() {
 
 		BeanPropertySet<TestBeanPropertyBean> set = BeanIntrospector.get().getPropertySet(TestBeanPropertyBean.class);
 
@@ -179,7 +180,7 @@ public class TestBeanIntrospector {
 	}
 
 	@Test
-	public void testPropertyIdentifier() {
+	void testPropertyIdentifier() {
 		BeanPropertySet<TestBeanPropertyBean> set = BeanIntrospector.get().getPropertySet(TestBeanPropertyBean.class);
 		assertTrue(set.getFirstIdentifier().isPresent());
 		assertEquals("name", set.getFirstIdentifier().get().getName());
@@ -195,12 +196,12 @@ public class TestBeanIntrospector {
 		PropertyBox p2 = set.read(b2);
 		PropertyBox p3 = set.read(b3);
 
-		assertFalse(p1.equals(p2));
-		assertTrue(p1.equals(p3));
+		assertNotEquals(p1, p2);
+		assertEquals(p1, p3);
 	}
 
 	@Test
-	public void testPathPropertyTypes() {
+	void testPathPropertyTypes() {
 		final BeanPropertySet<TestBeanPropertyBean> set = BeanPropertySet.create(TestBeanPropertyBean.class);
 
 		StringProperty sp = set.propertyString("name");
@@ -235,7 +236,7 @@ public class TestBeanIntrospector {
 	}
 
 	@Test
-	public void testDataPath() {
+	void testDataPath() {
 		BeanPropertySet<TestBean4> set = BeanIntrospector.get().getPropertySet(TestBean4.class);
 
 		assertTrue(set.getConfiguration().getParameter(DataMappable.PATH).isPresent());

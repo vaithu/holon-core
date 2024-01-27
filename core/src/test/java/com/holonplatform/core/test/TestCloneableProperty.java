@@ -38,12 +38,12 @@ import com.holonplatform.core.property.StringProperty;
 import com.holonplatform.core.property.TemporalProperty;
 import com.holonplatform.core.temporal.TemporalType;
 
-public class TestCloneableProperty {
+class TestCloneableProperty {
 
 	private static final ConfigProperty<Integer> CP = ConfigProperty.create("testcp", Integer.class);
 
 	@Test
-	public void testClone() {
+	void testClone() {
 
 		PathProperty<String> property = PathProperty.create("test", String.class).message("msg").messageCode("msg.code")
 				.dataPath("dp").withConfiguration(CP, 7).temporalType(TemporalType.DATE_TIME)
@@ -71,7 +71,7 @@ public class TestCloneableProperty {
 
 		PathProperty<String> p2 = PathProperty.create("p2", String.class).withConfiguration(CP, 7);
 
-		assertTrue(cloned.equals(p2));
+		assertEquals(cloned, p2);
 
 		assertEquals(Long.class, cloned.getModelType());
 
@@ -80,7 +80,7 @@ public class TestCloneableProperty {
 	}
 
 	@Test
-	public void testCloneBuider() {
+	void testCloneBuider() {
 
 		final Path<String> parentPath = Path.of("parent", String.class);
 
@@ -95,7 +95,7 @@ public class TestCloneableProperty {
 	}
 
 	@Test
-	public void testCloneSubTypes() {
+	void testCloneSubTypes() {
 
 		StringProperty p1 = StringProperty.create("test");
 		StringProperty cloned = p1.clone(b -> {
@@ -141,7 +141,7 @@ public class TestCloneableProperty {
 	}
 
 	@Test
-	public void testDataTargetProperty() {
+	void testDataTargetProperty() {
 
 		StringProperty property = StringProperty.create("test");
 

@@ -30,10 +30,10 @@ import com.holonplatform.spring.security.SpringSecurityAuthentication;
 import com.holonplatform.spring.security.SpringSecurityAuthenticationToken;
 import com.holonplatform.spring.security.internal.SpringSecurityAuthenticationAdapter;
 
-public class TestAuthentication {
+class TestAuthentication {
 
 	@Test
-	public void testAuthenticationToken() {
+	void testAuthenticationToken() {
 
 		UsernamePasswordAuthenticationToken at1 = new UsernamePasswordAuthenticationToken("usr", "pwd",
 				Collections.singleton(new SimpleGrantedAuthority("myrole")));
@@ -47,7 +47,7 @@ public class TestAuthentication {
 	}
 
 	@Test
-	public void testAuthentication() {
+	void testAuthentication() {
 
 		UsernamePasswordAuthenticationToken at1 = new UsernamePasswordAuthenticationToken("usr", "pwd",
 				Collections.singleton(new SimpleGrantedAuthority("myrole")));
@@ -69,7 +69,7 @@ public class TestAuthentication {
 	}
 
 	@Test
-	public void testAuthenticationAdapter() {
+	void testAuthenticationAdapter() {
 
 		final Authentication a = Authentication.builder("myname").withPermission("myrole").build();
 

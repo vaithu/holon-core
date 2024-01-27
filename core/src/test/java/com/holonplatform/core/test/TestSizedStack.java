@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 
 import com.holonplatform.core.utils.SizedStack;
 
-public class TestSizedStack {
+class TestSizedStack {
 
 	@Test
-	public void testStack() {
+	void testStack() {
 		SizedStack<Integer> stack = new SizedStack<>(3);
 
 		assertEquals(3, stack.getMaxSize());

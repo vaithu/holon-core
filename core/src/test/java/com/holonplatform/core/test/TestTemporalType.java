@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
 
 import com.holonplatform.core.temporal.TemporalType;
 
-public class TestTemporalType {
+class TestTemporalType {
 
 	@Test
-	public void testTemporalType() {
+	void testTemporalType() {
 
 		assertFalse(TemporalType.getTemporalType((Temporal) null).isPresent());
 

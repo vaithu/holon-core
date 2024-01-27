@@ -103,9 +103,9 @@ public final class BeanRegistryUtils implements Serializable {
 	private static boolean isAutowireCandidate(ListableBeanFactory beanFactory, String beanName) {
 		ObjectUtils.argumentNotNull(beanFactory, "Bean factory must be not null");
 		if (beanName != null) {
-			if (beanFactory instanceof BeanDefinitionRegistry) {
+			if (beanFactory instanceof BeanDefinitionRegistry registry) {
 				return !beanFactory.containsBeanDefinition(beanName)
-						|| ((BeanDefinitionRegistry) beanFactory).getBeanDefinition(beanName).isAutowireCandidate();
+						|| registry.getBeanDefinition(beanName).isAutowireCandidate();
 			} else {
 				return !beanName.startsWith("scopedTarget.");
 			}
@@ -176,8 +176,8 @@ public final class BeanRegistryUtils implements Serializable {
 	private static String getDataContextId(BeanDefinitionRegistry registry, String beanName) {
 		try {
 			BeanDefinition bd = registry.getBeanDefinition(beanName);
-			if (bd instanceof DataContextBoundBeanDefinition) {
-				return ((DataContextBoundBeanDefinition) bd).getDataContextId().orElse(null);
+			if (bd instanceof DataContextBoundBeanDefinition definition) {
+				return definition.getDataContextId().orElse(null);
 			}
 		} catch (@SuppressWarnings("unused") NoSuchBeanDefinitionException e) {
 			// ignore
@@ -208,8 +208,7 @@ public final class BeanRegistryUtils implements Serializable {
 		}
 
 		// check Root definition
-		if (definition instanceof RootBeanDefinition) {
-			RootBeanDefinition rootBeanDef = (RootBeanDefinition) definition;
+		if (definition instanceof RootBeanDefinition rootBeanDef) {
 			try {
 				return rootBeanDef.getBeanClass();
 			} catch (@SuppressWarnings("unused") IllegalStateException e) {
@@ -240,8 +239,7 @@ public final class BeanRegistryUtils implements Serializable {
 
 		// check beans defined using @Configuration
 		Object source = definition.getSource();
-		if (source instanceof StandardMethodMetadata) {
-			StandardMethodMetadata metadata = (StandardMethodMetadata) source;
+		if (source instanceof StandardMethodMetadata metadata) {
 			return metadata.getIntrospectedMethod().getReturnType();
 		}
 
@@ -257,8 +255,8 @@ public final class BeanRegistryUtils implements Serializable {
 	 */
 	private static String getBeanFactoryClassName(BeanDefinition definition,
 			ConfigurableListableBeanFactory beanFactory) {
-		if (definition instanceof AnnotatedBeanDefinition) {
-			return ((AnnotatedBeanDefinition) definition).getMetadata().getClassName();
+		if (definition instanceof AnnotatedBeanDefinition beanDefinition) {
+			return beanDefinition.getMetadata().getClassName();
 		} else {
 			if (definition.getFactoryBeanName() != null) {
 				BeanDefinition fd = beanFactory.getBeanDefinition(definition.getFactoryBeanName());

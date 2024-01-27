@@ -27,7 +27,7 @@ import com.holonplatform.core.datastore.relational.Join.JoinType;
 import com.holonplatform.core.datastore.relational.RelationalTarget;
 import com.holonplatform.core.property.PathProperty;
 
-public class TestRelational {
+class TestRelational {
 
 	private static final DataTarget<String> TARGET1 = DataTarget.named("test1");
 	private static final DataTarget<String> TARGET2 = DataTarget.named("test2");
@@ -36,7 +36,7 @@ public class TestRelational {
 	private static final PathProperty<Integer> P2 = PathProperty.create("p2", Integer.class);
 
 	@Test
-	public void testTarget() {
+	void testTarget() {
 
 		RelationalTarget<String> rt = RelationalTarget.of(TARGET1);
 

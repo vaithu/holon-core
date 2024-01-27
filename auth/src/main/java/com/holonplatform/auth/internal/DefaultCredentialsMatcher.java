@@ -99,8 +99,8 @@ public class DefaultCredentialsMatcher implements CredentialsMatcher {
 							"Failed to convert provided credentials as bytes: null result");
 				}
 				// check stored credentials type
-				if (storedCredentials instanceof Credentials) {
-					return match(provided, (Credentials) storedCredentials);
+				if (storedCredentials instanceof Credentials credentials) {
+					return match(provided, credentials);
 				} else {
 					byte[] stored = toBytes(storedCredentials);
 					if (stored == null) {
@@ -194,28 +194,28 @@ public class DefaultCredentialsMatcher implements CredentialsMatcher {
 		if (o == null) {
 			throw new IllegalArgumentException("Null object to convert");
 		}
-		if (o instanceof byte[]) {
-			return (byte[]) o;
+		if (o instanceof byte[] bytes) {
+			return bytes;
 		}
-		if (o instanceof char[]) {
-			return ConversionUtils.toBytes((char[]) o);
+		if (o instanceof char[] chars) {
+			return ConversionUtils.toBytes(chars);
 		}
-		if (o instanceof Credentials) {
-			return ((Credentials) o).getSecret();
+		if (o instanceof Credentials credentials) {
+			return credentials.getSecret();
 		}
-		if (o instanceof String) {
-			return ConversionUtils.toBytes((String) o);
+		if (o instanceof String string) {
+			return ConversionUtils.toBytes(string);
 		}
-		if (o instanceof File) {
-			try (FileInputStream fis = new FileInputStream((File) o)) {
+		if (o instanceof File file) {
+			try (FileInputStream fis = new FileInputStream(file)) {
 				return ConversionUtils.convertInputStreamToBytes(fis);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		}
-		if (o instanceof InputStream) {
+		if (o instanceof InputStream stream) {
 			try {
-				return ConversionUtils.convertInputStreamToBytes((InputStream) o);
+				return ConversionUtils.convertInputStreamToBytes(stream);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}

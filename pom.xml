@@ -79,11 +79,11 @@
 		<spring.security.version>6.1.5</spring.security.version>
 
 		<!-- Spring Boot -->
-		<spring.boot.version>3.1.5</spring.boot.version>
+		<spring.boot.version>3.2.0</spring.boot.version>
 
 		<!-- Jackson test/provided -->
-		<jackson.databind.version>2.11.1</jackson.databind.version>
-		<jackson.jaxrs.version>2.11.1</jackson.jaxrs.version>
+		<jackson.databind.version>2.12.7.1</jackson.databind.version>
+		<jackson.jaxrs.version>2.12.7.1</jackson.jaxrs.version>
 
 		<!-- Test -->
 		<jersey.test.version>3.1.1</jersey.test.version>
@@ -167,6 +167,23 @@
 					</execution>
 				</executions>
 			</plugin>-->
+			<plugin>
+				<groupId>org.openrewrite.maven</groupId>
+				<artifactId>rewrite-maven-plugin</artifactId>
+				<version>5.10.0</version>
+				<configuration>
+					<activeRecipes>
+						<recipe>org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_1</recipe>
+					</activeRecipes>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.openrewrite.recipe</groupId>
+						<artifactId>rewrite-spring</artifactId>
+						<version>5.0.12</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 			<!-- Exclude the attach-javadocs goal -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

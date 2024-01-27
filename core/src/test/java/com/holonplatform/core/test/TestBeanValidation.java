@@ -26,10 +26,10 @@ import com.holonplatform.core.beans.BeanIntrospector;
 import com.holonplatform.core.beans.BeanPropertySet;
 import com.holonplatform.core.test.data.TestBeanPropertyBean;
 
-public class TestBeanValidation {
+class TestBeanValidation {
 
 	@Test
-	public void testValidationConstraints() {
+	void testValidationConstraints() {
 
 		BeanPropertySet<TestBeanPropertyBean> set = BeanIntrospector.get().getPropertySet(TestBeanPropertyBean.class);
 

@@ -208,7 +208,7 @@ public abstract class AbstractDatastoreOperationDefinition implements DatastoreO
 					values.put(path, NullExpression.create(path));
 				}
 			}).ifPresent(val -> {
-				values.put(path, (val instanceof TypedExpression) ? (TypedExpression<?>) val
+				values.put(path, (val instanceof TypedExpression te) ? te
 						: ConstantConverterExpression.create((Path) path, val));
 			});
 		});

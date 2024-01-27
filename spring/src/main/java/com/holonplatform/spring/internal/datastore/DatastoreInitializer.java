@@ -67,11 +67,11 @@ public final class DatastoreInitializer implements Serializable {
 
 		List<String> messages = new LinkedList<>();
 
-		if (factory instanceof ListableBeanFactory) {
-			messages.add(configureDatastoreResolvers(datastore, datastoreBeanName, (ListableBeanFactory) factory));
+		if (factory instanceof ListableBeanFactory beanFactory) {
+			messages.add(configureDatastoreResolvers(datastore, datastoreBeanName, beanFactory));
 			messages.add(
-					configureDatastoreCommodityFactories(datastore, datastoreBeanName, (ListableBeanFactory) factory));
-			messages.add(configureDatastorePostProcessors(datastore, datastoreBeanName, (ListableBeanFactory) factory));
+					configureDatastoreCommodityFactories(datastore, datastoreBeanName, beanFactory));
+			messages.add(configureDatastorePostProcessors(datastore, datastoreBeanName, beanFactory));
 		} else {
 			messages.add("Skip Datastore configuration: The BeanFactory is not a ListableBeanFactory");
 			LOGGER.warn(
@@ -127,8 +127,8 @@ public final class DatastoreInitializer implements Serializable {
 	private static String configureDatastoreCommodityFactories(ConfigurableDatastore datastore,
 			String datastoreBeanName, ListableBeanFactory beanFactory) {
 		int count = 0;
-		if (datastore instanceof DatastoreCommodityRegistrar) {
-			final Class<? extends DatastoreCommodityFactory> baseType = ((DatastoreCommodityRegistrar<?>) datastore)
+		if (datastore instanceof DatastoreCommodityRegistrar registrar) {
+			final Class<? extends DatastoreCommodityFactory> baseType = registrar
 					.getCommodityFactoryType();
 			if (baseType != null) {
 				final String[] beanNames = beanFactory
@@ -146,7 +146,7 @@ public final class DatastoreInitializer implements Serializable {
 									// register resolver
 									DatastoreCommodityFactory datastoreCommodityFactory = (DatastoreCommodityFactory) beanFactory
 											.getBean(beanName);
-									((DatastoreCommodityRegistrar) datastore)
+									registrar
 											.registerCommodity(datastoreCommodityFactory);
 									count++;
 									LOGGER.debug(() -> "Registered factory ["

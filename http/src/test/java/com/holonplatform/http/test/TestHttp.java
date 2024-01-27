@@ -29,16 +29,16 @@ import org.junit.jupiter.api.Test;
 
 import com.holonplatform.http.internal.HttpUtils;
 
-public class TestHttp {
+class TestHttp {
 
 	@Test
-	public void testHttp() throws URISyntaxException {
+	void testHttp() throws URISyntaxException {
 		assertFalse(HttpUtils.isSecure(null));
 		assertTrue(HttpUtils.isSecure(new URI("https://example.com/test")));
 	}
 
 	@Test
-	public void testLocale() {
+	void testLocale() {
 
 		String header = null;
 

@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Configuration;
 import com.holonplatform.auth.jwt.JwtConfiguration;
 
 @SpringBootTest
-public class TestNoJwtAutoConfiguration {
+class TestNoJwtAutoConfiguration {
 
 	@Configuration
 	@EnableAutoConfiguration
@@ -38,7 +38,7 @@ public class TestNoJwtAutoConfiguration {
 	private JwtConfiguration jwtConfiguration;
 
 	@Test
-	public void testConfig() {
+	void testConfig() {
 		assertNull(jwtConfiguration);
 	}
 

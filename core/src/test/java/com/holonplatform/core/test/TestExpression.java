@@ -41,7 +41,7 @@ import com.holonplatform.core.property.StringProperty;
 import com.holonplatform.core.query.ConstantExpression;
 import com.holonplatform.core.temporal.TemporalType;
 
-public class TestExpression {
+class TestExpression {
 
 	private interface ExpressionA extends Expression {
 
@@ -162,7 +162,7 @@ public class TestExpression {
 	}
 
 	@Test
-	public void testTemporalType() {
+	void testTemporalType() {
 
 		TypedExpression<?> te = new TypedExpression<Date>() {
 
@@ -241,7 +241,7 @@ public class TestExpression {
 	}
 
 	@Test
-	public void testIsers() {
+	void testIsers() {
 
 		StringProperty sp = StringProperty.create("test");
 		assertTrue(sp.isConverterExpression().isPresent());
@@ -261,7 +261,7 @@ public class TestExpression {
 	}
 
 	@Test
-	public void testResolvers() {
+	void testResolvers() {
 
 		final Resolver1 R1 = new Resolver1();
 		final Resolver2 R2 = new Resolver2();
@@ -309,7 +309,7 @@ public class TestExpression {
 	}
 
 	@Test
-	public void testNullExpression() {
+	void testNullExpression() {
 
 		NullExpression<String> ne = NullExpression.create(String.class);
 

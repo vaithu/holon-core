@@ -57,7 +57,7 @@ public class LessFilter<T> extends AbstractOperationQueryFilter<T> {
 	@Override
 	public void validate() throws InvalidExpressionException {
 		super.validate();
-		if (!getRightOperand().isPresent()) {
+		if (getRightOperand().isEmpty()) {
 			throw new InvalidExpressionException("Missing right hand operand");
 		}
 	}

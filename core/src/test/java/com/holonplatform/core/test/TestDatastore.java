@@ -44,10 +44,10 @@ import com.holonplatform.core.query.Query;
 import com.holonplatform.core.test.data.DummyQuery;
 import com.holonplatform.core.test.data.TestPropertySet;
 
-public class TestDatastore {
+class TestDatastore {
 
 	@Test
-	public void testDatastore() {
+	void testDatastore() {
 
 		DummyDatastore ds = new DummyDatastore();
 
@@ -72,7 +72,7 @@ public class TestDatastore {
 	}
 
 	@Test
-	public void testDatastoreConfig() {
+	void testDatastoreConfig() {
 
 		final Properties ps = new Properties();
 		ps.setProperty("holon.datastore.trace", "true");

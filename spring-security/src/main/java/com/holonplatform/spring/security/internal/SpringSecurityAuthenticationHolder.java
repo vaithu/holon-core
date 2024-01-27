@@ -39,8 +39,8 @@ public class SpringSecurityAuthenticationHolder implements AuthenticationHolder 
 		final org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (auth != null) {
-			if (auth instanceof Authentication) {
-				return Optional.of((Authentication) auth);
+			if (auth instanceof Authentication authentication) {
+				return Optional.of(authentication);
 			}
 			return Optional.of(SpringSecurityAuthentication.create(auth));
 		}

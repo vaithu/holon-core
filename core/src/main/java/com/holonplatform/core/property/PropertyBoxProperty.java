@@ -55,7 +55,7 @@ public interface PropertyBoxProperty extends PathProperty<PropertyBox> {
 	@SuppressWarnings("rawtypes")
 	static <P extends Property> PropertyBoxPropertyBuilder create(String name, Iterable<P> properties) {
 		return new DefaultPropertyBoxProperty(name,
-				(properties instanceof PropertySet) ? (PropertySet<?>) properties : PropertySet.of(properties));
+				(properties instanceof PropertySet ps) ? ps : PropertySet.of(properties));
 	}
 
 	/**

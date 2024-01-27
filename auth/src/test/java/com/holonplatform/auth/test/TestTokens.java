@@ -42,10 +42,10 @@ import com.holonplatform.http.HttpMethod;
 import com.holonplatform.http.HttpRequest;
 import com.holonplatform.http.internal.AbstractHttpRequest;
 
-public class TestTokens {
+class TestTokens {
 
 	@Test
-	public void testAccountCredentialsToken() {
+	void testAccountCredentialsToken() {
 
 		AccountCredentialsToken tkn = new AccountCredentialsToken();
 		assertNull(tkn.getPrincipal());
@@ -94,7 +94,7 @@ public class TestTokens {
 	}
 
 	@Test
-	public void testBearerToken() {
+	void testBearerToken() {
 
 		final String bearer = "abc";
 
