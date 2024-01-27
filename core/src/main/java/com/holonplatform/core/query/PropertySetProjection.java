@@ -61,7 +61,7 @@ public interface PropertySetProjection extends QueryProjection<PropertyBox> {
 	@SuppressWarnings("rawtypes")
 	static <P extends Property> PropertySetProjection of(Iterable<P> properties) {
 		return new DefaultPropertySetProjection(
-				(properties instanceof PropertySet) ? (PropertySet) properties : PropertySet.of(properties));
+				(properties instanceof PropertySet ps) ? ps : PropertySet.of(properties));
 	}
 
 }

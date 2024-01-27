@@ -60,10 +60,10 @@ import com.holonplatform.core.test.data.TestNested;
 /**
  * Utility classes test
  */
-public class TestUtilities {
+class TestUtilities {
 
 	@Test
-	public void testFormatUtils() {
+	void testFormatUtils() {
 
 		String tos = FormatUtils.toString("a");
 		assertEquals("a", tos);
@@ -128,7 +128,7 @@ public class TestUtilities {
 	}
 
 	@Test
-	public void testInitializer() {
+	void testInitializer() {
 
 		Initializer<String> i = Initializer.using(() -> "test");
 		assertNotNull(i);
@@ -142,7 +142,7 @@ public class TestUtilities {
 	}
 
 	@Test
-	public void testAnnotationUtils() {
+	void testAnnotationUtils() {
 		String val = AnnotationUtils.getStringValue("");
 		assertNull(val);
 		val = AnnotationUtils.getStringValue(null);
@@ -224,7 +224,7 @@ public class TestUtilities {
 	}
 
 	@Test
-	public void testConversionUtils() throws IOException {
+	void testConversionUtils() throws IOException {
 
 		// iterable
 
@@ -330,7 +330,7 @@ public class TestUtilities {
 
 		Float fl = ConversionUtils.parseNumber("3.7", Float.class);
 		assertNotNull(fl);
-		assertEquals(new Float(3.7), fl);
+		assertEquals(Float.valueOf("3.7"), fl);
 
 		Byte bt = ConversionUtils.parseNumber("10", byte.class);
 		assertNotNull(bt);
@@ -427,7 +427,7 @@ public class TestUtilities {
 	}
 
 	@Test
-	public void testConversionUtilsErrors() {
+	void testConversionUtilsErrors() {
 		assertThrows(IllegalArgumentException.class, () -> ConversionUtils.convertStringValue("test", null));
 		assertThrows(IllegalArgumentException.class, () -> ConversionUtils.convertStringValue("aa", char.class));
 		assertThrows(IllegalArgumentException.class, () -> ConversionUtils.convertStringValue("xxx", boolean.class));
@@ -445,11 +445,11 @@ public class TestUtilities {
 	}
 
 	@Test
-	public void testTypeUtils() {
+	void testTypeUtils() {
 
 		assertTrue(TypeUtils.isClass(Object.class));
 
-		Character cr = new Character('r');
+		Character cr = Character.valueOf('r');
 		assertTrue(TypeUtils.isCharacter(cr.getClass()));
 
 		assertTrue(TypeUtils.isBigDecimal(new BigDecimal(3).getClass()));
@@ -525,7 +525,7 @@ public class TestUtilities {
 		cl = char.class;
 		assertTrue(TypeUtils.isCharacter(cl));
 
-		assertTrue(TypeUtils.isByte(new Byte("127").getClass()));
+		assertTrue(TypeUtils.isByte(Byte.valueOf("127").getClass()));
 
 		assertTrue(TypeUtils.isAssignable(String.class, String.class));
 		assertTrue(TypeUtils.isAssignable(Integer.class, Number.class));
@@ -533,7 +533,7 @@ public class TestUtilities {
 	}
 
 	@Test
-	public void testClassUtils() throws ClassNotFoundException {
+	void testClassUtils() throws ClassNotFoundException {
 		boolean present = ClassUtils.isPresent("notpresent.class.name", getClass().getClassLoader());
 		assertFalse(present);
 		present = ClassUtils.isPresent("com.holonplatform.core.Context", getClass().getClassLoader());
@@ -577,7 +577,7 @@ public class TestUtilities {
 	}
 
 	@Test
-	public void testObjectUtils() {
+	void testObjectUtils() {
 
 		assertThrows(IllegalArgumentException.class, () -> ObjectUtils.argumentNotNull(null, "null"));
 
@@ -596,7 +596,7 @@ public class TestUtilities {
 	}
 
 	@Test
-	public void testCalendarUtils() {
+	void testCalendarUtils() {
 
 		assertNull(CalendarUtils.floorTime((Date) null));
 		assertNull(CalendarUtils.floorTime((Calendar) null));

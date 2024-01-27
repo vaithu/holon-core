@@ -62,6 +62,28 @@ public interface BeanQueryBuilder<Q extends BeanQueryBuilder<Q>>
 	Q restrict(int limit, int offset);
 
 	/**
+	 * Page the fetched result set
+	 * @param page Results page. Must be &gt; 0. A value &lt;= 0 indicates no page.
+	 * @return this
+	 */
+//	Q page(int page);
+
+	/**
+	 * Starts the query results at a particular zero-based pageSize.
+	 * @param pageSize Results pageSize 0-based index. Must be &gt;= 0.
+	 * @return this
+	 */
+//	Q pageSize(int pageSize);
+
+	/**
+	 * Convenience method to set {@link #page(int)} and {@link #pageSize(int)} of query results both in one call
+	 * @param page page Results page. Must be &gt; 0. A value &lt;= 0 indicates no page.
+	 * @param pageSize pageSize Results pageSize 0-based index. Must be &gt;= 0.
+	 * @return this
+	 */
+//	Q pageable(int page, int pageSize);
+
+	/**
 	 * Add a generic parameter to query
 	 * @param name Parameter name
 	 * @param value Parameter value

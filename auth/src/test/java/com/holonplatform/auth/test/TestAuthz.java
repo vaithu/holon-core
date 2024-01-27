@@ -32,10 +32,10 @@ import com.holonplatform.auth.Authentication;
 import com.holonplatform.auth.Authorizer;
 import com.holonplatform.auth.Permission;
 
-public class TestAuthz {
+class TestAuthz {
 
 	@Test
-	public void testPermission() {
+	void testPermission() {
 
 		Permission p1 = Permission.create("p1");
 		assertEquals("p1", p1.getPermission().orElse(null));
@@ -48,8 +48,8 @@ public class TestAuthz {
 		assertEquals(p1, p3);
 		assertEquals(p1.hashCode(), p3.hashCode());
 
-		assertNotEquals(p1, null);
-		assertNotEquals(p1, "x");
+		assertNotEquals(null, p1);
+		assertNotEquals("x", p1);
 
 		assertNotEquals(p1, p2);
 
@@ -71,7 +71,7 @@ public class TestAuthz {
 	}
 
 	@Test
-	public void testAuthorizer() {
+	void testAuthorizer() {
 		Permission p1 = Permission.create("p1");
 		Permission p2 = Permission.create("p2");
 

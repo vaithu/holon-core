@@ -364,10 +364,10 @@ public final class TypeUtils implements Serializable {
 			do {
 				currentType = currentClass.getGenericSuperclass();
 				superclasses.push(currentType);
-				if (currentType instanceof Class) {
-					currentClass = (Class) currentType;
-				} else if (currentType instanceof ParameterizedType) {
-					currentClass = (Class) ((ParameterizedType) currentType).getRawType();
+				if (currentType instanceof Class class1) {
+					currentClass = class1;
+				} else if (currentType instanceof ParameterizedType type) {
+					currentClass = (Class) type.getRawType();
 				}
 			} while (!currentClass.equals(baseClass));
 
@@ -378,16 +378,15 @@ public final class TypeUtils implements Serializable {
 		while (!superclasses.isEmpty()) {
 			currentType = superclasses.pop();
 
-			if (currentType instanceof ParameterizedType) {
-				ParameterizedType pt = (ParameterizedType) currentType;
+			if (currentType instanceof ParameterizedType pt) {
 				Class<?> rawType = (Class) pt.getRawType();
 				int argIndex = Arrays.asList(rawType.getTypeParameters()).indexOf(tv);
 				if (argIndex > -1) {
 					Type typeArg = pt.getActualTypeArguments()[argIndex];
-					if (typeArg instanceof TypeVariable) {
+					if (typeArg instanceof TypeVariable variable) {
 						// type argument is another type variable - look for the value of that
 						// variable in subclasses
-						tv = (TypeVariable) typeArg;
+						tv = variable;
 						continue;
 					} else {
 						// found the value - return it
@@ -408,15 +407,14 @@ public final class TypeUtils implements Serializable {
 	 * @return the type class
 	 */
 	public static Optional<Class<?>> getRawType(Type type) {
-		if (type instanceof Class) {
-			return Optional.of((Class<?>) type);
-		} else if (type instanceof ParameterizedType) {
-			return Optional.of((Class<?>) ((ParameterizedType) type).getRawType());
-		} else if (type instanceof GenericArrayType) {
-			return getRawType(((GenericArrayType) type).getGenericComponentType())
+		if (type instanceof Class class1) {
+			return Optional.of(class1);
+		} else if (type instanceof ParameterizedType parameterizedType) {
+			return Optional.of((Class<?>) parameterizedType.getRawType());
+		} else if (type instanceof GenericArrayType arrayType) {
+			return getRawType(arrayType.getGenericComponentType())
 					.map(c -> Array.newInstance(c, 0).getClass());
-		} else if (type instanceof TypeVariable) {
-			final TypeVariable<?> typeVar = (TypeVariable<?>) type;
+		} else if (type instanceof TypeVariable typeVar) {
 			if (typeVar.getBounds() != null && typeVar.getBounds().length > 0) {
 				return getRawType(typeVar.getBounds()[0]);
 			}

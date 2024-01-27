@@ -35,7 +35,7 @@ import com.holonplatform.core.query.QueryFilter.CompositeQueryFilter;
 import com.holonplatform.core.query.QuerySort;
 import com.holonplatform.core.query.QuerySort.CompositeQuerySort;
 
-public class TestQueryConfigurationProvider {
+class TestQueryConfigurationProvider {
 
 	private static final StringProperty PROPERTY = StringProperty.create("test");
 
@@ -50,7 +50,7 @@ public class TestQueryConfigurationProvider {
 	private static final ConfigProperty<Integer> CP = ConfigProperty.create("cp", Integer.class);
 
 	@Test
-	public void testCreation() {
+	void testCreation() {
 
 		QueryConfigurationProvider qcp = QueryConfigurationProvider.create(FILTER, SORT);
 
@@ -93,7 +93,7 @@ public class TestQueryConfigurationProvider {
 	}
 
 	@Test
-	public void testBuilder() {
+	void testBuilder() {
 
 		QueryConfigurationProvider qcp = QueryConfigurationProvider.builder().filter(FILTER).sort(SORT).build();
 

@@ -3,28 +3,25 @@ package com.holonplatform.spring.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.holonplatform.core.tenancy.TenantResolver;
 import com.holonplatform.spring.EnableTenantScope;
 import com.holonplatform.spring.ScopeTenant;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestTenantScopeConfig.Config.class)
-public class TestTenantScopeConfig {
+@SpringJUnitConfig(classes = TestTenantScopeConfig.Config.class)
+class TestTenantScopeConfig {
 
 	private static final ThreadLocal<String> CURRENT_TENANT_ID = new ThreadLocal<>();
 
@@ -33,7 +30,7 @@ public class TestTenantScopeConfig {
 	protected static class Config {
 
 		@Primary
-		@Bean(name = "myTenantResolver")
+				@Bean(name = "myTenantResolver")
 		public TenantResolver tenantResolver() {
 			return new TenantResolver() {
 
@@ -50,7 +47,7 @@ public class TestTenantScopeConfig {
 		}
 
 		@Bean
-		@ScopeTenant
+				@ScopeTenant
 		public TenantScopedServiceTest serviceTest() {
 			return new TenantScopedServiceTest();
 		}
@@ -61,13 +58,13 @@ public class TestTenantScopeConfig {
 	private ApplicationContext applicationContext;
 
 	@Test
-	public void testInvalidTenantScope() {
-		Assertions.assertThrows(BeanCreationException.class,
+	void testInvalidTenantScope() {
+		assertThrows(BeanCreationException.class,
 				() -> applicationContext.getBean(TenantScopedServiceTest.class));
 	}
 
 	@Test
-	public void testTenantScope() {
+	void testTenantScope() {
 		TenantScopedServiceTest srv1;
 		try {
 			CURRENT_TENANT_ID.set("T1");

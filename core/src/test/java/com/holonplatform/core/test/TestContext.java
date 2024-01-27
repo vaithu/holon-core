@@ -29,10 +29,10 @@ import com.holonplatform.core.exceptions.TypeMismatchException;
 import com.holonplatform.core.internal.ContextManager;
 import com.holonplatform.core.internal.ContextResourceMap;
 
-public class TestContext {
+class TestContext {
 
 	@Test
-	public void testDefaultScopes() {
+	void testDefaultScopes() {
 
 		Optional<ContextScope> threadScope = Context.get().scope(Context.THREAD_SCOPE_NAME);
 		assertTrue(threadScope.isPresent());
@@ -41,7 +41,7 @@ public class TestContext {
 
 		threadScope = Context.get().threadScope();
 		assertTrue(threadScope.isPresent());
-		assertTrue(threadScope.get().equals(ts1));
+		assertEquals(threadScope.get(), ts1);
 
 		Optional<ContextScope> classLoaderScope = Context.get().scope(Context.CLASSLOADER_SCOPE_NAME);
 		assertTrue(classLoaderScope.isPresent());
@@ -50,12 +50,12 @@ public class TestContext {
 
 		classLoaderScope = Context.get().scope(Context.CLASSLOADER_SCOPE_NAME);
 		assertTrue(classLoaderScope.isPresent());
-		assertTrue(classLoaderScope.get().equals(cs1));
+		assertEquals(classLoaderScope.get(), cs1);
 
 	}
 
 	@Test
-	public void testScopeRegistry() {
+	void testScopeRegistry() {
 
 		ContextManager.registerScope(ContextManager.getDefaultClassLoader(), new DummyScope());
 
@@ -127,7 +127,7 @@ public class TestContext {
 	// }
 
 	@Test
-	public void testScopeHiearchy() {
+	void testScopeHiearchy() {
 
 		final ClassLoader dft = ContextManager.getDefaultClassLoader();
 

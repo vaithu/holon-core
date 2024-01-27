@@ -28,7 +28,7 @@ import com.holonplatform.http.rest.RestClient;
 import com.holonplatform.spring.SpringRestClient;
 
 @SpringBootTest
-public class TestRestClientConfiguration {
+class TestRestClientConfiguration {
 
 	@Configuration
 	@EnableAutoConfiguration
@@ -40,7 +40,7 @@ public class TestRestClientConfiguration {
 	private RestTemplateBuilder restTemplateBuilder;
 
 	@Test
-	public void testConfig() {
+	void testConfig() {
 		assertNotNull(restTemplateBuilder);
 
 		RestClient rc = RestClient.create();

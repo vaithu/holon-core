@@ -92,6 +92,28 @@ public class DefaultBeanQuery<T> extends AbstractBeanDatastoreAdapter<Query> imp
 		return this;
 	}
 
+	/*@Override
+	public BeanQuery<T> page(int page) {
+		getExecutor().page(page);
+		return this;
+	}
+
+	@Override
+	public BeanQuery<T> pageSize(int pageSize) {
+		getExecutor().pageSize(pageSize);
+		return this;
+	}*/
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.holonplatform.core.query.QueryBuilder#pageable(int, int)
+	 */
+	/*@Override
+	public BeanQuery<T> pageable(int page, int pageSize) {
+		getExecutor().pageable(page, pageSize);
+		return this;
+	}*/
+
 	/*
 	 * (non-Javadoc)
 	 * @see com.holonplatform.core.query.QueryBuilder#parameter(java.lang.String, java.lang.Object)

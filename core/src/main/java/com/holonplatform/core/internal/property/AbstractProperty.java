@@ -268,7 +268,7 @@ public abstract class AbstractProperty<T, P extends Property<T>, B extends Prope
 				validator.validate(value);
 			} catch (UnsupportedValidationTypeException ut) {
 				// try to use conveted value
-				if (!getConverter().isPresent()) {
+				if (getConverter().isEmpty()) {
 					throw ut;
 				}
 				try {

@@ -42,10 +42,10 @@ import com.holonplatform.auth.exceptions.UnknownAccountException;
 import com.holonplatform.auth.token.AccountCredentialsToken;
 import com.holonplatform.core.Context;
 
-public class TestAuthContext {
+class TestAuthContext {
 
 	@Test
-	public void testContext() {
+	void testContext() {
 
 		final Permission p1 = Permission.create("p1");
 		final Permission p2 = Permission.create("p2");
@@ -151,7 +151,7 @@ public class TestAuthContext {
 	Authentication theAuthc = null;
 
 	@Test
-	public void testAutheticationHolder() {
+	void testAutheticationHolder() {
 
 		final Authenticator<AccountCredentialsToken> authenticator = new Authenticator<AccountCredentialsToken>() {
 
@@ -205,7 +205,7 @@ public class TestAuthContext {
 	}
 
 	@Test
-	public void testAuthContextResource() {
+	void testAuthContextResource() {
 
 		assertThrows(IllegalStateException.class, () -> AuthContext.require());
 
@@ -231,7 +231,7 @@ public class TestAuthContext {
 	}
 
 	@Test
-	public void testAuthenticationListeners() {
+	void testAuthenticationListeners() {
 
 		final AtomicInteger counter = new AtomicInteger(0);
 		final AtomicInteger realmCounter = new AtomicInteger(0);
@@ -277,7 +277,7 @@ public class TestAuthContext {
 	}
 
 	@Test
-	public void testPermissionExtension() {
+	void testPermissionExtension() {
 
 		final Realm realm = Realm.builder().withDefaultAuthorizer().build();
 

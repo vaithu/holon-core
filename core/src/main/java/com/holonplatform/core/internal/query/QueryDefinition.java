@@ -46,6 +46,18 @@ public interface QueryDefinition extends QueryConfiguration, ExpressionResolverS
 	void setLimit(Integer limit);
 
 	/**
+	 * Starts the query results at a particular zero-based page.
+	 * @param page Results page 0-based index. If not null, must be greater or equal to <code>0</code>.
+	 */
+//	void setPage(Integer page);
+
+	/**
+	 * Set query results pageSize. If not null, must be greater than <code>0</code>.
+	 * @param pageSize Results pageSize, or <code>null</code> for no pageSize.
+	 */
+//	void setPageSize(Integer pageSize);
+
+	/**
 	 * Starts the query results at a particular zero-based offset.
 	 * @param offset Results offset 0-based index. If not null, must be greater or equal to <code>0</code>.
 	 */

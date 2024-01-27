@@ -64,7 +64,7 @@ public interface Path<T> extends TypedExpression<T>, DataMappable, Serializable 
 	 * @return <code>true</code> if it is a root path, <code>false</code> otherwise
 	 */
 	default boolean isRootPath() {
-		return !getParent().isPresent();
+		return getParent().isEmpty();
 	}
 
 	/**

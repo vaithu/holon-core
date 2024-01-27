@@ -49,10 +49,10 @@ import com.holonplatform.core.internal.i18n.DefaultLocalization;
 import com.holonplatform.core.internal.i18n.DefaultLocalizationContext;
 import com.holonplatform.core.temporal.TemporalType;
 
-public class TestI18n {
+class TestI18n {
 
 	@Test
-	public void testBase() {
+	void testBase() {
 		Localization lc = Localization.builder(Locale.ITALY).defaultDecimalPositions(2)
 				.defaultDateTemporalFormat(TemporalFormat.MEDIUM).defaultTimeTemporalFormat(TemporalFormat.SHORT)
 				.build();
@@ -68,12 +68,12 @@ public class TestI18n {
 		assertEquals(l2, lp.getParent().get());
 
 		assertNotEquals(lc, l2);
-		assertNotEquals(lc, null);
+		assertNotEquals(null, lc);
 		assertEquals(lc, lc);
 	}
 
 	@Test
-	public void testContext() throws Exception {
+	void testContext() throws Exception {
 
 		final LocalizationContext ctx = LocalizationContext.builder().build();
 		assertFalse(ctx.isLocalized());
@@ -134,7 +134,7 @@ public class TestI18n {
 	}
 
 	@Test
-	public void testContextNumbers() {
+	void testContextNumbers() {
 
 		assertFalse(NumberFormatFeature.hasFeature(null, new NumberFormatFeature[0]));
 		assertFalse(NumberFormatFeature.hasFeature(NumberFormatFeature.DISABLE_GROUPING, null));
@@ -161,7 +161,7 @@ public class TestI18n {
 	}
 
 	@Test
-	public void testDateFormats() {
+	void testDateFormats() {
 
 		Calendar c = Calendar.getInstance(Locale.ITALIAN);
 		c.set(Calendar.DAY_OF_MONTH, 9);
@@ -245,7 +245,7 @@ public class TestI18n {
 	}
 
 	@Test
-	public void testTemporalFormats() {
+	void testTemporalFormats() {
 
 		LocalizationContext ctx = LocalizationContext.builder().build();
 		ctx.localize(Locale.ITALIAN);
@@ -290,7 +290,7 @@ public class TestI18n {
 	}
 
 	@Test
-	public void testMessages() {
+	void testMessages() {
 
 		@SuppressWarnings("serial")
 		final MessageProvider mp = new MessageProvider() {
@@ -392,7 +392,7 @@ public class TestI18n {
 	}
 
 	@Test
-	public void testMissingMessages() {
+	void testMissingMessages() {
 
 		final AtomicInteger counter = new AtomicInteger();
 
@@ -425,7 +425,7 @@ public class TestI18n {
 	}
 
 	@Test
-	public void testProperties() {
+	void testProperties() {
 		MessageProvider mp = MessageProvider.fromProperties().basename("messages/messages").build();
 
 		Optional<String> v = mp.getMessage(Locale.ENGLISH, "test.msg");
@@ -449,7 +449,7 @@ public class TestI18n {
 	}
 
 	@Test
-	public void testLocalizationChangeListeners() {
+	void testLocalizationChangeListeners() {
 
 		final LocaleValue lv = new LocaleValue();
 
@@ -501,7 +501,7 @@ public class TestI18n {
 	}
 
 	@Test
-	public void testBuilder() {
+	void testBuilder() {
 
 		LocalizationContext ctx = LocalizationContext.builder().withInitialLocale(Locale.FRANCE)
 				.disableDateTimeFormatsCache()

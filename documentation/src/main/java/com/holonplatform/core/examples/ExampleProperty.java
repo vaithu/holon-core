@@ -66,8 +66,8 @@ public class ExampleProperty {
 
 		builder.hashCodeProvider(property -> Optional.of(property.getName().hashCode())) // <1>
 				.equalsHandler((property, other) -> { // <2>
-					if (other instanceof Property)
-						return property.getName().equals(((Property) other).getName());
+					if (other instanceof Property property1)
+						return property.getName().equals(property1.getName());
 					return false;
 				});
 		// end::identity[]
@@ -329,8 +329,8 @@ public class ExampleProperty {
 
 		PropertyBox propertyBox = PropertyBox.builder(ID, NAME)
 				.hashCodeProvider(pb -> Optional.ofNullable(pb.getValue(ID))) // <1>
-				.equalsHandler((pb, other) -> (other instanceof PropertyBox) // <2>
-						&& ((PropertyBox) other).getValue(ID).equals(pb.getValue(ID)))
+				.equalsHandler((pb, other) -> (other instanceof PropertyBox pb1) // <2>
+						&& pb1.getValue(ID).equals(pb.getValue(ID)))
 				.build();
 		// end::propertybox5[]
 	}

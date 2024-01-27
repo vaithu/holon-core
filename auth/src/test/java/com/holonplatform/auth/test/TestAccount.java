@@ -52,12 +52,12 @@ import com.holonplatform.auth.internal.DefaultAccount;
 import com.holonplatform.auth.token.AccountCredentialsToken;
 import com.holonplatform.core.internal.utils.Hash;
 
-public class TestAccount {
+class TestAccount {
 
 	final AtomicInteger cacheCounter = new AtomicInteger(0);
 
 	@Test
-	public void testAccount() {
+	void testAccount() {
 
 		Map<String, Object> details = new HashMap<>();
 		details.put("testS", "string");
@@ -121,10 +121,10 @@ public class TestAccount {
 		assertEquals(act, act2);
 		assertNotEquals(act, Account.builder("testx").build());
 
-		assertNotEquals(act, null);
-		assertNotEquals(act, "x");
+		assertNotEquals(null, act);
+		assertNotEquals("x", act);
 
-		assertTrue(act.hashCode() == act2.hashCode());
+		assertEquals(act.hashCode(), act2.hashCode());
 
 		act = Account.builder("test").enabled(true).expired(false).locked(false).permissionStrings("p1", "p2").build();
 
@@ -148,7 +148,7 @@ public class TestAccount {
 	}
 
 	@Test
-	public void testAuthc() {
+	void testAuthc() {
 
 		byte[] salt = Hash.generateSalt();
 

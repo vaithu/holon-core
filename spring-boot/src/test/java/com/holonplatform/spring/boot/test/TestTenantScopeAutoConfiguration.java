@@ -34,7 +34,7 @@ import com.holonplatform.core.tenancy.TenantResolver;
 import com.holonplatform.spring.ScopeTenant;
 
 @SpringBootTest
-public class TestTenantScopeAutoConfiguration {
+class TestTenantScopeAutoConfiguration {
 
 	private static final ThreadLocal<String> CURRENT_TENANT_ID = new ThreadLocal<>();
 
@@ -63,7 +63,7 @@ public class TestTenantScopeAutoConfiguration {
 	private ApplicationContext applicationContext;
 
 	@Test
-	public void testScope() {
+	void testScope() {
 		TestResource srv1;
 		try {
 			CURRENT_TENANT_ID.set("T1");

@@ -76,8 +76,7 @@ public abstract class AbstractPropertyQueryFunction<T, A> extends AbstractQueryF
 		super(argument);
 		ObjectUtils.argumentNotNull(resultType, "Function result type must be not null");
 		this.resultType = resultType;
-		if (argument instanceof Property) {
-			final Property<?> property = (Property<?>) argument;
+		if (argument instanceof Property property) {
 			this.configuration = PropertyConfiguration.clone(property.getConfiguration());
 			if (getType() == property.getType() && property.getConverter().isPresent()) {
 				converter = (PropertyValueConverter<T, ?>) property.getConverter().get();

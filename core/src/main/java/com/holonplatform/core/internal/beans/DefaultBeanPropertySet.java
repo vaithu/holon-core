@@ -567,7 +567,7 @@ public class DefaultBeanPropertySet<T> extends DefaultPropertySet<PathProperty<?
 				if (read == null) {
 					try {
 						// try to istantiate
-						read = writeValue(p, p.getType().newInstance(), instanceToWrite);
+						read = writeValue(p, p.getType().getDeclaredConstructor().newInstance(), instanceToWrite);
 					} catch (Exception e) {
 						throw new PropertyWriteException(property,
 								"Failed to istantiate nested class " + p.getType().getName(), e);
@@ -665,8 +665,8 @@ public class DefaultBeanPropertySet<T> extends DefaultPropertySet<PathProperty<?
 		ObjectUtils.argumentNotNull(propertyPath, "Property path must be not null");
 		Optional<PathProperty<?>> beanProperty = stream()
 				.filter(p -> propertyPath.relativeName().equals(p.relativeName())).findFirst();
-		if (!ignoreMissing && !beanProperty.isPresent()) {
-			throw new PropertyNotFoundException((propertyPath instanceof Property) ? (Property<?>) propertyPath : null,
+		if (!ignoreMissing && beanProperty.isEmpty()) {
+			throw new PropertyNotFoundException((propertyPath instanceof Property p) ? p : null,
 					"Property with name [" + propertyPath.relativeName() + "] was not found in bean [" + getBeanClass()
 							+ "] property set");
 		}

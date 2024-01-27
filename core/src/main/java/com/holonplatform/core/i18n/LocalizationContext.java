@@ -363,7 +363,7 @@ public interface LocalizationContext {
 	static String translate(final Localizable localizable, final boolean lenient) {
 		ObjectUtils.argumentNotNull(localizable, "Localizable must be not null");
 		Optional<LocalizationContext> lc = LocalizationContext.getCurrent().filter(l -> l.isLocalized());
-		if (!lc.isPresent() && !lenient) {
+		if (lc.isEmpty() && !lenient) {
 			throw new LocalizationException(
 					"A LocalizationContext is not available from context or it is not localized");
 		}

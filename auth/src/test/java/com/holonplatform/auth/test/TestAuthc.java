@@ -29,10 +29,10 @@ import com.holonplatform.auth.Authentication;
 import com.holonplatform.auth.AuthenticationToken;
 import com.holonplatform.core.internal.utils.ConversionUtils;
 
-public class TestAuthc {
+class TestAuthc {
 
 	@Test
-	public void testAuthentication() {
+	void testAuthentication() {
 
 		Authentication a1 = Authentication.builder("a1").build();
 		assertEquals("a1", a1.getName());
@@ -43,8 +43,8 @@ public class TestAuthc {
 		assertTrue(a2.isRoot());
 
 		assertEquals(a1, a1);
-		assertNotEquals(a1, null);
-		assertNotEquals(a1, "x");
+		assertNotEquals(null, a1);
+		assertNotEquals("x", a1);
 		assertNotEquals(a1, a2);
 
 		assertNotEquals(a1.hashCode(), a2.hashCode());
@@ -63,13 +63,13 @@ public class TestAuthc {
 		assertTrue(authc.getParameter("d1", String.class).isPresent());
 		assertEquals("test", authc.getParameter("d1", String.class).get());
 		assertTrue(authc.getParameter("d2", long.class).isPresent());
-		assertEquals(new Long(1), authc.getParameter("d2", long.class).get());
+		assertEquals(Long.valueOf(1), authc.getParameter("d2", long.class).get());
 		assertFalse(authc.getParameter("xxx", Object.class).isPresent());
 
 	}
 
 	@Test
-	public void testUPToken() {
+	void testUPToken() {
 
 		AuthenticationToken token = AuthenticationToken.accountCredentials("usr", "pwd");
 		assertEquals("usr", token.getPrincipal());

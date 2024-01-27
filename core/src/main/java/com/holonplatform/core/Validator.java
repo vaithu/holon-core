@@ -1064,11 +1064,11 @@ public interface Validator<T> extends Serializable {
 				if (v != null) {
 					String string = null;
 					if (TypeUtils.isDecimalNumber(v.getClass())) {
-						BigDecimal bd = (v instanceof BigDecimal) ? (BigDecimal) v
+						BigDecimal bd = (v instanceof BigDecimal bd1) ? bd1
 								: BigDecimal.valueOf(v.doubleValue());
 						string = bd.stripTrailingZeros().toPlainString();
 					} else {
-						BigInteger bi = (v instanceof BigInteger) ? (BigInteger) v : BigInteger.valueOf(v.longValue());
+						BigInteger bi = (v instanceof BigInteger bi1) ? bi1 : BigInteger.valueOf(v.longValue());
 						string = bi.toString();
 					}
 					if (string != null) {

@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -43,7 +44,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.holonplatform.core.Context;
@@ -93,7 +93,7 @@ import com.holonplatform.core.test.data.TestPropertySet;
  * Property architecture test
  */
 @SuppressWarnings("rawtypes")
-public class TestProperty {
+class TestProperty {
 
 	final static Property<String> P1 = PathProperty.create("test1", String.class);
 	final static Property<Integer> P2 = PathProperty.create("test2", Integer.class);
@@ -115,7 +115,7 @@ public class TestProperty {
 			.withConfiguration(StringValuePresenter.DISABLE_GROUPING, true);
 
 	@Test
-	public void testPaths() {
+	void testPaths() {
 		final PathProperty<String> PARENT1 = PathProperty.create("parent1", String.class);
 
 		final PathProperty<Integer> PRP = PathProperty.create("prp", Integer.class).parent(PARENT1);
@@ -131,7 +131,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testVirtualProperty() {
+	void testVirtualProperty() {
 
 		Property<String> gp = VirtualProperty.create(String.class);
 		assertEquals(String.class, gp.getType());
@@ -158,18 +158,18 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPropertyEqualsHashCode() {
+	void testPropertyEqualsHashCode() {
 
 		PathProperty<String> p1 = PathProperty.create("p1", String.class);
 		PathProperty<String> p2 = PathProperty.create("p1", String.class);
 
-		assertFalse(p1.equals(p2));
+		assertNotEquals(p1, p2);
 		assertNotEquals(p1.hashCode(), p2.hashCode());
 
 		EqualsHandler<PathProperty<?>> eh = (p, o) -> {
 			if (p != null && o != null) {
-				if (o instanceof PathProperty) {
-					return p.getName().equals(((PathProperty<?>) o).getName());
+				if (o instanceof PathProperty property) {
+					return p.getName().equals(property.getName());
 				}
 			}
 			return false;
@@ -182,7 +182,7 @@ public class TestProperty {
 		p1 = PathProperty.create("p1", String.class).equalsHandler(eh).hashCodeProvider(hcp);
 		p2 = PathProperty.create("p1", String.class).equalsHandler(eh).hashCodeProvider(hcp);
 
-		assertTrue(p1.equals(p2));
+		assertEquals(p1, p2);
 		assertEquals(p1.hashCode(), p2.hashCode());
 
 		PropertySet<?> set1 = PropertySet.builderOf(p1, p2).build();
@@ -197,12 +197,12 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testTemporalType() {
+	void testTemporalType() {
 		assertEquals(TemporalType.DATE_TIME, P7.getTemporalType().orElse(null));
 	}
 
 	@Test
-	public void testPropertyValuePresenter() {
+	void testPropertyValuePresenter() {
 
 		assertEquals("str", P1.present("str"));
 
@@ -279,7 +279,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPropertyValuePresenterRegistry() {
+	void testPropertyValuePresenterRegistry() {
 
 		PropertyValuePresenterRegistry registry = PropertyValuePresenterRegistry.create(true);
 
@@ -294,7 +294,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPropertyMessages() {
+	void testPropertyMessages() {
 		PathProperty<String> qp = PathProperty.create("test", String.class);
 		assertEquals(String.class, qp.getType());
 		assertEquals("test", qp.getName());
@@ -309,7 +309,7 @@ public class TestProperty {
 
 	@SuppressWarnings("serial")
 	@Test
-	public void testPropertyBox() {
+	void testPropertyBox() {
 		TestBean test = new TestBean();
 		test.setName("Test");
 		test.setSequence(1);
@@ -487,7 +487,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testBeanProperty() {
+	void testBeanProperty() {
 
 		BeanIntrospector.get().clearCache();
 		int cs = ((DefaultBeanIntrospector) BeanIntrospector.get()).getCacheSize();
@@ -537,8 +537,8 @@ public class TestProperty {
 
 		Optional<PathProperty<Long>> np2 = beanPropertySet.getProperty("sequence");
 		assertTrue(np2.isPresent());
-		assertFalse(np2.get().equals(np.get()));
-		assertFalse(np.get().hashCode() == np2.get().hashCode());
+		assertNotEquals(np2.get(), np.get());
+		assertNotNull(np2.get().hashCode());
 
 		final TestBean testMock = mock(TestBean.class);
 		when(testMock.getName()).thenReturn("Test");
@@ -626,7 +626,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testBeanPropertiesNone() {
+	void testBeanPropertiesNone() {
 
 		BeanPropertySet<Object> ctx = BeanIntrospector.get().getPropertySet(Object.class);
 		assertNotNull(ctx);
@@ -635,7 +635,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testIgnoreProperty() {
+	void testIgnoreProperty() {
 
 		BeanPropertySet<TestBean> testBeanContext = BeanIntrospector.get().getPropertySet(TestBean.class);
 		BeanPropertySet<TestBean2> testBean2Context = BeanIntrospector.get().getPropertySet(TestBean2.class);
@@ -662,7 +662,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testIgnorePropertyNotNested() {
+	void testIgnorePropertyNotNested() {
 
 		BeanPropertySet<TestBean3> testBean3Context = BeanIntrospector.get().getPropertySet(TestBean3.class);
 
@@ -672,7 +672,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testBeanPropertyBox() {
+	void testBeanPropertyBox() {
 
 		Date date = new Date();
 
@@ -707,7 +707,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPropertySet() {
+	void testPropertySet() {
 		assertTrue(TestPropertySet.PROPERTIES.contains(TestPropertySet.NAME));
 
 		assertFalse(TestPropertySet.PROPERTIES.contains(null));
@@ -786,7 +786,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPropertySetIdentifier() {
+	void testPropertySetIdentifier() {
 
 		assertFalse(TestIdentifiablePropertySet.PROPERTIES.getIdentifiers().isEmpty());
 		assertTrue(TestIdentifiablePropertySet.PROPERTIES.getIdentifiers().contains(TestIdentifiablePropertySet.ID));
@@ -817,7 +817,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPropertySetConfiguration() {
+	void testPropertySetConfiguration() {
 
 		assertTrue(TestIdentifiablePropertySet.PROPERTIES.getConfiguration().hasNotNullParameter("test"));
 		assertEquals("TEST",
@@ -835,7 +835,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPropertySetBuilder() {
+	void testPropertySetBuilder() {
 
 		PropertySet set = PropertySet.builderOf(TestIdentifiablePropertySet.PROPERTIES).build();
 		assertNotNull(set);
@@ -865,7 +865,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPropertyBoxIdentifier() {
+	void testPropertyBoxIdentifier() {
 
 		PropertyBox box = PropertyBox.create(TestIdentifiablePropertySet.PROPERTIES);
 
@@ -888,18 +888,18 @@ public class TestProperty {
 		PropertyBox box4 = PropertyBox.builder(TestIdentifiablePropertySet.PROPERTIES)
 				.set(TestIdentifiablePropertySet.TEXT, "test").build();
 
-		assertTrue(box1.equals(box3));
-		assertFalse(box1.equals(box2));
-		assertFalse(box1.equals(null));
-		assertFalse(box1.equals(box4));
-		assertFalse(box4.equals(box2));
-		assertTrue(box1.equals(box1));
-		assertTrue(box4.equals(box4));
+		assertEquals(box1, box3);
+		assertNotEquals(box1, box2);
+		assertNotEquals(null, box1);
+		assertNotEquals(box1, box4);
+		assertNotEquals(box4, box2);
+		assertEquals(box1, box1);
+		assertEquals(box4, box4);
 
 		PropertyBox box5 = PropertyBox.builder(TestIdentifiablePropertySet.PROPERTIES).equalsHandler((a, b) -> true)
 				.hashCodeProvider(pb -> Optional.of(1)).build();
-		assertTrue(box5.equals(box1));
-		assertTrue(box5.equals(null));
+		assertEquals(box5, box1);
+		assertNotNull(box5);
 		assertEquals(1, box5.hashCode());
 
 		Map<Object, Object> map = new HashMap<>();
@@ -920,7 +920,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPropertyBoxConfiguration() {
+	void testPropertyBoxConfiguration() {
 
 		PropertyBox box = PropertyBox.create(TestIdentifiablePropertySet.PROPERTIES);
 		box.setValue(TestIdentifiablePropertySet.ID, 3L);
@@ -934,7 +934,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPathProperty() {
+	void testPathProperty() {
 		StringProperty property = StringProperty.create("test");
 
 		assertNotNull(property.toString());
@@ -1119,7 +1119,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testBooleanProperty() {
+	void testBooleanProperty() {
 
 		BooleanProperty bp = BooleanProperty.create("test");
 		assertEquals(Boolean.class, bp.getType());
@@ -1140,7 +1140,7 @@ public class TestProperty {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testNumericProperty() {
+	void testNumericProperty() {
 
 		NumericProperty<Integer> ip = NumericProperty.create(Path.of("test", Integer.class));
 		assertEquals(Integer.class, ip.getType());
@@ -1168,7 +1168,7 @@ public class TestProperty {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testTemporalProperty() {
+	void testTemporalProperty() {
 
 		TemporalProperty<Date> dp = TemporalProperty.create(Path.of("test", Date.class));
 		assertEquals(Date.class, dp.getType());
@@ -1189,7 +1189,7 @@ public class TestProperty {
 	}
 
 	@Test
-	public void testPropertyBoxProperty() {
+	void testPropertyBoxProperty() {
 
 		final PropertyBoxProperty p1 = PropertyBoxProperty.create("test", TestPropertySet.PROPERTIES);
 		assertNotNull(p1);
@@ -1207,7 +1207,7 @@ public class TestProperty {
 
 	private static void assertInstanceOf(Object object, Class<?> type) {
 		if (!type.isInstance(object)) {
-			Assertions.fail("Expected object type [" + type + "] but got type ["
+			fail("Expected object type [" + type + "] but got type ["
 					+ ((object == null) ? "NULL" : object.getClass().getName() + "]"));
 		}
 	}

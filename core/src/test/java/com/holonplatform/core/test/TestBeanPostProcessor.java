@@ -35,10 +35,10 @@ import com.holonplatform.core.internal.beans.BeanPropertySequencePostProcessor;
 import com.holonplatform.core.internal.beans.BeanPropertyTemporalPostProcessor;
 import com.holonplatform.core.temporal.TemporalType;
 
-public class TestBeanPostProcessor {
+class TestBeanPostProcessor {
 
 	@Test
-	public void testCaption() {
+	void testCaption() {
 
 		Builder<String> property = BeanProperty.builder("test", String.class);
 
@@ -71,7 +71,7 @@ public class TestBeanPostProcessor {
 	}
 
 	@Test
-	public void testConfig() {
+	void testConfig() {
 
 		Builder<String> property = BeanProperty.builder("test", String.class);
 
@@ -106,7 +106,7 @@ public class TestBeanPostProcessor {
 	}
 
 	@Test
-	public void testSequence() {
+	void testSequence() {
 
 		Builder<String> property = BeanProperty.builder("test", String.class);
 
@@ -134,7 +134,7 @@ public class TestBeanPostProcessor {
 	}
 
 	@Test
-	public void testTemporal() {
+	void testTemporal() {
 
 		Builder<String> property = BeanProperty.builder("test", String.class);
 

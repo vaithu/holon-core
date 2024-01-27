@@ -93,8 +93,8 @@ public class DefaultEnvironmentConfigPropertyProvider implements EnvironmentConf
 				Iterator<PropertySource<?>> i = propertySources.iterator();
 				while (i.hasNext()) {
 					PropertySource<?> source = i.next();
-					if (source instanceof EnumerablePropertySource) {
-						String[] propertyNames = ((EnumerablePropertySource<?>) source).getPropertyNames();
+					if (source instanceof EnumerablePropertySource propertySource) {
+						String[] propertyNames = propertySource.getPropertyNames();
 						if (propertyNames != null) {
 							names.addAll(Arrays.asList(propertyNames));
 						}

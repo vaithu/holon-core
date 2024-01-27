@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,8 +37,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.holonplatform.auth.Account;
 import com.holonplatform.auth.AuthContext;
@@ -48,16 +46,15 @@ import com.holonplatform.auth.Credentials;
 import com.holonplatform.auth.Realm;
 import com.holonplatform.spring.security.SpringSecurity;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestAuthContext.Config.class)
-public class TestAuthContext {
+@SpringJUnitConfig(classes = TestAuthContext.Config.class)
+class TestAuthContext {
 
 	@Configuration
 	@EnableGlobalAuthentication
 	protected static class Config {
 
 		@Bean
-		@Primary
+				@Primary
 		public AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth) throws Exception {
 			return auth.inMemoryAuthentication().withUser("user").password("pwd1").authorities("USER").and()
 					.withUser("admin").password("pwd2").authorities("USER", "ADMIN").and().and().build();
@@ -74,7 +71,7 @@ public class TestAuthContext {
 	private AuthenticationManager authenticationManager;
 
 	@Test
-	public void testAuthContext() {
+	void testAuthContext() {
 
 		final AuthContext ac = SpringSecurity.authContext();
 
@@ -102,7 +99,7 @@ public class TestAuthContext {
 	}
 
 	@Test
-	public void testAuthContextRealm() {
+	void testAuthContextRealm() {
 
 		// reset context
 		SecurityContextHolder.getContext().setAuthentication(null);
@@ -129,7 +126,7 @@ public class TestAuthContext {
 		org.springframework.security.core.Authentication authc = SecurityContextHolder.getContext().getAuthentication();
 
 		assertEquals("usr", authc.getName());
-		assertTrue(authc.getAuthorities().size() == 1);
+		assertEquals(1, authc.getAuthorities().size());
 
 		GrantedAuthority ga = null;
 		for (GrantedAuthority g : authc.getAuthorities()) {
@@ -142,7 +139,7 @@ public class TestAuthContext {
 	}
 
 	@Test
-	public void testAuthContextAuthenticators() {
+	void testAuthContextAuthenticators() {
 
 		final AuthContext ac = SpringSecurity.authContext(authenticationManager);
 

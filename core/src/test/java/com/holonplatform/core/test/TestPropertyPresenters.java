@@ -52,10 +52,10 @@ import com.holonplatform.core.property.PropertyValuePresenter;
 import com.holonplatform.core.property.PropertyValuePresenterRegistry;
 import com.holonplatform.core.test.data.TestPropertySet;
 
-public class TestPropertyPresenters {
+class TestPropertyPresenters {
 
 	@Test
-	public void testPropertyValuePresenter() {
+	void testPropertyValuePresenter() {
 
 		assertEquals("str", P1.present("str"));
 
@@ -132,7 +132,7 @@ public class TestPropertyPresenters {
 	}
 
 	@Test
-	public void testPropertyPresenter() {
+	void testPropertyPresenter() {
 
 		final PropertyValuePresenter<String> np = (p, v) -> p.getMessage() + ":" + v;
 
@@ -144,7 +144,7 @@ public class TestPropertyPresenters {
 	}
 
 	@Test
-	public void testPropertyValuePresenterRegistry() {
+	void testPropertyValuePresenterRegistry() {
 
 		PropertyValuePresenterRegistry registry = PropertyValuePresenterRegistry.create(true);
 

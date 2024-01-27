@@ -35,10 +35,10 @@ import com.holonplatform.core.internal.config.PrefixedConfigPropertyProvider;
 import com.holonplatform.core.internal.config.PropertiesConfigProvider;
 import com.holonplatform.core.internal.utils.ClassUtils;
 
-public class TestConfig {
+class TestConfig {
 
 	@Test
-	public void testConfig() throws IOException {
+	void testConfig() throws IOException {
 
 		Properties props = ClassUtils.loadProperties("holon.properties", false);
 		assertNotNull(props);
@@ -118,7 +118,7 @@ public class TestConfig {
 	}
 
 	@Test
-	public void testConfigPropertyNames() {
+	void testConfigPropertyNames() {
 
 		BeanConfigProperties ps = BeanConfigProperties.builder().withDefaultPropertySources().build();
 

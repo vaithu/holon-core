@@ -33,22 +33,22 @@ import com.holonplatform.core.Validator.UnsupportedValidationTypeException;
 import com.holonplatform.core.Validator.ValidationException;
 import com.holonplatform.core.internal.BuiltinValidator;
 
-public class TestValidators {
+class TestValidators {
 
 	@Test
-	public void testNull() {
+	void testNull() {
 		Validator.isNull().validate(null);
 		assertThrows(ValidationException.class, () -> Validator.isNull().validate(1));
 	}
 
 	@Test
-	public void testNotNull() {
+	void testNotNull() {
 		Validator.notNull().validate(1);
 		assertThrows(ValidationException.class, () -> Validator.notNull().validate(null));
 	}
 
 	@Test
-	public void testNotEmpty() {
+	void testNotEmpty() {
 		Validator.notEmpty().validate("a");
 		assertThrows(ValidationException.class, () -> Validator.notEmpty().validate(null));
 		assertThrows(ValidationException.class, () -> Validator.notEmpty().validate(""));
@@ -66,7 +66,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testNotBlank() {
+	void testNotBlank() {
 		Validator.notBlank().validate("a");
 
 		assertThrows(ValidationException.class, () -> Validator.notBlank().validate(null));
@@ -75,7 +75,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testMin() {
+	void testMin() {
 		Validator.min(1).validate(null);
 		Validator.min(1).validate("a");
 		Validator.min(1).validate("ab");
@@ -101,7 +101,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testMax() {
+	void testMax() {
 		Validator.max(1).validate(null);
 		Validator.max(2).validate("ab");
 		Validator.max(1).validate(1);
@@ -126,7 +126,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testPattern() {
+	void testPattern() {
 		Validator.pattern("a").validate(null);
 
 		Validator.pattern("\\d+").validate("012");
@@ -135,7 +135,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testIn() {
+	void testIn() {
 		Validator.in(1, 2).validate(2);
 
 		assertThrows(ValidationException.class, () -> Validator.in(1, 2).validate(null));
@@ -143,7 +143,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testNotIn() {
+	void testNotIn() {
 		Validator.notIn(1, 2).validate(3);
 		Validator.notIn(1, 2).validate(null);
 
@@ -152,7 +152,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testNotNegative() {
+	void testNotNegative() {
 		Validator.notNegative().validate(null);
 		Validator.notNegative().validate(0);
 		Validator.notNegative().validate(2);
@@ -164,7 +164,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testDigits() {
+	void testDigits() {
 		Validator.digits(3, 2).validate(123.56);
 		Validator.digits(3, 2).validate(23.56);
 		Validator.digits(3, 2).validate(1);
@@ -178,14 +178,14 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testEmail() {
+	void testEmail() {
 		Validator.email().validate("test@mail.com");
 
 		assertThrows(ValidationException.class, () -> Validator.email().validate("xxx"));
 	}
 
 	@Test
-	public void testLess() {
+	void testLess() {
 		Validator.lessThan(3).validate(2);
 		assertThrows(ValidationException.class, () -> Validator.lessThan(3).validate(3));
 		assertThrows(ValidationException.class, () -> Validator.lessThan(3).validate(4));
@@ -196,7 +196,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testGreater() {
+	void testGreater() {
 		Validator.greaterThan(3).validate(4);
 		assertThrows(ValidationException.class, () -> Validator.greaterThan(3).validate(3));
 		assertThrows(ValidationException.class, () -> Validator.greaterThan(3).validate(2));
@@ -207,7 +207,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testDate() {
+	void testDate() {
 
 		Calendar c = Calendar.getInstance();
 
@@ -234,7 +234,7 @@ public class TestValidators {
 	}
 
 	@Test
-	public void testValidatorDefinition() {
+	void testValidatorDefinition() {
 		Validator<?> v = Validator.notNull();
 		assertTrue(v instanceof BuiltinValidator);
 		assertTrue(((BuiltinValidator<?>) v).getDescriptor().isPresent());

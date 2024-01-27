@@ -345,10 +345,10 @@ public final class ConversionUtils implements Serializable {
 			return (T) Integer.valueOf(number.intValue());
 		} else if (TypeUtils.isLong(targetClass)) {
 			BigInteger bigInt = null;
-			if (number instanceof BigInteger) {
-				bigInt = (BigInteger) number;
-			} else if (number instanceof BigDecimal) {
-				bigInt = ((BigDecimal) number).toBigInteger();
+			if (number instanceof BigInteger integer) {
+				bigInt = integer;
+			} else if (number instanceof BigDecimal decimal) {
+				bigInt = decimal.toBigInteger();
 			}
 			if (bigInt != null && (bigInt.longValue() < Long.MIN_VALUE || bigInt.longValue() > Long.MAX_VALUE)) {
 				throw new IllegalArgumentException("Could not convert number [" + number + "] of type ["
@@ -356,8 +356,8 @@ public final class ConversionUtils implements Serializable {
 			}
 			return (T) Long.valueOf(number.longValue());
 		} else if (BigInteger.class == targetClass) {
-			if (number instanceof BigDecimal) {
-				return (T) ((BigDecimal) number).toBigInteger();
+			if (number instanceof BigDecimal decimal) {
+				return (T) decimal.toBigInteger();
 			} else {
 				return (T) BigInteger.valueOf(number.longValue());
 			}

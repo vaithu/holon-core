@@ -59,10 +59,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-public class TestJwt {
+class TestJwt {
 
 	@Test
-	public void testConfig() {
+	void testConfig() {
 
 		Properties props = new Properties();
 		props.put(JwtConfigProperties.NAME + "." + JwtConfigProperties.ISSUER.getKey(), "TestIssuer");
@@ -124,7 +124,7 @@ public class TestJwt {
 	}
 
 	@Test
-	public void testConfigNbf() {
+	void testConfigNbf() {
 
 		Properties props = new Properties();
 		props.put(JwtConfigProperties.NAME + "." + JwtConfigProperties.ISSUER.getKey(), "TestIssuer");
@@ -150,7 +150,7 @@ public class TestJwt {
 	}
 
 	@Test
-	public void testTokenParser() {
+	void testTokenParser() {
 
 		final JwtConfiguration cfg = JwtConfiguration.builder().includeDetails(true).includePermissions(true).build();
 
@@ -176,7 +176,7 @@ public class TestJwt {
 	}
 
 	@Test
-	public void testJWTAuthentication_unsigned() throws Exception {
+	void testJWTAuthentication_unsigned() throws Exception {
 
 		final Realm realm = Realm.builder()
 				.withAuthenticator(JwtAuthenticator.builder().configuration(JwtConfiguration.builder().build()).build())
@@ -265,7 +265,7 @@ public class TestJwt {
 	}
 
 	@Test
-	public void testJWTAuthentication_signed_symmetric() throws Exception {
+	void testJWTAuthentication_signed_symmetric() throws Exception {
 
 		SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
@@ -349,7 +349,7 @@ public class TestJwt {
 	}
 
 	@Test
-	public void testJWTAuthentication_signed_asymmetric() throws Exception {
+	void testJWTAuthentication_signed_asymmetric() throws Exception {
 
 		final KeyPair keyPair = Keys.keyPairFor(SignatureAlgorithm.RS256);
 		final PrivateKey privateKey = keyPair.getPrivate();
@@ -378,7 +378,7 @@ public class TestJwt {
 	}
 
 	@Test
-	public void testJWTAuthentication_permissions() throws Exception {
+	void testJWTAuthentication_permissions() throws Exception {
 
 		byte[] sharedKey = generateKey();
 

@@ -18,13 +18,13 @@ package com.holonplatform.core.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.holonplatform.core.Path;
@@ -38,7 +38,7 @@ import com.holonplatform.core.property.Property;
 import com.holonplatform.core.property.PropertySet;
 import com.holonplatform.core.property.StringProperty;
 
-public class TestPathPropertySetAdapter {
+class TestPathPropertySetAdapter {
 
 	private static final StringProperty P1 = StringProperty.create("p1");
 	private static final NumericProperty<Integer> P2 = NumericProperty.integerType("p2");
@@ -49,7 +49,7 @@ public class TestPathPropertySetAdapter {
 	private static final StringProperty PX = StringProperty.create("px");
 
 	@Test
-	public void testByPath() {
+	void testByPath() {
 
 		final Path<String> PT1 = Path.of("p1", String.class);
 		final Path<Integer> PT2 = Path.of("p2", Integer.class);
@@ -123,7 +123,7 @@ public class TestPathPropertySetAdapter {
 	}
 
 	@Test
-	public void testByName() {
+	void testByName() {
 
 		final PathPropertySetAdapter adapter = PathPropertySetAdapter.create(SET);
 
@@ -159,15 +159,15 @@ public class TestPathPropertySetAdapter {
 	}
 
 	@Test
-	public void testByNameType() {
-		Assertions.assertThrows(TypeMismatchException.class, () -> {
+	void testByNameType() {
+		assertThrows(TypeMismatchException.class, () -> {
 			final PathPropertySetAdapter adapter = PathPropertySetAdapter.create(SET);
 			adapter.getProperty("p2", String.class);
 		});
 	}
 
 	@Test
-	public void testPathMatcher() {
+	void testPathMatcher() {
 
 		final PathMatcher pm = (p1, p2) -> {
 			if (p1 != null && p2 != null) {
@@ -183,7 +183,7 @@ public class TestPathPropertySetAdapter {
 	}
 
 	@Test
-	public void testPathConverter() {
+	void testPathConverter() {
 
 		final PathConverter pc = new PathConverter() {
 

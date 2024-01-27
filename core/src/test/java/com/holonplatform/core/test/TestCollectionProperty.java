@@ -41,10 +41,10 @@ import com.holonplatform.core.property.SetVirtualProperty;
 import com.holonplatform.core.property.StringProperty;
 import com.holonplatform.core.test.data.TestPropertySet;
 
-public class TestCollectionProperty {
+class TestCollectionProperty {
 
 	@Test
-	public void testListPathProperty() {
+	void testListPathProperty() {
 
 		ListPathProperty<String> p = ListPathProperty.create("test", String.class);
 
@@ -71,7 +71,7 @@ public class TestCollectionProperty {
 	}
 
 	@Test
-	public void testSetPathProperty() {
+	void testSetPathProperty() {
 
 		SetPathProperty<String> p = SetPathProperty.create("test", String.class);
 
@@ -99,9 +99,9 @@ public class TestCollectionProperty {
 
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Test
-	public void testElementConverter() {
+	void testElementConverter() {
 
 		ListPathProperty<String> p = ListPathProperty.create("test", String.class).elementConverter(Integer.class,
 				v -> String.valueOf(v), v -> Integer.valueOf(v));
@@ -133,9 +133,9 @@ public class TestCollectionProperty {
 
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Test
-	public void testConverter() {
+	void testConverter() {
 
 		ListPathProperty<Integer> p = ListPathProperty.create("test", Integer.class).converter(Integer[].class,
 				v -> Arrays.asList(v), v -> v.toArray(new Integer[0]));
@@ -171,7 +171,7 @@ public class TestCollectionProperty {
 	}
 
 	@Test
-	public void testVirtual() {
+	void testVirtual() {
 
 		final StringProperty sp = StringProperty.create("test");
 
@@ -215,7 +215,7 @@ public class TestCollectionProperty {
 	}
 
 	@Test
-	public void testPresentation() {
+	void testPresentation() {
 
 		ListPathProperty<String> LP = ListPathProperty.create("test", String.class);
 		SetPathProperty<String> SP = SetPathProperty.create("test", String.class);

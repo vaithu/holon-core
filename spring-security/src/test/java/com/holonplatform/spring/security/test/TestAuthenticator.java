@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +27,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.holonplatform.auth.Authentication;
 import com.holonplatform.auth.Authenticator;
@@ -37,16 +35,15 @@ import com.holonplatform.auth.token.AccountCredentialsToken;
 import com.holonplatform.spring.security.SpringSecurity;
 import com.holonplatform.spring.security.SpringSecurityAuthenticationToken;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestAuthenticator.Config.class)
-public class TestAuthenticator {
+@SpringJUnitConfig(classes = TestAuthenticator.Config.class)
+class TestAuthenticator {
 
 	@Configuration
 	@EnableGlobalAuthentication
 	protected static class Config {
 
 		@Bean
-		@Primary
+				@Primary
 		public AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth) throws Exception {
 			return auth.inMemoryAuthentication().withUser("user").password("pwd1").authorities("USER").and()
 					.withUser("admin").password("pwd2").authorities("USER", "ADMIN").and().and().build();
@@ -63,7 +60,7 @@ public class TestAuthenticator {
 	private AuthenticationManager authenticationManager;
 
 	@Test
-	public void testAuthenticator() {
+	void testAuthenticator() {
 		Authenticator<SpringSecurityAuthenticationToken> a = SpringSecurity.authenticator(authenticationManager);
 
 		Authentication authc = a.authenticate(SpringSecurityAuthenticationToken.account("user", "pwd1"));
@@ -75,7 +72,7 @@ public class TestAuthenticator {
 	}
 
 	@Test
-	public void testDefaultAuthenticator() {
+	void testDefaultAuthenticator() {
 
 		Authenticator<AccountCredentialsToken> a = SpringSecurity
 				.accountCredentialsAuthenticator(authenticationManager);

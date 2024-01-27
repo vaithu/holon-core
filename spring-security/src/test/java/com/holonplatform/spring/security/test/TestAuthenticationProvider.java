@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,8 +35,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.holonplatform.auth.Account;
 import com.holonplatform.auth.Account.AccountProvider;
@@ -45,9 +43,8 @@ import com.holonplatform.auth.Credentials;
 import com.holonplatform.auth.token.AccountCredentialsToken;
 import com.holonplatform.spring.security.SpringSecurity;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestAuthenticationProvider.Config.class)
-public class TestAuthenticationProvider {
+@SpringJUnitConfig(classes = TestAuthenticationProvider.Config.class)
+class TestAuthenticationProvider {
 
 	@Configuration
 	@EnableGlobalAuthentication
@@ -77,7 +74,7 @@ public class TestAuthenticationProvider {
 		}
 
 		@Bean
-		@Primary
+				@Primary
 		public AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth,
 				AccountProvider accountProvider) throws Exception {
 			return auth
@@ -94,7 +91,7 @@ public class TestAuthenticationProvider {
 	private AuthenticationManager authenticationManager;
 
 	@Test
-	public void testAuthenticator() {
+	void testAuthenticator() {
 
 		Authentication authc = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("u1", "u1"));
 
@@ -111,7 +108,7 @@ public class TestAuthenticationProvider {
 	}
 
 	@Test
-	public void testAuthenticatorExceptions() {
+	void testAuthenticatorExceptions() {
 
 		assertThrows(UsernameNotFoundException.class,
 				() -> authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("ux", "ux")));

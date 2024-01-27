@@ -193,7 +193,7 @@ public interface AsyncDatastore extends
 	 *         Optional otherwise
 	 */
 	default Optional<AsyncTransactional> isTransactional() {
-		return Optional.ofNullable((this instanceof AsyncTransactional) ? (AsyncTransactional) this : null);
+		return Optional.ofNullable((this instanceof AsyncTransactional at) ? at : null);
 	}
 
 	/**

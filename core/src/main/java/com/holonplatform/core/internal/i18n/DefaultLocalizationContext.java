@@ -785,7 +785,7 @@ public class DefaultLocalizationContext implements LocalizationContext, MessageR
 	 */
 	protected Optional<String> getMessageFromProvider(Locale locale, MessageProvider provider, String code) {
 		Optional<String> value = provider.getMessage(locale, code);
-		if (!value.isPresent()) {
+		if (value.isEmpty()) {
 			// check parent
 			Optional<Localization> parent = getLocalization().getParent();
 			while (parent.isPresent()) {

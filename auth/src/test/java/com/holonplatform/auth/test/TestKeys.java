@@ -32,7 +32,7 @@ import com.holonplatform.auth.keys.KeyFormat;
 import com.holonplatform.auth.keys.KeyReader;
 import com.holonplatform.auth.keys.KeySource;
 
-public class TestKeys {
+class TestKeys {
 
 	private static final byte[] TEST_PRIVATE_KEY = { 48, -126, 2, 120, 2, 1, 0, 48, 13, 6, 9, 42, -122, 72, -122, -9,
 			13, 1, 1, 1, 5, 0, 4, -126, 2, 98, 48, -126, 2, 94, 2, 1, 0, 2, -127, -127, 0, -69, -12, -18, -112, 117,
@@ -76,12 +76,12 @@ public class TestKeys {
 	private static final String TEST_PUBLIC_KEY_BASE64 = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC79O6QdbhSuH0N0JR3EUgqHzFqL2KWKYTtiYd9YdoSIrwt02xc1p9O6S9eHfHnPCyKCGFmQJ+C/WVKRMwj6952x6XaD2hHK6al5YKYzvyYH/GLGkD1quwK41q/4n4jkQN70YNjlYRBg99PQXHGIfaXofyDqbfRH5loqGJYnTvkvwIDAQAB";
 
 	@Test
-	public void testBase() {
+	void testBase() {
 		assertNotNull(KeyReader.getDefault());
 	}
 
 	@Test
-	public void testKeySource() throws IOException {
+	void testKeySource() throws IOException {
 
 		KeySource ks = KeySource.bytes(TEST_PRIVATE_KEY);
 		assertTrue(Arrays.equals(TEST_PRIVATE_KEY, ks.getBytes()));
@@ -89,7 +89,7 @@ public class TestKeys {
 	}
 
 	@Test
-	public void testPublicKey() {
+	void testPublicKey() {
 		final KeyReader keyReader = KeyReader.getDefault();
 
 		PublicKey key = keyReader.publicKey(KeySource.bytes(TEST_PUBLIC_KEY), "RSA", KeyFormat.X509, KeyEncoding.NONE,
@@ -122,7 +122,7 @@ public class TestKeys {
 	}
 
 	@Test
-	public void testPrivateKey() {
+	void testPrivateKey() {
 		final KeyReader keyReader = KeyReader.getDefault();
 
 		PrivateKey key = keyReader.privateKey(KeySource.bytes(TEST_PRIVATE_KEY), "RSA", KeyFormat.PKCS8,

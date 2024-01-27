@@ -82,7 +82,7 @@ public class DefaultPathPropertyBoxAdapter extends DefaultPathPropertySetAdapter
 	@Override
 	public <T> Optional<T> getValueOrElse(Path<T> path, Consumer<Path<T>> valueNotPresent) {
 		Optional<T> value = getValue(path);
-		if (!value.isPresent() && valueNotPresent != null) {
+		if (value.isEmpty() && valueNotPresent != null) {
 			valueNotPresent.accept(path);
 		}
 		return value;

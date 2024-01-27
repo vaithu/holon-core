@@ -19,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.holonplatform.core.ParameterSet;
@@ -32,10 +32,10 @@ import com.holonplatform.core.internal.DefaultParameterSet;
 /**
  * ParameterSet test
  */
-public class TestParameters {
+class TestParameters {
 
 	@Test
-	public void testParameterSet() {
+	void testParameterSet() {
 
 		DefaultParameterSet ps = new DefaultParameterSet();
 
@@ -88,7 +88,7 @@ public class TestParameters {
 	}
 
 	@Test
-	public void testParameterSetConfigProperty() {
+	void testParameterSetConfigProperty() {
 
 		final ConfigProperty<String> TEST = ConfigProperty.create("test", String.class);
 		final ConfigProperty<String> TEST2 = ConfigProperty.create("x", String.class);
@@ -146,23 +146,23 @@ public class TestParameters {
 	}
 
 	@Test
-	public void testParameterType() {
-		Assertions.assertThrows(TypeMismatchException.class, () -> {
+	void testParameterType() {
+		assertThrows(TypeMismatchException.class, () -> {
 			ParameterSet ps = ParameterSet.builder().withParameter("test2", Integer.valueOf(3)).build();
 			ps.getParameter("test2", String.class);
 		});
 	}
 
 	@Test
-	public void testParameterTypeDft() {
-		Assertions.assertThrows(TypeMismatchException.class, () -> {
+	void testParameterTypeDft() {
+		assertThrows(TypeMismatchException.class, () -> {
 			ParameterSet ps = ParameterSet.builder().withParameter("test2", Integer.valueOf(3)).build();
 			ps.getParameter("test2", String.class, "dft");
 		});
 	}
 
 	@Test
-	public void testParameterBuilder() {
+	void testParameterBuilder() {
 
 		ParameterSet ps = ParameterSet.builder().withParameter("test", "TEST")
 				.withParameter("test2", Integer.valueOf(3)).build();

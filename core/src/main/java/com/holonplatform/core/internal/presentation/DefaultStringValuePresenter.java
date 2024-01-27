@@ -242,8 +242,8 @@ public enum DefaultStringValuePresenter implements StringValuePresenter {
 	 */
 	private static String convertEnum(Enum<?> value) {
 		Localizable lv = null;
-		if (value instanceof Localizable) {
-			lv = (Localizable) value;
+		if (value instanceof Localizable localizable) {
+			lv = localizable;
 		}
 		// check Caption annotation on value
 		try {

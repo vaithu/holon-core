@@ -17,11 +17,11 @@ package com.holonplatform.core.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.holonplatform.core.Context;
@@ -30,7 +30,7 @@ import com.holonplatform.core.tenancy.TenantResolver;
 public class TestTenantResolver {
 
 	@Test
-	public void testContext() {
+	void testContext() {
 
 		final TenantResolver tr = () -> Optional.of("T1");
 
@@ -51,7 +51,7 @@ public class TestTenantResolver {
 	}
 
 	@Test
-	public void testTenantResolver() {
+	void testTenantResolver() {
 
 		TenantResolver tr = TenantResolver.staticTenantResolver("test");
 
@@ -75,7 +75,7 @@ public class TestTenantResolver {
 
 	@SuppressWarnings("unused")
 	public void testTenantResolverCallable() {
-		Assertions.assertThrows(RuntimeException.class, () -> {
+		assertThrows(RuntimeException.class, () -> {
 			String value = TenantResolver.execute("x", () -> {
 				throw new NullPointerException("test");
 			});
@@ -83,8 +83,8 @@ public class TestTenantResolver {
 	}
 
 	@Test
-	public void testTenantResolverRunnable() {
-		Assertions.assertThrows(RuntimeException.class, () -> {
+	void testTenantResolverRunnable() {
+		assertThrows(RuntimeException.class, () -> {
 			TenantResolver.execute("x", new Runnable() {
 
 				@Override

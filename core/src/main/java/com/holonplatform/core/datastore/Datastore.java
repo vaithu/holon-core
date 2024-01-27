@@ -206,7 +206,7 @@ public interface Datastore
 	 *         otherwise
 	 */
 	default Optional<Transactional> isTransactional() {
-		return Optional.ofNullable((this instanceof Transactional) ? (Transactional) this : null);
+		return Optional.ofNullable((this instanceof Transactional t) ? t : null);
 	}
 
 	/**

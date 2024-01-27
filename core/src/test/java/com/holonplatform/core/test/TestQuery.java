@@ -35,10 +35,10 @@ import com.holonplatform.core.query.QuerySort;
 import com.holonplatform.core.test.data.DummyQuery;
 import com.holonplatform.core.test.data.TestPropertySet;
 
-public class TestQuery {
+class TestQuery {
 
 	@Test
-	public void testExpressions() throws InvalidExpressionException {
+	void testExpressions() throws InvalidExpressionException {
 
 		DefaultConstantExpression<String> ce = new DefaultConstantExpression<>("test");
 
@@ -63,7 +63,7 @@ public class TestQuery {
 	}
 
 	@Test
-	public void testQueryDefinition() {
+	void testQueryDefinition() {
 
 		DefaultQueryDefinition qd = new DefaultQueryDefinition();
 		qd.setTarget(DataTarget.named("target"));
@@ -89,7 +89,7 @@ public class TestQuery {
 	}
 
 	@Test
-	public void testQuery() {
+	void testQuery() {
 
 		QueryDefinition qd = new DefaultQueryDefinition();
 

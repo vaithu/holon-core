@@ -37,10 +37,10 @@ import com.holonplatform.core.property.PropertyValueConverter.PropertyConversion
 import com.holonplatform.core.property.TemporalProperty;
 import com.holonplatform.core.test.TestProperty.TestEnum;
 
-public class TestPropertyValueConverter {
+class TestPropertyValueConverter {
 
 	@Test
-	public void testPropertyConverters() {
+	void testPropertyConverters() {
 
 		NumericBooleanConverter<Integer> pc = new NumericBooleanConverter<>(int.class);
 
@@ -84,7 +84,7 @@ public class TestPropertyValueConverter {
 
 	@SuppressWarnings("rawtypes")
 	@Test
-	public void testNumericBooleanConverter() {
+	void testNumericBooleanConverter() {
 
 		NumericBooleanConverter<Long> pc2 = new NumericBooleanConverter<>(Long.class);
 
@@ -113,7 +113,7 @@ public class TestPropertyValueConverter {
 
 	@SuppressWarnings("rawtypes")
 	@Test
-	public void testEnumConverter() {
+	void testEnumConverter() {
 
 		final PathProperty<TestEnum> ENMP = PathProperty.create("testenum", TestEnum.class)
 				.converter(PropertyValueConverter.enumByOrdinal());
@@ -135,9 +135,9 @@ public class TestPropertyValueConverter {
 
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Test
-	public void testLocalDateConverter() {
+	void testLocalDateConverter() {
 
 		final Calendar c = Calendar.getInstance();
 		c.set(Calendar.DAY_OF_MONTH, 9);
@@ -183,9 +183,9 @@ public class TestPropertyValueConverter {
 		assertEquals(1979, ld.getYear());
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Test
-	public void testLocalDateTimeConverter() {
+	void testLocalDateTimeConverter() {
 
 		final Calendar c = Calendar.getInstance();
 		c.set(Calendar.DAY_OF_MONTH, 9);
@@ -239,7 +239,7 @@ public class TestPropertyValueConverter {
 	}
 
 	@Test
-	public void testPropertyConverterErrors() {
+	void testPropertyConverterErrors() {
 		assertThrows(PropertyConversionException.class, () -> {
 			NumericBooleanConverter<InvalidNumberClass> pc = new NumericBooleanConverter<>(InvalidNumberClass.class);
 			pc.toModel(Boolean.TRUE, null);

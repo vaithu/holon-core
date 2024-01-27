@@ -160,7 +160,7 @@ public class DefaultPathPropertySetAdapter implements PathPropertySetAdapter {
 		Set<Path<?>> pathIds = new HashSet<>(getPropertySet().getIdentifiers().size());
 		for (Property id : getPropertySet().getIdentifiers()) {
 			Optional<Path<?>> path = getPathConverter().convert(id);
-			if (!path.isPresent()) {
+			if (path.isEmpty()) {
 				return Collections.emptySet();
 			}
 			pathIds.add(path.get());

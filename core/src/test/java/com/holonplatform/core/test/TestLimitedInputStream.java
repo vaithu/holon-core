@@ -25,11 +25,11 @@ import org.junit.jupiter.api.Test;
 
 import com.holonplatform.core.streams.LimitedInputStream;
 
-public class TestLimitedInputStream {
+class TestLimitedInputStream {
 
 	@SuppressWarnings("resource")
 	@Test
-	public void testLimitedInputStream() throws IOException {
+	void testLimitedInputStream() throws IOException {
 
 		final InputStream stream = new InputStream() {
 

@@ -2,27 +2,24 @@ package com.holonplatform.spring.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.holonplatform.core.tenancy.TenantResolver;
 import com.holonplatform.spring.EnableTenantScope;
 import com.holonplatform.spring.ScopeTenant;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestTenantScopeProxyMode.Config.class)
-public class TestTenantScopeProxyMode {
+@SpringJUnitConfig(classes = TestTenantScopeProxyMode.Config.class)
+class TestTenantScopeProxyMode {
 
 	private static final ThreadLocal<String> CURRENT_TENANT_ID = new ThreadLocal<>();
 
@@ -42,7 +39,7 @@ public class TestTenantScopeProxyMode {
 		}
 
 		@Bean
-		@ScopeTenant
+				@ScopeTenant
 		public TenantScopedServiceTest serviceTest() {
 			return new TenantScopedServiceTest();
 		}
@@ -58,13 +55,13 @@ public class TestTenantScopeProxyMode {
 	private ApplicationContext applicationContext;
 
 	@Test
-	public void testInvalidTenantScope() {
-		Assertions.assertThrows(BeanCreationException.class,
+	void testInvalidTenantScope() {
+		assertThrows(BeanCreationException.class,
 				() -> applicationContext.getBean(TenantScopedServiceTest.class));
 	}
 
 	@Test
-	public void testTenantScopeProxy() {
+	void testTenantScopeProxy() {
 		try {
 			CURRENT_TENANT_ID.set("T1");
 			SingletonComponent sc = applicationContext.getBean(SingletonComponent.class);
@@ -77,8 +74,8 @@ public class TestTenantScopeProxyMode {
 	}
 
 	@Test
-	public void testTenantScopeProxyFail() {
-		Assertions.assertThrows(BeanCreationException.class,
+	void testTenantScopeProxyFail() {
+		assertThrows(BeanCreationException.class,
 				() -> applicationContext.getBean(SingletonComponent.class).getTenantId());
 	}
 

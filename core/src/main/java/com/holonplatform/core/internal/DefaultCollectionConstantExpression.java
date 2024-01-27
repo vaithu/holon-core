@@ -115,7 +115,7 @@ public class DefaultCollectionConstantExpression<E> extends ArrayList<E> impleme
 	 */
 	@Override
 	public Collection<?> getModelValue() {
-		if (getValue() == null || !getExpressionValueConverter().isPresent()) {
+		if (getValue() == null || getExpressionValueConverter().isEmpty()) {
 			return getValue();
 		}
 		List<Object> modelValues = new ArrayList<>(getValue().size());
