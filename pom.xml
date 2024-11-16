@@ -61,25 +61,30 @@
 		<servlet.api>6.0.0</servlet.api>
 
 		<!-- slf4j -->
-		<slf4j.version>2.0.7</slf4j.version>
+		<slf4j.version>2.0.16</slf4j.version>
 
 		<!-- Apache commons lang -->
-		<commons.lang.version>3.12.0</commons.lang.version>
+		<commons.lang.version>3.14.0</commons.lang.version>
 
-		<!-- Bean validation -->
-		<bean.validation.version>3.0.2</bean.validation.version>
+		<!--&lt;!&ndash; Bean validation &ndash;&gt;
+		<bean.validation.version>3.0.2</bean.validation.version>-->
 
 		<!-- JWT -->
 		<jsonwebtoken.version>0.11.2</jsonwebtoken.version>
 
 		<!-- Spring -->
-		<spring.version>6.0.13</spring.version>
+		<spring-framework.version>6.1.14</spring-framework.version>
+
+		<logback-classic.version>1.5.11</logback-classic.version>
 
 		<!-- Spring Security -->
-		<spring.security.version>6.1.5</spring.security.version>
+		<spring.security.version>6.3.4</spring.security.version>
 
 		<!-- Spring Boot -->
-		<spring.boot.version>3.2.0</spring.boot.version>
+		<spring.boot.version>3.3.5</spring.boot.version>
+
+		<!-- JavaBeans Validation -->
+		<jakarta.validation.api.version>3.0.2</jakarta.validation.api.version>
 
 		<!-- Jackson test/provided -->
 		<jackson.databind.version>2.12.7.1</jackson.databind.version>
@@ -88,6 +93,10 @@
 		<!-- Test -->
 		<jersey.test.version>3.1.1</jersey.test.version>
 		<mockito.version>2.28.2</mockito.version>
+
+		<p6spy.version>1.9.0</p6spy.version>
+		<hibernate.version>6.5.3.Final</hibernate.version>
+		<junit-jupiter.version>5.10.5</junit-jupiter.version>
 
 	</properties>
 

@@ -114,16 +114,12 @@ public class DefaultBeanIntrospector implements BeanIntrospector {
 					? p.getClass().getAnnotation(Priority.class).value()
 					: BeanPropertyPostProcessor.DEFAULT_PRIORITY);
 
-	private static final Comparator<BeanProperty<?>> SEQUENCE_COMPARATOR = new Comparator<BeanProperty<?>>() {
-
-		@Override
-		public int compare(BeanProperty<?> o1, BeanProperty<?> o2) {
-			if (o1 != null && o2 != null) {
-				return o1.getSequence().orElse(Integer.MAX_VALUE).compareTo(o2.getSequence().orElse(Integer.MAX_VALUE));
-			}
-			return 0;
-		}
-	};
+	private static final Comparator<BeanProperty<?>> SEQUENCE_COMPARATOR = (o1, o2) -> {
+        if (o1 != null && o2 != null) {
+            return o1.getSequence().orElse(Integer.MAX_VALUE).compareTo(o2.getSequence().orElse(Integer.MAX_VALUE));
+        }
+        return 0;
+    };
 
 	/**
 	 * Default property names to exclude during bean introspection

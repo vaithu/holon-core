@@ -72,6 +72,11 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	private boolean identifier;
 
 	/**
+	 * Version property
+	 */
+	private boolean version;
+
+	/**
 	 * Optional ignore mode
 	 */
 	private IgnoreMode ignoreMode;
@@ -214,6 +219,17 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	@Override
 	public BeanProperty.Builder<T> identifier(boolean identifier) {
 		this.identifier = identifier;
+		return this;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.holonplatform.core.beans.BeanProperty.Builder#identifier(boolean)
+	 */
+
+	@Override
+	public BeanProperty.Builder<T> version(boolean version) {
+		this.version = version;
 		return this;
 	}
 

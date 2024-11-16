@@ -48,6 +48,11 @@ public class DefaultPropertySet<P extends Property> extends ArrayList<P> impleme
 	private Set<P> identifiers;
 
 	/**
+	 * version
+	 */
+	private Integer version;
+
+	/**
 	 * Configuration
 	 */
 	private MutableParameterSet configuration;
@@ -143,6 +148,11 @@ public class DefaultPropertySet<P extends Property> extends ArrayList<P> impleme
 			identifiers = new LinkedHashSet<>(4);
 		}
 		identifiers.add(property);
+	}
+
+	@Override
+	public Integer getVersion() {
+		return version;
 	}
 
 	/**

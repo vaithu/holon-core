@@ -33,6 +33,12 @@ public enum DefaultWriteOption implements WriteOption {
 	BRING_BACK_GENERATED_IDS,
 
 	/**
+	 * Bring back any auto-generated id and version values into the {@link PropertyBox} which was subject of a data manipulation
+	 * operation, if a corresponding {@link Property} (using the property name) is available in the box property set.
+	 */
+	BRING_BACK_GENERATED_IDS_AND_VERSION,
+
+	/**
 	 * By default, the {@link DatastoreOperations#save(DataTarget, PropertyBox, WriteOption...)} operation should
 	 * fallback to an <code>INSERT</code> type operation when the value existence cannot be consistently verified in the
 	 * persistence source (for example, is the persistence source entity supports a primary key and the primary key

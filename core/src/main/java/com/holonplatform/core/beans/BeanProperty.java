@@ -76,6 +76,13 @@ public interface BeanProperty<T> extends PathProperty<T> {
 	boolean isIdentifier();
 
 	/**
+	 * Get whether the property is declared as a Version for the bean property set.
+	 * @return <code>true</code> if it is a Version property, <code>false</code> otherwise
+	 * @since 5.5.2
+	 */
+	boolean isVersion();
+
+	/**
 	 * Gets the annotation of given <code>annotationClass</code> type declared on this property, if available.
 	 * <p>
 	 * Only annotations declared on the {@link Field} which corresponds to this property are taken into account, any
@@ -122,28 +129,28 @@ public interface BeanProperty<T> extends PathProperty<T> {
 		 * @param method Method to set
 		 * @return this
 		 */
-		Builder<T> readMethod(Method method);
+		BeanProperty.Builder<T> readMethod(Method method);
 
 		/**
 		 * Set the bean property write (set) method
 		 * @param method Method to set
 		 * @return this
 		 */
-		Builder<T> writeMethod(Method method);
+		BeanProperty.Builder<T> writeMethod(Method method);
 
 		/**
 		 * Set the bean property field
 		 * @param field Field to set
 		 * @return this
 		 */
-		Builder<T> field(Field field);
+		BeanProperty.Builder<T> field(Field field);
 
 		/**
 		 * Set the bean property sequence
 		 * @param sequence Sequence to set
 		 * @return this
 		 */
-		Builder<T> sequence(Integer sequence);
+		BeanProperty.Builder<T> sequence(Integer sequence);
 
 		/**
 		 * Set the bean property as an identifier property.
@@ -151,21 +158,29 @@ public interface BeanProperty<T> extends PathProperty<T> {
 		 * @return this
 		 * @since 5.1.0
 		 */
-		Builder<T> identifier(boolean identifier);
+		BeanProperty.Builder<T> identifier(boolean identifier);
+
+		/**
+		 * Set the bean property as a  version property.
+		 * @param version Whether the property is a version for the bean property set
+		 * @return this
+		 * @since 5.5.2
+		 */
+		BeanProperty.Builder<T> version(boolean version);
 
 		/**
 		 * Set the property annotations
 		 * @param annotations Annotations to set
 		 * @return this
 		 */
-		Builder<T> annotations(Annotation[] annotations);
+		BeanProperty.Builder<T> annotations(Annotation[] annotations);
 
 		/**
 		 * Mark the property as to be ignored (i.e. not to be part of the bean property set) or not.
 		 * @param ignoreMode The ignore mode
 		 * @return this
 		 */
-		Builder<T> ignoreMode(IgnoreMode ignoreMode);
+		BeanProperty.Builder<T> ignoreMode(IgnoreMode ignoreMode);
 
 		/**
 		 * Get whether the property is marked as to be ignored and the ignore modality.

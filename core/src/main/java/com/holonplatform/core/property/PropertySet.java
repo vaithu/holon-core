@@ -63,6 +63,11 @@ public interface PropertySet<P extends Property> extends Iterable<P>, HasConfigu
 	int size();
 
 	/**
+	 * Returns the version field or property of an entity class that serves as its optimistic lock value.
+	 * The version is used to ensure integrity when performing the merge operation and for optimistic concurrency control.
+	 */
+	Integer getVersion();
+	/**
 	 * Return <code>true</code> if this set contains the given
 	 * <code>property</code>. If the given <code>property</code> is
 	 * <code>null</code>, always returns <code>false</code>.
