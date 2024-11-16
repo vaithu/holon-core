@@ -103,7 +103,7 @@ public class RestTemplateRestClient extends AbstractRestClient implements Spring
 
 		// method
 		org.springframework.http.HttpMethod requestMethod = org.springframework.http.HttpMethod
-				.resolve(method.getMethodName());
+				.valueOf(method.getMethodName());
 		if (requestMethod == null) {
 			throw new RestClientException("Unsupported HTTP method: " + method.getMethodName());
 		}

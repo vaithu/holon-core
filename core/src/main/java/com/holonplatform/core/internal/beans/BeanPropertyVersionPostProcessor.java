@@ -15,21 +15,20 @@
  */
 package com.holonplatform.core.internal.beans;
 
-import com.holonplatform.core.beans.Version;
-import jakarta.annotation.Priority;
-
 import com.holonplatform.core.beans.BeanProperty;
 import com.holonplatform.core.beans.BeanPropertyPostProcessor;
 import com.holonplatform.core.beans.Identifier;
+import com.holonplatform.core.beans.Version;
 import com.holonplatform.core.internal.Logger;
+import jakarta.annotation.Priority;
 
 /**
- * A {@link BeanPropertyPostProcessor} to set a property as identifier using the {@link Identifier} annotation.
+ * A {@link BeanPropertyPostProcessor} to set a property as version using the {@link org.hibernate.Version} annotation.
  *
  * @since 5.1.0
  */
 @Priority(130)
-public class BeanPropertyIdentifierPostProcessor implements BeanPropertyPostProcessor {
+public class BeanPropertyVersionPostProcessor implements BeanPropertyPostProcessor {
 
 	/**
 	 * Logger
@@ -43,10 +42,12 @@ public class BeanPropertyIdentifierPostProcessor implements BeanPropertyPostProc
 	 */
 	@Override
 	public BeanProperty.Builder<?> processBeanProperty(BeanProperty.Builder<?> property, Class<?> beanOrNestedClass) {
-		property.getAnnotation(Identifier.class).ifPresent(a -> {
-			property.identifier(true);
-			LOGGER.debug(() -> "BeanPropertyIdentifierPostProcessor: property [" + property + "] set as identifier");
+
+		property.getAnnotation(Version.class).ifPresent(a -> {
+			property.version(true);
+			LOGGER.debug(() -> "BeanPropertyIdentifierPostProcessor: property [" + property + "] set as version");
 		});
+
 		return property;
 	}
 

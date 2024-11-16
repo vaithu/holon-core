@@ -20,6 +20,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.holonplatform.core.Path;
+import com.holonplatform.core.beans.BeanPropertySet;
 import com.holonplatform.core.exceptions.DataAccessException;
 import com.holonplatform.core.internal.query.QueryUtils;
 import com.holonplatform.core.query.QueryResults.QueryNonUniqueResultException;
@@ -39,6 +41,8 @@ public interface BeanQuery<T> extends BeanQueryBuilder<BeanQuery<T>> {
 	 * @throws DataAccessException Error in query execution
 	 */
 	Stream<T> stream();
+
+	Stream<T> stream(Class<? extends T> beanClass, Path<?>... selection);
 
 	/**
 	 * Convenience method to obtain the query results {@link #stream()} as a {@link List}.

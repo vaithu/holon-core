@@ -19,14 +19,10 @@ import java.util.stream.Stream;
 
 import com.holonplatform.core.Expression;
 import com.holonplatform.core.ExpressionResolver;
+import com.holonplatform.core.Path;
 import com.holonplatform.core.config.ConfigProperty;
 import com.holonplatform.core.datastore.beans.BeanQuery;
-import com.holonplatform.core.query.BeanProjection;
-import com.holonplatform.core.query.Query;
-import com.holonplatform.core.query.QueryAggregation;
-import com.holonplatform.core.query.QueryConfiguration;
-import com.holonplatform.core.query.QueryFilter;
-import com.holonplatform.core.query.QuerySort;
+import com.holonplatform.core.query.*;
 
 /**
  * Default {@link BeanQuery} implementation.
@@ -189,6 +185,11 @@ public class DefaultBeanQuery<T> extends AbstractBeanDatastoreAdapter<Query> imp
 	@Override
 	public Stream<T> stream() {
 		return getExecutor().stream(BeanProjection.of(getBeanClass()));
+	}
+
+	@Override
+	public Stream<T> stream(Class<? extends T> beanClass, Path<?>... selection) {
+		return getExecutor().stream(QueryProjection.bean(beanClass, selection));
 	}
 
 	/*

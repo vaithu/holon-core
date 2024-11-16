@@ -136,6 +136,11 @@ public abstract class AbstractPropertyBox implements PropertyBox {
 		return getAndCheckPropertySet().size();
 	}
 
+	@Override
+	public Integer getVersion() {
+		return getAndCheckPropertySet().getVersion();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see com.holonplatform.core.property.PropertySet#contains(com.holonplatform.core.property.Property)
@@ -330,7 +335,6 @@ public abstract class AbstractPropertyBox implements PropertyBox {
 
 	/**
 	 * Check if given value is type compatible with the {@link PropertyValueConverter} model type.
-	 * @param property Property
 	 * @param value Value
 	 * @param converter Converter
 	 * @return <code>true</code> if given value is type compatible with the {@link PropertyValueConverter} model type,
