@@ -158,6 +158,11 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 		return identifier;
 	}
 
+	@Override
+	public boolean isVersion() {
+		return version;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see com.holonplatform.core.beans.BeanProperty#getAnnotation(java.lang.Class)
