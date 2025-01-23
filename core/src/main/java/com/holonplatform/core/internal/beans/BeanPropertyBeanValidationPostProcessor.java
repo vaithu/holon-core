@@ -97,13 +97,14 @@ public class BeanPropertyBeanValidationPostProcessor implements BeanPropertyPost
 
 	/**
 	 * Checks whether bean validation API is available from classpath.
+	 *
 	 * @param classLoader ClassLoader to use
 	 * @return <code>true</code> if present
 	 */
 	private static boolean isBeanValidationApiPresent(ClassLoader classLoader) {
 		if (BEAN_VALIDATION_API_PRESENT.containsKey(classLoader)) {
 			Boolean present = BEAN_VALIDATION_API_PRESENT.get(classLoader);
-			return (present != null && present.booleanValue());
+			return (present != null && present);
 		}
 		boolean present = ClassUtils.isPresent("jakarta.validation.Validation", classLoader);
 		BEAN_VALIDATION_API_PRESENT.put(classLoader, present);

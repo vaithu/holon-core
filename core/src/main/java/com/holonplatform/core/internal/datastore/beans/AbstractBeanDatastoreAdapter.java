@@ -194,7 +194,7 @@ public abstract class AbstractBeanDatastoreAdapter<E> {
 		if (!wos.contains(addWriteOption)) {
 			List<WriteOption> nwos = new LinkedList<>(wos);
 			nwos.add(addWriteOption);
-			return nwos.toArray(new WriteOption[nwos.size()]);
+			return nwos.toArray(new WriteOption[0]);
 		}
 		return options;
 	}

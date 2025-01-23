@@ -15,11 +15,14 @@
  */
 package com.holonplatform.core.query;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 import com.holonplatform.core.Path;
 import com.holonplatform.core.beans.BeanPropertySet;
 import com.holonplatform.core.internal.query.DefaultBeanProjection;
+import com.holonplatform.core.property.PathProperty;
 
 /**
  * A {@link QueryProjection} which uses a {@link BeanPropertySet} to define the projection selection and returns
@@ -64,5 +67,17 @@ public interface BeanProjection<T> extends QueryProjection<T> {
 	static <T> BeanProjection<T> of(Class<? extends T> beanClass, Path... selection) {
 		return new DefaultBeanProjection<>(beanClass, selection);
 	}
+
+	/**
+	 * Create a {@link BeanProjection} using given bean class.
+	 * @param <T> Bean and result type
+	 * @param beanClass Bean class (not null)
+	 * @param selection List of selection paths.
+	 * @return BeanProjection using given bean class
+	 */
+	static <T> BeanProjection<T> of(Class<? extends T> beanClass, List<PathProperty<? extends Serializable>> selection) {
+		return new DefaultBeanProjection<>(beanClass, selection.toArray(new Path[0]));
+	}
+
 
 }
