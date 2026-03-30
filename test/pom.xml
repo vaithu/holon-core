@@ -15,13 +15,6 @@
 
 	<url>https://holon-platform.com</url>
 
-	<properties>
-        <!-- Jakarta API -->
-        <jakarta.api.version>3.1.0</jakarta.api.version>
-		<!-- Jersey -->
-        <jersey.version>3.1.10</jersey.version>
-	</properties>
-
 	<dependencies>
 
 		<!-- JUnit 5 -->
@@ -35,7 +28,7 @@
 		<dependency>
 			<groupId>jakarta.ws.rs</groupId>
 			<artifactId>jakarta.ws.rs-api</artifactId>
-            <version>${jakarta.api.version}</version>
+			<version>${ws.rs.api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -43,7 +36,7 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.test-framework</groupId>
 			<artifactId>jersey-test-framework-core</artifactId>
-			<version>${jersey.version}</version>
+			<version>${jersey.test.version}</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>

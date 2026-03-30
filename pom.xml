@@ -64,7 +64,7 @@
         <slf4j.version>2.0.17</slf4j.version>
 
         <!-- Apache commons lang -->
-        <commons.lang.version>3.17.0</commons.lang.version>
+        <commons.lang.version>3.19.0</commons.lang.version>
 
 
         <!--&lt;!&ndash; Bean validation &ndash;&gt;
@@ -76,7 +76,7 @@
 		<!-- Spring -->
 		<spring-framework.version>7.0.6</spring-framework.version>
 
-		<logback-classic.version>1.5.11</logback-classic.version>
+		<logback-classic.version>1.5.32</logback-classic.version>
 
 		<!-- Spring Security -->
         <spring.security.version>7.0.4</spring.security.version>
@@ -85,22 +85,32 @@
         <spring.boot.version>4.0.4</spring.boot.version>
 
 		<!-- JavaBeans Validation -->
-		<jakarta.validation.api.version>3.0.2</jakarta.validation.api.version>
+		<jakarta.validation.api.version>3.1.1</jakarta.validation.api.version>
 
 		<!-- Jackson test/provided -->
-        <jackson.databind.version>2.18.3</jackson.databind.version>
-        <jackson.jakarta.rs.version>2.18.3</jackson.jakarta.rs.version>
+        <jackson.databind.version>2.21.1</jackson.databind.version>
+        <jackson.jakarta.rs.version>2.21.1</jackson.jakarta.rs.version>
+
+		<!-- JAX-RS API (Jersey 3.x is aligned with JAX-RS 3.1 / Jakarta EE 10) -->
+		<ws.rs.api.version>3.1.0</ws.rs.api.version>
 
 		<!-- Test -->
         <jersey.test.version>3.1.10</jersey.test.version>
-        <mockito.version>5.14.2</mockito.version>
+        <mockito.version>5.20.0</mockito.version>
 
-		<p6spy.version>1.9.0</p6spy.version>
-		<hibernate.version>6.5.3.Final</hibernate.version>
+		<p6spy.version>1.9.1</p6spy.version>
+		<hibernate.version>7.2.7.Final</hibernate.version>
 		<junit-jupiter.version>6.0.3</junit-jupiter.version>
 		<!-- Override parent's separate api/engine version properties to align with 6.0.3 -->
 		<junit.jupiter.api.version>6.0.3</junit.jupiter.api.version>
 		<junit.jupiter.engine.version>6.0.3</junit.jupiter.engine.version>
+
+		<!-- JAXB runtime (glassfish-jaxb.version=4.0.6 in Spring Boot 4.0.4 BOM) -->
+		<jaxb.runtime.version>4.0.6</jaxb.runtime.version>
+
+		<!-- Maven plugin versions -->
+		<maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 
 
 
@@ -222,6 +232,21 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!-- Override Maven default versions inherited from super POM -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven-clean-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 </project>
