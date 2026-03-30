@@ -16,8 +16,10 @@
 package com.holonplatform.spring;
 
 import com.holonplatform.core.datastore.Datastore;
+import com.holonplatform.spring.internal.datastore.DatastoreConfigurationRegistrar;
 
 import java.lang.annotation.*;
+import org.springframework.context.annotation.Import;
 
 /**
  * Enables a bean post processor to automatically configure {@link Datastore} bean types using the Spring context. The
@@ -33,7 +35,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-//@Import(DatastoreConfigurationRegistrar.class)
+@Import(DatastoreConfigurationRegistrar.class)
 public @interface EnableDatastoreConfiguration {
 
 }

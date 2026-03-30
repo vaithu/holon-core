@@ -51,7 +51,7 @@ import com.holonplatform.spring.internal.context.BeanFactoryScopeRegistrar;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-//@Import(BeanFactoryScopeRegistrar.class)
+@Import(BeanFactoryScopeRegistrar.class)
 public @interface EnableBeanContext {
 
 	/**

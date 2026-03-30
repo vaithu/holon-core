@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.FactorGrantedAuthority;
 
 import com.holonplatform.auth.Permission;
 import com.holonplatform.core.internal.DefaultParameterSet;
@@ -90,7 +91,11 @@ public class DefaultSpringSecurityAuthentication extends DefaultParameterSet imp
 	 */
 	@Override
 	public Collection<Permission> getPermissions() {
-		return authentication.getAuthorities().stream().map(a -> new SpringSecurityPermission(a))
+		// Spring Security 7 introduces FactorGrantedAuthority (e.g. FACTOR_PASSWORD) for MFA factor tracking.
+		// These are system-level authorities, not application-level permissions, so we exclude them.
+		return authentication.getAuthorities().stream()
+				.filter(a -> !(a instanceof FactorGrantedAuthority))
+				.map(a -> new SpringSecurityPermission(a))
 				.collect(Collectors.toSet());
 	}
 

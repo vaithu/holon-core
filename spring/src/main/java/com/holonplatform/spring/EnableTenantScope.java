@@ -33,7 +33,7 @@ import com.holonplatform.spring.internal.tenant.TenantScopeRegistrar;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-//@Import(TenantScopeRegistrar.class)
+@Import(TenantScopeRegistrar.class)
 public @interface EnableTenantScope {
 
 	/**
