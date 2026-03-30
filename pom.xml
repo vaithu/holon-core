@@ -66,10 +66,6 @@
         <!-- Apache commons lang -->
         <commons.lang.version>3.19.0</commons.lang.version>
 
-
-        <!--&lt;!&ndash; Bean validation &ndash;&gt;
-        <bean.validation.version>3.0.2</bean.validation.version>-->
-
 		<!-- JWT -->
         <jsonwebtoken.version>0.12.6</jsonwebtoken.version>
 
@@ -112,8 +108,6 @@
 		<maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
 		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 
-
-
 	</properties>
 
 	<modules>
@@ -151,65 +145,7 @@
 
 	<build>
 		<plugins>
-			<!--&lt;!&ndash; Aggregate javadocs &ndash;&gt;
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>aggregate-javadocs</id>
-						<phase>package</phase>
-						<inherited>false</inherited>
-						<goals>
-							<goal>aggregate-no-fork</goal>
-						</goals>
-						<configuration>
-							<show>public</show>
-							<excludePackageNames>*.internal.*;*.examples.*</excludePackageNames>
-							<quiet>true</quiet>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			&lt;!&ndash; Assembly apidocs &ndash;&gt;
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>apidocs-assembly</id>
-						<phase>package</phase>
-						<inherited>false</inherited>
-						<configuration>
-							<appendAssemblyId>true</appendAssemblyId>
-							<descriptorRefs>
-								<descriptorRef>apidocs</descriptorRef>
-							</descriptorRefs>
-						</configuration>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.openrewrite.maven</groupId>
-				<artifactId>rewrite-maven-plugin</artifactId>
-				<version>5.10.0</version>
-				<configuration>
-					<activeRecipes>
-						<recipe>org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_1</recipe>
-					</activeRecipes>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.openrewrite.recipe</groupId>
-						<artifactId>rewrite-spring</artifactId>
-						<version>5.0.12</version>
-					</dependency>
-				</dependencies>
-			</plugin>-->
-			<!-- Exclude the attach-javadocs goal -->
+			<!-- Javadoc generation is skipped; Asciidoctor documentation module handles docs -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
