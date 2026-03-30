@@ -1,12 +1,12 @@
 /*
  * Copyright 2016-2018 Axioma srl.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -48,92 +48,96 @@ import io.jsonwebtoken.security.SignatureException;
  */
 public enum DefaultJwtTokenParser implements JwtTokenParser {
 
-	INSTANCE;
+    INSTANCE;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.holonplatform.auth.jwt.JwtTokenParser#parseJwt(com.holonplatform.auth.jwt
-	 * .JwtConfiguration, java.lang.String)
-	 */
-	@Override
-	public Builder parseJwt(JwtConfiguration configuration, String jwt)
-			throws InvalidJwtConfigurationException, AuthenticationException {
+    /*
+     * (non-Javadoc)
+     * @see com.holonplatform.auth.jwt.JwtTokenParser#parseJwt(com.holonplatform.auth.jwt
+     * .JwtConfiguration, java.lang.String)
+     */
+    @Override
+    public Builder parseJwt(JwtConfiguration configuration, String jwt)
+            throws InvalidJwtConfigurationException, AuthenticationException {
 
-		ObjectUtils.argumentNotNull(configuration, "JwtConfiguration must be not null");
-		ObjectUtils.argumentNotNull(jwt, "JWT token must be not null");
+        ObjectUtils.argumentNotNull(configuration, "JwtConfiguration must be not null");
+        ObjectUtils.argumentNotNull(jwt, "JWT token must be not null");
 
-		// decode and get claims
+        // decode and get claims
 
-		Claims claims = null;
+        Claims claims = null;
 
-		try {
+        try {
 
-			if (configuration.getSignatureAlgorithm() != JwtSignatureAlgorithm.NONE) {
-				// Token expected to be signed (JWS)
-				if (configuration.getSignatureAlgorithm().isSymmetric()) {
-					claims = Jwts.parserBuilder().setSigningKey(configuration.getSharedKey()
-							.orElseThrow(() -> new UnexpectedAuthenticationException(
-									"JWT authenticator not correctly configured: missing shared key for symmetric signature algorithm ["
-											+ configuration.getSignatureAlgorithm().getDescription()
-											+ "] - JWT configuration: [" + configuration + "]")))
-							.build().parseClaimsJws(jwt).getBody();
-				} else {
-					claims = Jwts.parserBuilder().setSigningKey(configuration.getPublicKey()
-							.orElseThrow(() -> new UnexpectedAuthenticationException(
-									"JWT authenticator not correctly configured: missing public key for asymmetric signature algorithm ["
-											+ configuration.getSignatureAlgorithm().getDescription()
-											+ "] - JWT configuration: [" + configuration + "]")))
-							.build().parseClaimsJws(jwt).getBody();
-				}
-			} else {
-				// not signed (JWT)
-				claims = Jwts.parserBuilder().build().parseClaimsJwt(jwt).getBody();
-			}
+            if (configuration.getSignatureAlgorithm() != JwtSignatureAlgorithm.NONE) {
+                // Token expected to be signed (JWS)
+                if (configuration.getSignatureAlgorithm().isSymmetric()) {
+                    claims = Jwts.parser().setSigningKey(configuration.getSharedKey()
+                                    .orElseThrow(() -> new UnexpectedAuthenticationException(
+                                            "JWT authenticator not correctly configured: missing shared key for symmetric signature algorithm ["
+                                                    + configuration.getSignatureAlgorithm().getDescription()
+                                                    + "] - JWT configuration: [" + configuration + "]")))
+                            .build().parseClaimsJws(jwt).getBody();
+                } else {
+                    claims = Jwts.parser().setSigningKey(configuration.getPublicKey()
+                                    .orElseThrow(() -> new UnexpectedAuthenticationException(
+                                            "JWT authenticator not correctly configured: missing public key for asymmetric signature algorithm ["
+                                                    + configuration.getSignatureAlgorithm().getDescription()
+                                                    + "] - JWT configuration: [" + configuration + "]")))
+                            .build().parseClaimsJws(jwt).getBody();
+                }
+            } else {
+                // not signed (JWT)
 
-		} catch (@SuppressWarnings("unused") ExpiredJwtException eje) {
-			throw new ExpiredCredentialsException("Expired JWT token");
-		} catch (@SuppressWarnings("unused") MalformedJwtException | UnsupportedJwtException mje) {
-			throw new InvalidTokenException("Malformed or unsupported JWT token");
-		} catch (@SuppressWarnings("unused") SignatureException sje) {
-			throw new InvalidTokenException("Invalid JWT token signature");
-		} catch (Exception e) {
-			throw new UnexpectedAuthenticationException(ExceptionUtils.getRootCauseMessage(e), e);
-		}
+                // if JWT configuration explicitly defines unsecured JWS allowed (alg : none)
+                if (configuration.isAllowUnsecured()) {
+                    claims = Jwts.parser().unsecured().build().parseClaimsJwt(jwt).getBody();
+                } else {
+                    claims = Jwts.parser().build().parseClaimsJwt(jwt).getBody();
+                }
+            }
 
-		// check claims
-		if (claims == null) {
-			throw new UnexpectedAuthenticationException("No valid claims found in JWT token");
-		}
+        } catch (@SuppressWarnings("unused") ExpiredJwtException eje) {
+            throw new ExpiredCredentialsException("Expired JWT token");
+        } catch (@SuppressWarnings("unused") MalformedJwtException | UnsupportedJwtException mje) {
+            throw new InvalidTokenException("Malformed or unsupported JWT token");
+        } catch (@SuppressWarnings("unused") SignatureException sje) {
+            throw new InvalidTokenException("Invalid JWT token signature");
+        } catch (Exception e) {
+            throw new UnexpectedAuthenticationException(ExceptionUtils.getRootCauseMessage(e), e);
+        }
 
-		String principalName = claims.getSubject();
-		if (principalName == null) {
-			throw new UnknownAccountException("No principal id (subject) found in JWT token");
-		}
+        // check claims
+        if (claims == null) {
+            throw new UnexpectedAuthenticationException("No valid claims found in JWT token");
+        }
 
-		// build Authentication
+        String principalName = claims.getSubject();
+        if (principalName == null) {
+            throw new UnknownAccountException("No principal id (subject) found in JWT token");
+        }
 
-		Authentication.Builder auth = Authentication.builder(principalName).scheme("Bearer").root(false);
+        // build Authentication
 
-		// process claims
-		claims.forEach((n, v) -> {
-			if (AuthenticationClaims.CLAIM_NAME_PERMISSIONS.equals(n)) {
-				if (configuration.isIncludePermissions()) {
-					@SuppressWarnings("unchecked")
-					Collection<String> permissions = (Collection<String>) v;
-					if (permissions != null) {
-						permissions.forEach(p -> auth.withPermission(Permission.create(p)));
-					}
-				}
-			} else {
-				if (configuration.isIncludeDetails()) {
-					auth.withParameter(n, v);
-				}
-			}
-		});
+        Authentication.Builder auth = Authentication.builder(principalName).scheme("Bearer").root(false);
 
-		return auth;
-	}
+        // process claims
+        claims.forEach((n, v) -> {
+            if (AuthenticationClaims.CLAIM_NAME_PERMISSIONS.equals(n)) {
+                if (configuration.isIncludePermissions()) {
+                    @SuppressWarnings("unchecked")
+                    Collection<String> permissions = (Collection<String>) v;
+                    if (permissions != null) {
+                        permissions.forEach(p -> auth.withPermission(Permission.create(p)));
+                    }
+                }
+            } else {
+                if (configuration.isIncludeDetails()) {
+                    auth.withParameter(n, v);
+                }
+            }
+        });
+
+        return auth;
+    }
 
 }

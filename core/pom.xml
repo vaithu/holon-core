@@ -89,7 +89,7 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

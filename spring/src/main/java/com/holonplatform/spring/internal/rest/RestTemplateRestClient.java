@@ -16,6 +16,7 @@
 package com.holonplatform.spring.internal.rest;
 
 import java.io.IOException;
+import java.net.URI;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -68,7 +69,9 @@ public class RestTemplateRestClient extends AbstractRestClient implements Spring
 			}
 
 			@Override
-			public void handleError(ClientHttpResponse response) throws IOException {
+			public void handleError(URI url, org.springframework.http.HttpMethod method, ClientHttpResponse response)
+					throws IOException {
+				// noop - errors are handled by the caller
 			}
 
 		});
@@ -118,7 +121,7 @@ public class RestTemplateRestClient extends AbstractRestClient implements Spring
 		}
 
 		// check error status code
-		int statusCode = response.getStatusCodeValue();
+		int statusCode = response.getStatusCode().value();
 
 		if (onlySuccessfulStatusCode && !HttpStatus.isSuccessStatusCode(statusCode)) {
 			throw new UnsuccessfulResponseException(new SpringResponseEntity<>(response, ResponseType.of(byte[].class),
