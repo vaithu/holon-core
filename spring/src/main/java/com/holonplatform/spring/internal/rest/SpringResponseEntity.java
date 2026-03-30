@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -89,7 +90,8 @@ public class SpringResponseEntity<T> implements ResponseEntity<T> {
 	 */
 	@Override
 	public Map<String, List<String>> getHeaders() {
-		return response.getHeaders();
+		// Spring Framework 7: HttpHeaders no longer implements Map; use asMultiValueMap()
+		return response.getHeaders().asMultiValueMap();
 	}
 
 	/*
@@ -242,14 +244,7 @@ public class SpringResponseEntity<T> implements ResponseEntity<T> {
 			return responseEntity.getStatusCode();
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see org.springframework.http.client.ClientHttpResponse#getRawStatusCode()
-		 */
-		@Override
-		public int getRawStatusCode() throws IOException {
-			return responseEntity.getStatusCodeValue();
-		}
+
 
 		/*
 		 * (non-Javadoc)
@@ -258,7 +253,8 @@ public class SpringResponseEntity<T> implements ResponseEntity<T> {
 		@Override
 		public String getStatusText() throws IOException {
 //			return responseEntity.getStatusCode().getReasonPhrase();
-			return HttpStatus.valueOf(responseEntity.getStatusCode().value()).getReasonPhrase();
+//			return HttpStatus.valueOf(responseEntity.getStatusCode().value()).getReasonPhrase();
+            return ((HttpStatus) responseEntity.getStatusCode()).getReasonPhrase();
 		}
 
 		/*

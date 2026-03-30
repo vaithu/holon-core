@@ -18,15 +18,17 @@ package com.holonplatform.spring.boot.test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Configuration;
 
 import com.holonplatform.http.rest.RestClient;
 import com.holonplatform.spring.SpringRestClient;
 
+/**
+ * Test RestClient auto-configuration with Spring Boot 4.
+ * Note: RestTemplateBuilder was removed in Spring Boot 4; RestClient is created via factory.
+ */
 @SpringBootTest
 class TestRestClientConfiguration {
 
@@ -36,13 +38,8 @@ class TestRestClientConfiguration {
 
 	}
 
-	@Autowired
-	private RestTemplateBuilder restTemplateBuilder;
-
 	@Test
 	void testConfig() {
-		assertNotNull(restTemplateBuilder);
-
 		RestClient rc = RestClient.create();
 		assertNotNull(rc);
 

@@ -16,10 +16,10 @@
 	<url>https://holon-platform.com</url>
 
 	<properties>
-		<!-- JAX-RS API -->
-		<jax-rs.api.version>3.1.0</jax-rs.api.version>
+        <!-- Jakarta API -->
+        <jakarta.api.version>3.1.0</jakarta.api.version>
 		<!-- Jersey -->
-		<jersey.version>2.34</jersey.version>
+        <jersey.version>3.1.10</jersey.version>
 	</properties>
 
 	<dependencies>
@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>jakarta.ws.rs</groupId>
 			<artifactId>jakarta.ws.rs-api</artifactId>
-			<version>${jax-rs.api.version}</version>
+            <version>${jakarta.api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 

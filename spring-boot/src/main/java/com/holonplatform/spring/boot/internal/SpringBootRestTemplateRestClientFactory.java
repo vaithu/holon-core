@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import jakarta.annotation.Priority;
 
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.web.client.RestTemplate;
 
 import com.holonplatform.core.Context;
 import com.holonplatform.core.internal.Logger;
@@ -32,6 +32,9 @@ import com.holonplatform.spring.internal.rest.RestTemplateRestClient;
 
 /**
  * {@link RestClientFactory} to create {@link RestTemplateRestClient} instances.
+ * <p>
+ * Spring Boot 4 removed {@code RestTemplateBuilder}; this factory now looks for a {@code RestTemplate} context
+ * resource and falls back to a default {@code RestTemplate} instance.
  *
  * @since 5.0.0
  */
@@ -58,14 +61,15 @@ public class SpringBootRestTemplateRestClientFactory implements RestClientFactor
 	 */
 	@Override
 	public RestClient create(ClassLoader classLoader) throws RestClientCreationException {
-		// Try to obtain a RestTemplate
-		Optional<RestTemplateBuilder> restTemplateBuilder = Context.get().resource("restTemplateBuilder",
-				RestTemplateBuilder.class, classLoader);
-		if (restTemplateBuilder.isPresent()) {
-			return new RestTemplateRestClient(restTemplateBuilder.get().build());
+		// Try to obtain a configured RestTemplate from the Holon context
+		Optional<RestTemplate> restTemplate = Context.get().resource("restTemplate", RestTemplate.class, classLoader);
+		if (restTemplate.isPresent()) {
+			LOGGER.debug(() -> "Using RestTemplate from Holon context for RestClient creation");
+			return new RestTemplateRestClient(restTemplate.get());
 		}
-		LOGGER.debug(() -> "No RestTemplateBuilder type Context resource available - RestClient creation skipped");
-		return null;
+		// Fall back to a default RestTemplate instance
+		LOGGER.debug(() -> "No RestTemplate context resource available - creating default RestTemplate");
+		return new RestTemplateRestClient(new RestTemplate());
 	}
 
 }

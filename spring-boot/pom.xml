@@ -77,11 +77,12 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
-		<dependency>
+		<!-- Managed by Spring Boot BOM -->
+		<!-- <dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
 			<version>2.2</version>
-		</dependency>
+		</dependency> -->
 
 
 
@@ -115,7 +116,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.10.1</version>
+			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
 
