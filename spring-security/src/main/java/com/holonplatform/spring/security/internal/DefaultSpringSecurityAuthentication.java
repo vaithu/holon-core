@@ -15,12 +15,12 @@
  */
 package com.holonplatform.spring.security.internal;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.FactorGrantedAuthority;
 
 import com.holonplatform.auth.Permission;
 import com.holonplatform.core.internal.DefaultParameterSet;
@@ -34,6 +34,7 @@ import com.holonplatform.spring.security.SpringSecurityAuthentication;
  */
 public class DefaultSpringSecurityAuthentication extends DefaultParameterSet implements SpringSecurityAuthentication {
 
+	@Serial
 	private static final long serialVersionUID = 8101815940531618115L;
 
 	/**
@@ -94,8 +95,8 @@ public class DefaultSpringSecurityAuthentication extends DefaultParameterSet imp
 		// Spring Security 7 introduces FactorGrantedAuthority (e.g. FACTOR_PASSWORD) for MFA factor tracking.
 		// These are system-level authorities, not application-level permissions, so we exclude them.
 		return authentication.getAuthorities().stream()
-				.filter(a -> !(a instanceof FactorGrantedAuthority))
-				.map(a -> new SpringSecurityPermission(a))
+				.filter(a -> !"FactorGrantedAuthority".equals(a.getClass().getSimpleName()))
+				.map(SpringSecurityPermission::new)
 				.collect(Collectors.toSet());
 	}
 
@@ -192,11 +193,8 @@ public class DefaultSpringSecurityAuthentication extends DefaultParameterSet imp
 			return false;
 		DefaultSpringSecurityAuthentication other = (DefaultSpringSecurityAuthentication) obj;
 		if (authentication == null) {
-			if (other.authentication != null)
-				return false;
-		} else if (!authentication.equals(other.authentication))
-			return false;
-		return true;
+			return other.authentication == null;
+		} else return authentication.equals(other.authentication);
 	}
 
 	/*
