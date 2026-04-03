@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.holon-platform.core</groupId>
 		<artifactId>holon-root</artifactId>
-		<version>5.5.1</version>
+		<version>5.5.2</version>
 	</parent>
 
 	<artifactId>holon-http</artifactId>
@@ -28,7 +28,6 @@
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>
-			<version>${servlet.api}</version>
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
@@ -37,19 +36,11 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>${logback-classic.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
 

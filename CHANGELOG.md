@@ -1,5 +1,11 @@
 ﻿# Changelog
 All notable changes to this project are documented in this file.
+## [5.5.2] - 2026-04-03
+### Changed
+- Bumped module version to `5.5.2` across all Maven modules.
+- Aligned module dependency version declarations with root parent `dependencyManagement`.
+- Updated `README.md` release references to `5.5.2`.
+
 ## [5.5.1] - 2026-03-30
 ### Changed
 - Upgraded to Spring Boot `4.0.4`.
@@ -14,3 +20,4 @@ All notable changes to this project are documented in this file.
 - Filtered Spring Security 7 factor authorities from application permissions mapping.
 - Restored Spring `@Import` registrations for bean context, tenant scope, and datastore configuration.
 [5.5.1]: https://github.com/holon-platform/holon-core/releases/tag/v5.5.1
+[5.5.2]: https://github.com/holon-platform/holon-core/releases/tag/v5.5.2
