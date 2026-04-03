@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.holon-platform.core</groupId>
 		<artifactId>holon-root</artifactId>
-		<version>5.5.1</version>
+		<version>5.5.2</version>
 	</parent>
 
 	<artifactId>holon-starter-test</artifactId>
@@ -21,8 +21,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${spring.boot.version}</version>
-			<exclusions>
+    																																																																																																																																																																																																																																											<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
 					<artifactId>spring-core</artifactId>
@@ -40,7 +39,6 @@
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<version>${jaxb.runtime.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -48,7 +46,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${spring-framework.version}</version>
 		</dependency>
 
 		<!-- JUnit -->

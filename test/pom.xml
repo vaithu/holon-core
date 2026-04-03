@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.holon-platform.core</groupId>
 		<artifactId>holon-root</artifactId>
-		<version>5.5.1</version>
+		<version>5.5.2</version>
 	</parent>
 
 	<artifactId>holon-test</artifactId>
@@ -28,15 +28,13 @@
 		<dependency>
 			<groupId>jakarta.ws.rs</groupId>
 			<artifactId>jakarta.ws.rs-api</artifactId>
-			<version>${ws.rs.api.version}</version>
-			<scope>provided</scope>
+    																																																																																																																																																																																																																																																																																																																																																							<scope>provided</scope>
 		</dependency>
 
 		<!-- Jersey -->
 		<dependency>
 			<groupId>org.glassfish.jersey.test-framework</groupId>
 			<artifactId>jersey-test-framework-core</artifactId>
-			<version>${jersey.test.version}</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
