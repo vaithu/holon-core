@@ -59,4 +59,16 @@ class TestPermission {
 
 	}
 
+	@Test
+	void testPermissionEqualityAcrossImplementations() {
+		// a SpringSecurityPermission and a plain Permission carrying the same string representation must be equal,
+		// since the general Permission contract is based on the getPermission() string value, not the concrete type
+		Permission fromAuthority = SpringSecurity.asPermission(new SimpleGrantedAuthority("view"));
+		Permission plain = Permission.create("view");
+
+		assertEquals(plain, fromAuthority);
+		assertEquals(fromAuthority, plain);
+		assertEquals(plain.hashCode(), fromAuthority.hashCode());
+	}
+
 }

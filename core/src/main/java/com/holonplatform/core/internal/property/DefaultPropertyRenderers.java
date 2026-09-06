@@ -16,8 +16,6 @@
 package com.holonplatform.core.internal.property;
 
 import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -76,13 +74,7 @@ public final class DefaultPropertyRenderers implements Serializable {
 
 			final List<PropertyRenderer> result = new LinkedList<>();
 			// load from META-INF/services
-			Iterable<PropertyRenderer> renderers = AccessController
-					.doPrivileged(new PrivilegedAction<Iterable<PropertyRenderer>>() {
-						@Override
-						public Iterable<PropertyRenderer> run() {
-							return ServiceLoader.load(PropertyRenderer.class, classLoader);
-						}
-					});
+			Iterable<PropertyRenderer> renderers = ServiceLoader.load(PropertyRenderer.class, classLoader);
 			renderers.forEach(pr -> {
 				result.add(pr);
 

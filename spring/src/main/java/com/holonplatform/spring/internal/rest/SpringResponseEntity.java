@@ -18,10 +18,7 @@ package com.holonplatform.spring.internal.rest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.core.io.Resource;
@@ -91,7 +88,16 @@ public class SpringResponseEntity<T> implements ResponseEntity<T> {
 	@Override
 	public Map<String, List<String>> getHeaders() {
 		// Spring Framework 7: HttpHeaders no longer implements Map; use asMultiValueMap()
-		return response.getHeaders().asMultiValueMap();
+//		return response.getHeaders().asMultiValueMap();
+
+        // Rebuild a map using case-insensitive headerSet()
+        return response.getHeaders().headerSet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existing, replacement) -> existing,
+                        LinkedHashMap::new
+                ));
 	}
 
 	/*

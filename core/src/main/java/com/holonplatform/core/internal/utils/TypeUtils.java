@@ -422,4 +422,36 @@ public final class TypeUtils implements Serializable {
 		return Optional.empty();
 	}
 
+	/**
+	 * Converts primitive numeric types to their wrapper classes.
+	 * <p>
+	 * Non-matching types are returned unchanged.
+	 *
+	 * @param type the type to wrap
+	 * @return the corresponding wrapper class, or the original type if no wrapper
+	 *         applies
+	 */
+	public static Class<?> wrapPrimitive(Class<?> type) {
+		// Map the supported primitive numeric types to their boxed equivalents.
+		if (isInteger(type)) {
+			return Integer.class;
+		}
+		if (isLong(type)) {
+			return Long.class;
+		}
+		if (isDouble(type)) {
+			return Double.class;
+		}
+		if (isFloat(type)) {
+			return Float.class;
+		}
+		if (isShort(type)) {
+			return Short.class;
+		}
+		if (isByte(type)) {
+			return Byte.class;
+		}
+		return type;
+	}
+
 }

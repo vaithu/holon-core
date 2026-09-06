@@ -153,17 +153,6 @@ public abstract class AbstractQueryBuilder<Q extends QueryBuilder<Q>, D extends 
 		return getActualBuilder();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.holonplatform.core.query.Query#pageable(int, int)
-	 */
-	/*@Override
-	public Q pageable(int page, int pagSize) {
-		getQueryDefinition().setPage(Integer.valueOf(page));
-		getQueryDefinition().setPageSize(Integer.valueOf(pagSize));
-		return getActualBuilder();
-	}*/
 
 	/*
 	 * (non-Javadoc)

@@ -15,8 +15,6 @@
  */
 package com.holonplatform.http.internal.rest;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -135,22 +133,15 @@ public enum RestClientFactoryRegistry {
 		List<RestClientFactory> restClientFactories = factories.get(serviceClassLoader);
 
 		if (restClientFactories == null) {
-			restClientFactories = AccessController.doPrivileged(new PrivilegedAction<List<RestClientFactory>>() {
-				@Override
-				public List<RestClientFactory> run() {
-					LinkedList<RestClientFactory> result = new LinkedList<>();
-					ServiceLoader<RestClientFactory> serviceLoader = ServiceLoader.load(RestClientFactory.class,
-							serviceClassLoader);
-					for (RestClientFactory factory : serviceLoader) {
-						result.add(factory);
-						LOGGER.debug(
-								() -> "Loaded and registered RestClientFactory [" + factory.getClass().getName() + "]");
-					}
-					// sort
-					Collections.sort(result, PRIORITY_COMPARATOR);
-					return result;
-				}
-			});
+			LinkedList<RestClientFactory> result = new LinkedList<>();
+			ServiceLoader<RestClientFactory> serviceLoader = ServiceLoader.load(RestClientFactory.class, serviceClassLoader);
+			for (RestClientFactory factory : serviceLoader) {
+				result.add(factory);
+				LOGGER.debug(() -> "Loaded and registered RestClientFactory [" + factory.getClass().getName() + "]");
+			}
+			// sort
+			Collections.sort(result, PRIORITY_COMPARATOR);
+			restClientFactories = result;
 			factories.put(serviceClassLoader, restClientFactories);
 		}
 		return restClientFactories;

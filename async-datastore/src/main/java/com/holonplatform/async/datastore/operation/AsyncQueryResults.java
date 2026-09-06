@@ -88,7 +88,12 @@ public interface AsyncQueryResults
 	}
 
 	/**
-	 * Count all the results of a query, asynchronously.
+	 * Execute a <strong>separate</strong> COUNT query asynchronously and return the total number of results.
+	 * <p>
+	 * <strong>This method is explicit-only.</strong> It is <em>never</em> called automatically by any other query
+	 * method. Use {@link com.holonplatform.core.query.QueryBuilder#pageable(int, int)} for offset-based
+	 * pagination that avoids issuing count queries entirely.
+	 * </p>
 	 * @return A {@link CompletionStage} of the total results count
 	 * @throws DataAccessException Error in query execution
 	 */
@@ -98,7 +103,11 @@ public interface AsyncQueryResults
 	}
 
 	/**
-	 * Convenience {@link #countAll()} renamed method.
+	 * Explicit alias for {@link #countAll()}.
+	 * <p>
+	 * <strong>This method is explicit-only.</strong> It is <em>never</em> called automatically by any other query
+	 * method.
+	 * </p>
 	 * @return A {@link CompletionStage} of the total results count
 	 */
 	default CompletionStage<Long> count() {

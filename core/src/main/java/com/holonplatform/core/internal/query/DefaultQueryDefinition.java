@@ -52,14 +52,6 @@ public class DefaultQueryDefinition extends DefaultParameterSet implements Query
 	 */
 	private Integer offset;
 
-	/*
-	 * Results page
-	 */
-//	private Integer page;
-	/*
-	 * Results pageSize
-	 */
-//	private Integer pageSize;
 
 	/*
 	 * Query sort
@@ -111,15 +103,6 @@ public class DefaultQueryDefinition extends DefaultParameterSet implements Query
 		this.limit = (limit != null && limit.intValue() > 0) ? limit : null;
 	}
 
-	/*@Override
-	public void setPage(Integer page) {
-		this.page = (page != null && page.intValue() >= 0) ? page : null;
-	}
-
-	@Override
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = (pageSize != null && pageSize.intValue() > 0) ? pageSize : null;
-	}*/
 
 	/*
 	 * (non-Javadoc)
@@ -155,15 +138,6 @@ public class DefaultQueryDefinition extends DefaultParameterSet implements Query
 		return Optional.ofNullable(offset);
 	}
 
-	/*@Override
-	public Optional<Integer> getPage() {
-		return Optional.ofNullable(page);
-	}
-
-	@Override
-	public Optional<Integer> getPageSize() {
-		return Optional.ofNullable(pageSize);
-	}*/
 
 	/**
 	 * Add a sort to query. If any sort was present, sort will be appended in specified order

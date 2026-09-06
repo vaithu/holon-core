@@ -15,6 +15,7 @@
  */
 package com.holonplatform.core.temporal;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -81,7 +82,7 @@ public enum TemporalType {
 			}
 			if (java.util.Date.class.isAssignableFrom(type) || java.util.Calendar.class.isAssignableFrom(type)
 					|| LocalDateTime.class.isAssignableFrom(type) || OffsetDateTime.class.isAssignableFrom(type)
-					|| ZonedDateTime.class.isAssignableFrom(type)) {
+					|| ZonedDateTime.class.isAssignableFrom(type) || Instant.class.isAssignableFrom(type)) {
 				return Optional.of(DATE_TIME);
 			}
 		}

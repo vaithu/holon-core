@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import com.holonplatform.core.Expression;
 import com.holonplatform.core.ExpressionResolver;
+import com.holonplatform.core.datastore.DataTarget;
 import com.holonplatform.core.datastore.Datastore;
 import com.holonplatform.core.datastore.DatastoreCommodity;
 import com.holonplatform.core.datastore.DatastoreOperations.WriteOption;
@@ -31,6 +32,7 @@ import com.holonplatform.core.datastore.beans.BeanDatastore;
 import com.holonplatform.core.datastore.beans.BeanQuery;
 import com.holonplatform.core.datastore.transaction.Transactional;
 import com.holonplatform.core.property.PropertyBox;
+import com.holonplatform.core.query.Query;
 
 /**
  * Default {@link BeanDatastore} implementation.
@@ -135,7 +137,7 @@ public class DefaultBeanDatastore extends AbstractBeanDatastoreAdapter<Datastore
 		final PropertyBox propertyBox = asPropertyBox(bean);
 		return convert(
 				getExecutor().insert(getDataTarget(bean), propertyBox,
-						processWriteOptions(options, DefaultWriteOption.BRING_BACK_GENERATED_IDS)),
+						processWriteOptions(options, DefaultWriteOption.BRING_BACK_GENERATED_IDS_AND_VERSION)),
 				asBean(getBeanClass(bean), propertyBox));
 	}
 
@@ -149,7 +151,7 @@ public class DefaultBeanDatastore extends AbstractBeanDatastoreAdapter<Datastore
 		final PropertyBox propertyBox = asPropertyBox(bean);
 		return convert(
 				getExecutor().update(getDataTarget(bean), propertyBox,
-						processWriteOptions(options, DefaultWriteOption.BRING_BACK_GENERATED_IDS)),
+						processWriteOptions(options, DefaultWriteOption.BRING_BACK_GENERATED_IDS_AND_VERSION)),
 				asBean(getBeanClass(bean), propertyBox));
 	}
 
@@ -163,7 +165,7 @@ public class DefaultBeanDatastore extends AbstractBeanDatastoreAdapter<Datastore
 		final PropertyBox propertyBox = asPropertyBox(bean);
 		return convert(
 				getExecutor().save(getDataTarget(bean), propertyBox,
-						processWriteOptions(options, DefaultWriteOption.BRING_BACK_GENERATED_IDS)),
+						processWriteOptions(options, DefaultWriteOption.BRING_BACK_GENERATED_IDS_AND_VERSION)),
 				asBean(getBeanClass(bean), propertyBox));
 	}
 
@@ -215,6 +217,24 @@ public class DefaultBeanDatastore extends AbstractBeanDatastoreAdapter<Datastore
 	@Override
 	public <T> BeanQuery<T> query(Class<T> beanClass) {
 		return new DefaultBeanQuery<>(beanClass, getExecutor().query());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.holonplatform.core.datastore.beans.BeanDatastore#query()
+	 */
+	@Override
+	public Query query() {
+		return getExecutor().query();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.holonplatform.core.datastore.beans.BeanDatastore#query(DataTarget)
+	 */
+	@Override
+	public Query query(DataTarget<?> target) {
+		return getExecutor().query(target);
 	}
 
 }

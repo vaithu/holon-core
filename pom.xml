@@ -9,7 +9,7 @@
 
 	<groupId>com.holon-platform.core</groupId>
 	<artifactId>holon-root</artifactId>
-	<version>10.0.0</version>
+	<version>12.0.0</version>
 	<packaging>pom</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
@@ -48,18 +48,22 @@
 		<connection>scm:git:https://github.com/holon-platform/holon-core.git</connection>
 		<url>https://github.com/holon-platform/holon-core</url>
 		<developerConnection>scm:git:https://github.com/holon-platform/holon-core.git</developerConnection>
-		<tag>v10.0.0</tag>
+		<tag>v12.0.0</tag>
 	</scm>
 
 	<properties>
+
+        <java.version>25</java.version>
+        <maven.compiler.release>25</maven.compiler.release>
+        <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
 		<!-- Annotation api -->
 		<annotation-api.version>3.0.0</annotation-api.version>
 
 		<!--Servlet API-->
 		<servlet.api>6.1.0</servlet.api>
 
-        <!-- slf4j -->
-        <slf4j.version>2.0.17</slf4j.version>
+		<!-- slf4j -->
+		<slf4j.version>2.0.18</slf4j.version>
 
         <!-- Apache commons lang -->
         <commons.lang.version>3.19.0</commons.lang.version>
@@ -68,36 +72,40 @@
         <jsonwebtoken.version>0.12.6</jsonwebtoken.version>
 
 		<!-- Spring -->
-		<spring-framework.version>7.0.6</spring-framework.version>
+		<spring-framework.version>7.0.8</spring-framework.version>
 
 		<!-- Spring Security -->
-        <spring.security.version>7.0.4</spring.security.version>
+	        <spring.security.version>7.1.0</spring.security.version>
 
 		<!-- Spring Boot -->
-        <spring.boot.version>4.0.4</spring.boot.version>
+	        <spring.boot.version>4.1.0</spring.boot.version>
 
 		<!-- JavaBeans Validation -->
 		<jakarta.validation.api.version>3.1.1</jakarta.validation.api.version>
 
 		<!-- Jackson test/provided -->
-        <jackson.databind.version>2.21.1</jackson.databind.version>
-        <jackson.jakarta.rs.version>2.21.1</jackson.jakarta.rs.version>
+	        <jackson.databind.version>2.21.4</jackson.databind.version>
+	        <jackson.jakarta.rs.version>2.21.4</jackson.jakarta.rs.version>
 
-		<!-- JAX-RS API (Jersey 3.x is aligned with JAX-RS 3.1 / Jakarta EE 10) -->
-		<ws.rs.api.version>3.1.0</ws.rs.api.version>
+		<!-- JAX-RS API (aligned with Spring Boot 4.1.0 / Jersey 4.x) -->
+		<ws.rs.api.version>4.0.0</ws.rs.api.version>
 
 		<!-- Test -->
-        <jersey.test.version>3.1.10</jersey.test.version>
-        <mockito.version>5.20.0</mockito.version>
+	        <jersey.test.version>4.0.2</jersey.test.version>
+	        <mockito.version>5.23.0</mockito.version>
 
-		<p6spy.version>1.9.1</p6spy.version>
-		<hibernate.version>7.2.7.Final</hibernate.version>
+		<p6spy.version>2.0.1</p6spy.version>
+		<hibernate.version>7.4.1.Final</hibernate.version>
 
-		<!-- JAXB runtime (glassfish-jaxb.version=4.0.6 in Spring Boot 4.0.4 BOM) -->
-		<jaxb.runtime.version>4.0.6</jaxb.runtime.version>
+		<!-- Micrometer Observation API (optional, for downstream Observability SPI adoption) -->
+		<micrometer.version>1.17.1</micrometer.version>
+
+		<!-- JAXB runtime (glassfish-jaxb.version=4.0.9 in Spring Boot 4.1.0 BOM) -->
+		<jaxb.runtime.version>4.0.9</jaxb.runtime.version>
 
 		<!-- Maven plugin versions -->
 		<maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 
 	</properties>
 
@@ -198,6 +206,18 @@
 				<version>${jackson.jakarta.rs.version}</version>
 			</dependency>
 
+			<!-- Micrometer Observation API -->
+			<dependency>
+				<groupId>io.micrometer</groupId>
+				<artifactId>micrometer-observation</artifactId>
+				<version>${micrometer.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.micrometer</groupId>
+				<artifactId>micrometer-observation-test</artifactId>
+				<version>${micrometer.version}</version>
+			</dependency>
+
 			<!-- Spring Framework -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -274,6 +294,16 @@
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-web</artifactId>
+				<version>${spring.security.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-test</artifactId>
+				<version>${spring.security.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-crypto</artifactId>
 				<version>${spring.security.version}</version>
 			</dependency>
 
@@ -378,6 +408,16 @@
 				<artifactId>spring-boot-test-autoconfigure</artifactId>
 				<version>${spring.boot.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-health</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-actuator</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
 
 			<!-- Test dependencies -->
 			<dependency>
@@ -477,6 +517,14 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<release>${maven.compiler.release}</release>
+				</configuration>
+			</plugin>
+			<!-- Allow Mockito byte-buddy dynamic agent loading under Java 25 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>@{surefireArgLine} -XX:+EnableDynamicAgentLoading</argLine>
 				</configuration>
 			</plugin>
 		</plugins>

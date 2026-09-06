@@ -18,6 +18,7 @@ package com.holonplatform.core.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -43,6 +44,7 @@ class TestTemporalType {
 		assertEquals(TemporalType.DATE_TIME, TemporalType.getTemporalType(LocalDateTime.now()).orElse(null));
 		assertEquals(TemporalType.DATE_TIME, TemporalType.getTemporalType(OffsetDateTime.now()).orElse(null));
 		assertEquals(TemporalType.DATE_TIME, TemporalType.getTemporalType(ZonedDateTime.now()).orElse(null));
+		assertEquals(TemporalType.DATE_TIME, TemporalType.getTemporalType(Instant.now()).orElse(null));
 		assertEquals(TemporalType.TIME, TemporalType.getTemporalType(LocalTime.now()).orElse(null));
 		assertEquals(TemporalType.TIME, TemporalType.getTemporalType(OffsetTime.now()).orElse(null));
 
@@ -50,6 +52,7 @@ class TestTemporalType {
 		assertEquals(TemporalType.DATE_TIME, TemporalType.getTemporalType(LocalDateTime.class).orElse(null));
 		assertEquals(TemporalType.DATE_TIME, TemporalType.getTemporalType(OffsetDateTime.class).orElse(null));
 		assertEquals(TemporalType.DATE_TIME, TemporalType.getTemporalType(ZonedDateTime.class).orElse(null));
+		assertEquals(TemporalType.DATE_TIME, TemporalType.getTemporalType(Instant.class).orElse(null));
 		assertEquals(TemporalType.DATE_TIME, TemporalType.getTemporalType(Date.class).orElse(null));
 		assertEquals(TemporalType.DATE_TIME, TemporalType.getTemporalType(Calendar.class).orElse(null));
 		assertEquals(TemporalType.TIME, TemporalType.getTemporalType(LocalTime.class).orElse(null));

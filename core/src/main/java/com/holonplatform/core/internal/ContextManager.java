@@ -15,8 +15,6 @@
  */
 package com.holonplatform.core.internal;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -302,20 +300,13 @@ public final class ContextManager {
 					getScopesForClassLoader(cl).forEach(scope -> {
 						if (!scopeNames.contains(scope.getName())) {
 							scopes.add(scope);
+							scopeNames.add(scope.getName());
 						}
 					});
 
 					// get parent ClassLoader
 					try {
-						final ClassLoader currentClassLoader = cl;
-						cl = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-
-							@Override
-							public ClassLoader run() {
-								return currentClassLoader.getParent();
-							}
-
-						});
+						cl = getParentClassLoader(cl);
 					} catch (Exception e) {
 						LOGGER.debug(() -> "Failed to obtain parent ClassLoader", e);
 					}
@@ -356,18 +347,10 @@ public final class ContextManager {
 					break;
 				}
 				if (isUseClassLoaderHierarchy()) {
-					// get parent ClassLoader
-					try {
-						final ClassLoader currentClassLoader = cl;
-						cl = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-
-							@Override
-							public ClassLoader run() {
-								return currentClassLoader.getParent();
-							}
-
-						});
-					} catch (Exception e) {
+								// get parent ClassLoader
+								try {
+									cl = getParentClassLoader(cl);
+								} catch (Exception e) {
 						LOGGER.debug(() -> "Failed to obtain parent ClassLoader", e);
 					}
 				} else {
@@ -386,10 +369,7 @@ public final class ContextManager {
 		 */
 		private Collection<ContextScope> getScopesForClassLoader(ClassLoader cl) {
 			if (cl != null) {
-				Collection<ContextScope> classLoaderScopes = ensureInited(cl).values();
-				if (classLoaderScopes != null) {
-					return classLoaderScopes;
-				}
+				return ensureInited(cl).values();
 			}
 			return Collections.emptyList();
 		}
@@ -420,28 +400,21 @@ public final class ContextManager {
 
 			if (contextScopes == null) {
 				// load using ServiceLoader
-				contextScopes = AccessController
-						.doPrivileged(new PrivilegedAction<LinkedHashMap<String, ContextScope>>() {
-							@Override
-							public LinkedHashMap<String, ContextScope> run() {
-								LinkedHashMap<String, ContextScope> result = new LinkedHashMap<>();
-								LOGGER.debug(() -> "Load scopes for classloader [" + classLoader
-										+ "] using ServiceLoader with service name: " + ContextScope.class.getName());
-								ServiceLoader<ContextScope> serviceLoader = ServiceLoader.load(ContextScope.class,
-										classLoader);
-								for (final ContextScope provider : serviceLoader) {
-									if (provider.getName() == null) {
-										throw new IllegalStateException("Invalid ContextScope, missing scope name: "
-												+ provider.getClass().getName());
-									}
-									result.put(provider.getName(), provider);
-									LOGGER.debug(() -> "Loaded and registered scope with name [" + provider.getName()
-											+ "] for classloader [" + classLoader + "]");
-								}
-								sortScopes(result);
-								return result;
-							}
-						});
+				LinkedHashMap<String, ContextScope> result = new LinkedHashMap<>();
+				LOGGER.debug(() -> "Load scopes for classloader [" + classLoader
+					+ "] using ServiceLoader with service name: " + ContextScope.class.getName());
+				ServiceLoader<ContextScope> serviceLoader = ServiceLoader.load(ContextScope.class, classLoader);
+				for (final ContextScope provider : serviceLoader) {
+					if (provider.getName() == null) {
+						throw new IllegalStateException("Invalid ContextScope, missing scope name: "
+							+ provider.getClass().getName());
+					}
+					result.put(provider.getName(), provider);
+					LOGGER.debug(() -> "Loaded and registered scope with name [" + provider.getName()
+						+ "] for classloader [" + classLoader + "]");
+				}
+				sortScopes(result);
+				contextScopes = result;
 				scopes.put(classLoader, contextScopes);
 			}
 
@@ -456,9 +429,13 @@ public final class ContextManager {
 			List<Map.Entry<String, ContextScope>> entries = new ArrayList<>(scopes.entrySet());
 			scopes.clear();
 			entries.stream()
-					.sorted(Comparator.comparing(Map.Entry::getValue, Comparator.comparingInt((v) -> v.getOrder())))
+					.sorted(Map.Entry.comparingByValue(Comparator.comparingInt(ContextScope::getOrder)))
 					.forEachOrdered(e -> scopes.put(e.getKey(), e.getValue()));
 		}
+
+					private static ClassLoader getParentClassLoader(ClassLoader classLoader) {
+						return classLoader.getParent();
+					}
 
 	}
 

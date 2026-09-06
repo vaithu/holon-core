@@ -76,8 +76,15 @@ public interface QueryResults extends QueryProjectionOperations<Stream, List, Op
 	}
 
 	/**
-	 * Count all the results of a query.
-	 * @return Total results count, an empty Optional if none
+	 * Execute a <strong>separate</strong> COUNT query and return the total number of results.
+	 * <p>
+	 * <strong>This method is explicit-only.</strong> It is <em>never</em> called automatically by any other query
+	 * method (such as {@link #stream(QueryProjection)}, {@link #list(QueryProjection)} or
+	 * {@link #findOne(QueryProjection)}). Use {@link com.holonplatform.core.query.QueryBuilder#pageable(int, int)}
+	 * (or {@link com.holonplatform.core.query.QueryBuilder#restrict(int, int)}) for cursor-based pagination
+	 * that avoids issuing count queries entirely.
+	 * </p>
+	 * @return Total results count, {@code 0} if none
 	 * @throws DataAccessException Error in query execution
 	 */
 	@Override
@@ -86,11 +93,13 @@ public interface QueryResults extends QueryProjectionOperations<Stream, List, Op
 	}
 
 	/**
-	 * Count all the results of a query.
+	 * Execute a <strong>separate</strong> COUNT query and return the total number of results as a primitive long.
 	 * <p>
-	 * This is {@link #countAll()} alternative convenience method to provide a primitive long type result.
+	 * <strong>This method is explicit-only.</strong> It is <em>never</em> called automatically by any other query
+	 * method. Use {@link com.holonplatform.core.query.QueryBuilder#pageable(int, int)} for offset-based
+	 * pagination that avoids issuing count queries entirely.
 	 * </p>
-	 * @return Total results count
+	 * @return Total results count, {@code 0} if none
 	 * @throws DataAccessException Error in query execution
 	 */
 	default long count() {

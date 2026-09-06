@@ -21,6 +21,7 @@ import java.util.Optional;
 import com.holonplatform.core.ExpressionResolver.ExpressionResolverSupport;
 import com.holonplatform.core.beans.DataPath;
 import com.holonplatform.core.datastore.DataContextBound;
+import com.holonplatform.core.datastore.DataTarget;
 import com.holonplatform.core.datastore.Datastore;
 import com.holonplatform.core.datastore.Datastore.OperationType;
 import com.holonplatform.core.datastore.DatastoreCommodityHandler;
@@ -29,6 +30,8 @@ import com.holonplatform.core.datastore.beans.BeanDatastore.BeanOperationResult;
 import com.holonplatform.core.datastore.transaction.Transactional;
 import com.holonplatform.core.internal.datastore.beans.DefaultBeanDatastore;
 import com.holonplatform.core.internal.datastore.beans.DefaultBeanOperationResult;
+import com.holonplatform.core.internal.utils.ObjectUtils;
+import com.holonplatform.core.query.Query;
 
 /**
  * A {@link Datastore} adapter which uses Java Beans as persistent data representation.
@@ -114,6 +117,34 @@ public interface BeanDatastore extends
 	 */
 	@Override
 	<T> BeanQuery<T> query(Class<T> beanClass);
+
+	/**
+	 * Create a raw {@link Query} commodity — equivalent to {@link Datastore#query()}.
+	 * <p>
+	 * Use this when you need to run a query that is not mapped to a bean class (e.g. aggregations, projections onto
+	 * arbitrary {@link com.holonplatform.core.property.PropertySet}s). For bean-mapped queries prefer
+	 * {@link #query(Class)}.
+	 * </p>
+	 * @return A new {@link Query} instance
+	 * @since 5.5.2
+	 */
+	Query query();
+
+	/**
+	 * Create a raw {@link Query} commodity with the given {@link DataTarget} pre-set — equivalent to
+	 * {@link Datastore#query(DataTarget)}.
+	 * <p>
+	 * Use this when you need to run a query that is not mapped to a bean class. For bean-mapped queries prefer
+	 * {@link #query(Class)}.
+	 * </p>
+	 * @param target Query data target (not null)
+	 * @return A new {@link Query} instance with target already set
+	 * @since 5.5.2
+	 */
+	default Query query(DataTarget<?> target) {
+		ObjectUtils.argumentNotNull(target, "Query target must be not null");
+		return query().target(target);
+	}
 
 	// Transactions
 
