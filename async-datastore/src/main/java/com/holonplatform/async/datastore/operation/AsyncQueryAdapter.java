@@ -28,6 +28,15 @@ import com.holonplatform.core.query.QueryProjection;
  * <p>
  * The {@link Stream} of query results is provided using a {@link CompletionStage} to handle the results asynchronously.
  * </p>
+ * <p>
+ * <b>Implementation note:</b> this interface only declares the asynchronous query execution contract - the actual
+ * thread pool or {@link java.util.concurrent.Executor} used to run the (typically blocking) query operation and
+ * complete the returned {@link CompletionStage} is entirely up to the concrete adapter implementation. When the
+ * underlying query execution is I/O-bound and blocking (e.g. a JDBC or JPA query), implementations are encouraged to
+ * run it using a virtual-thread-per-task executor (see {@link java.util.concurrent.Executors#newVirtualThreadPerTaskExecutor()}
+ * or, in a Spring context, {@code org.springframework.core.task.VirtualThreadTaskExecutor}) instead of a fixed-size
+ * platform thread pool, to avoid pool-size bottlenecks under high concurrency.
+ * </p>
  * 
  * @param <C> Query configuration type
  * 

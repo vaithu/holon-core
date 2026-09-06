@@ -15,6 +15,7 @@
  */
 package com.holonplatform.core.property;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -93,7 +94,7 @@ public interface TemporalProperty<T> extends PathProperty<T>, TemporalQueryExpre
 	}
 
 	/**
-	 * Create a new {@link localDateTime} type {@link TemporalProperty}.
+	 * Create a new {@link LocalDateTime} type {@link TemporalProperty}.
 	 * @param name Property name (not null)
 	 * @return {@link TemporalProperty} builder
 	 */
@@ -117,6 +118,15 @@ public interface TemporalProperty<T> extends PathProperty<T>, TemporalQueryExpre
 	 */
 	static TemporalPropertyBuilder<OffsetDateTime> offsetDateTime(String name) {
 		return create(name, OffsetDateTime.class);
+	}
+
+	/**
+	 * Create a new {@link Instant} type {@link TemporalProperty}.
+	 * @param name Property name (not null)
+	 * @return {@link TemporalProperty} builder
+	 */
+	static TemporalPropertyBuilder<Instant> instant(String name) {
+		return create(name, Instant.class);
 	}
 
 	/**

@@ -1,0 +1,41 @@
+/*
+ * Copyright 2016-2017 Axioma srl.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package com.holonplatform.spring.security.observability;
+
+import io.micrometer.observation.Observation.Context;
+import io.micrometer.observation.ObservationConvention;
+
+/**
+ * A Micrometer {@link ObservationConvention} contract for {@link AuthenticationObservationContext}, defining the
+ * observation name, contextual name and key values (tags) to associate to an authentication attempt observation.
+ * 
+ * @since 10.0.0
+ * 
+ * @see DefaultAuthenticationObservationConvention
+ */
+public interface AuthenticationObservationConvention extends ObservationConvention<AuthenticationObservationContext> {
+
+	/*
+	 * (non-Javadoc)
+	 * @see io.micrometer.observation.ObservationConvention#supportsContext(io.micrometer.observation.Observation.
+	 * Context)
+	 */
+	@Override
+	default boolean supportsContext(Context context) {
+		return context instanceof AuthenticationObservationContext;
+	}
+
+}

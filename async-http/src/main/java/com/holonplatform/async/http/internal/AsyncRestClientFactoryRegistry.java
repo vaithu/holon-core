@@ -15,8 +15,6 @@
  */
 package com.holonplatform.async.http.internal;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -137,22 +135,16 @@ public enum AsyncRestClientFactoryRegistry {
 		List<AsyncRestClientFactory> restClientFactories = factories.get(serviceClassLoader);
 
 		if (restClientFactories == null) {
-			restClientFactories = AccessController.doPrivileged(new PrivilegedAction<List<AsyncRestClientFactory>>() {
-				@Override
-				public List<AsyncRestClientFactory> run() {
-					LinkedList<AsyncRestClientFactory> result = new LinkedList<>();
-					ServiceLoader<AsyncRestClientFactory> serviceLoader = ServiceLoader
-							.load(AsyncRestClientFactory.class, serviceClassLoader);
-					for (AsyncRestClientFactory factory : serviceLoader) {
-						result.add(factory);
-						LOGGER.debug(() -> "Loaded and registered AsyncRestClientFactory ["
-								+ factory.getClass().getName() + "]");
-					}
-					// sort
-					Collections.sort(result, PRIORITY_COMPARATOR);
-					return result;
-				}
-			});
+			LinkedList<AsyncRestClientFactory> result = new LinkedList<>();
+			ServiceLoader<AsyncRestClientFactory> serviceLoader = ServiceLoader.load(AsyncRestClientFactory.class,
+					serviceClassLoader);
+			for (AsyncRestClientFactory factory : serviceLoader) {
+				result.add(factory);
+				LOGGER.debug(() -> "Loaded and registered AsyncRestClientFactory [" + factory.getClass().getName() + "]");
+			}
+			// sort
+			Collections.sort(result, PRIORITY_COMPARATOR);
+			restClientFactories = result;
 			factories.put(serviceClassLoader, restClientFactories);
 		}
 		return restClientFactories;

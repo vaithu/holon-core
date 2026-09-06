@@ -53,6 +53,15 @@ import com.holonplatform.core.property.PropertySet;
  * Extends {@link ExpressionResolverSupport} to allow {@link ExpressionResolver}s registration, which can be used to
  * extend and/or customize the datastore operations.
  * </p>
+ * <p>
+ * <b>Implementation note:</b> this API only defines the asynchronous operations contract - it does not create or
+ * manage any thread pool itself. The {@link CompletionStage}s returned by the operation methods are completed by
+ * the concrete {@link AsyncDatastore} implementation (typically through an
+ * {@link com.holonplatform.async.datastore.operation.AsyncQueryAdapter} or equivalent operation adapter). When such
+ * implementations execute blocking, I/O-bound work (e.g. JDBC/JPA calls) on a background thread pool, using a
+ * virtual-thread-per-task executor (see {@link java.util.concurrent.Executors#newVirtualThreadPerTaskExecutor()}) is
+ * recommended over a fixed-size platform thread pool to better handle high-concurrency workloads.
+ * </p>
  * 
  * @see Datastore
  *

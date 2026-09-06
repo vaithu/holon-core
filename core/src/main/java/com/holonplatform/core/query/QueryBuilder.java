@@ -66,27 +66,22 @@ public interface QueryBuilder<Q extends QueryBuilder<Q>> extends QueryFilterSupp
 	Q restrict(int limit, int offset);
 
 	/**
-	 * Page the fetched result set
-	 * @param page Results page. Must be &gt; 0. A value &lt;= 0 indicates no page.
+	 * Convenience method to paginate query results using limit and offset arithmetic.
+	 * <p>
+	 * Equivalent to calling {@link #restrict(int, int)} with {@code limit = pageSize} and
+	 * {@code offset = page * pageSize}. This is the preferred way to paginate: it issues a single
+	 * data-fetching query and <strong>never</strong> triggers a count query automatically.
+	 * Use {@link com.holonplatform.core.query.QueryResults#count()} explicitly when a total count
+	 * is actually required.
+	 * </p>
+	 * @param page Zero-based page index (must be &gt;= 0)
+	 * @param pageSize Number of results per page (must be &gt; 0)
 	 * @return this
+	 * @since 5.5.2
 	 */
-//	Q page(int page);
-
-	/**
-	 * Starts the query results at a particular zero-based pageSize.
-	 * @param pageSize Results pageSize 0-based index. Must be &gt;= 0.
-	 * @return this
-	 */
-//	Q pageSize(int pageSize);
-
-	/**
-	 * Convenience method to set {@link #page(int)} and {@link #pageSize(int)} of query results both in one call
-	 * @param page page Results page. Must be &gt; 0. A value &lt;= 0 indicates no page.
-	 * @param pageSize pageSize Results pageSize 0-based index. Must be &gt;= 0.
-	 * @return this
-	 */
-//	Q pageable(int page, int pageSize);
-
+	default Q pageable(int page, int pageSize) {
+		return restrict(pageSize, page * pageSize);
+	}
 
 	/**
 	 * Add a generic parameter to query

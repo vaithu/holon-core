@@ -16,11 +16,21 @@
 package com.holonplatform.core.internal.utils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
  * String formatting utils.
- * 
+ *
  * @since 5.0.0
  */
 public final class FormatUtils implements Serializable {
@@ -212,5 +222,106 @@ public final class FormatUtils implements Serializable {
 		ObjectUtils.argumentNotNull(email, "Email must be not null");
 		return Pattern.matches(EMAIL_RFC822_REGEXP_PATTERN, email);
 	}
+
+	/**
+	 * Converts a technical identifier into sentence case.
+	 * <p>
+	 * Camel case, snake case, and kebab case separators are normalized to spaces,
+	 * then the first word is capitalized and the remaining words are lowercased.
+	 *
+	 * @param name Input name
+	 * @return Sentence-cased text, or an empty string if the input is blank
+	 */
+	public static String toSentenceCase(String name) {
+		if (name == null || name.isBlank()) {
+			return "";
+		}
+		// Normalize common identifier separators into spaces.
+		String spaced = name.replaceAll("([a-z])([A-Z])", "$1 $2") // lowerUpper -> lower Upper
+				.replaceAll("([A-Z]+)([A-Z][a-z])", "$1 $2") // ABCDef -> ABC Def
+				.replaceAll("[_\\-]+", " "); // snake_case / kebab-case -> spaces
+
+		String[] words = spaced.trim().split("\\s+");
+		if (words.length == 0) {
+			return "";
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < words.length; i++) {
+			String word = words[i];
+			if (word.isEmpty()) {
+				continue;
+			}
+			if (i == 0) {
+				// Capitalize only the first word.
+				sb.append(Character.toUpperCase(word.charAt(0)));
+				if (word.length() > 1) {
+					sb.append(word.substring(1).toLowerCase());
+				}
+			} else {
+				sb.append(' ');
+				sb.append(word.toLowerCase());
+			}
+		}
+		return sb.toString();
+	}
+
+    static final String DECIMAL_ZERO = "0.00";
+    static final Locale currentLocale = Locale.getDefault();
+
+    /**
+     * 3 letter month name + day number E.g: Nov 20
+     */
+    public static final DateTimeFormatter MONTH_AND_DAY_FORMATTER = DateTimeFormatter.ofPattern("MMM d",
+            currentLocale	);
+
+    /**
+     * Full day name. E.g: Monday.
+     */
+    public static final DateTimeFormatter WEEKDAY_FULLNAME_FORMATTER = DateTimeFormatter.ofPattern("EEEE",
+            currentLocale);
+
+    /**
+     * For getting the week of the year from the local date.
+     */
+    public static final TemporalField WEEK_OF_YEAR_FIELD = WeekFields.of(currentLocale).weekOfWeekBasedYear();
+
+    /**
+     * 3 letter day of the week + day number. E.g: Mon 20
+     */
+    public static final DateTimeFormatter SHORT_DAY_FORMATTER = DateTimeFormatter.ofPattern("E d",
+            currentLocale);
+
+    /**
+     * Full date format. E.g: 03.03.2001
+     */
+    public static final DateTimeFormatter FULL_DATE_FORMATTER = DateTimeFormatter
+            .ofPattern("dd.MM.yyyy", currentLocale);
+
+    /**
+     * Formats hours with am/pm. E.g: 2:00 PM
+     */
+    public static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter
+            .ofPattern("h:mm a", currentLocale);
+
+    /**
+     * Returns the month name of the date, according to the application locale.
+     * @param date {@link LocalDate}
+     * @return The full month name. E.g: November
+     */
+    public static String getFullMonthName(LocalDate date) {
+        return date.getMonth().getDisplayName(TextStyle.FULL, currentLocale);
+    }
+
+    public static String formatAsCurrency(int valueInCents) {
+        return NumberFormat.getCurrencyInstance(currentLocale).format(BigDecimal.valueOf(valueInCents, 2));
+    }
+
+    public static DecimalFormat getUiPriceFormatter() {
+        DecimalFormat formatter = new DecimalFormat("#" + DECIMAL_ZERO,
+                DecimalFormatSymbols.getInstance(currentLocale));
+        formatter.setGroupingUsed(false);
+        return formatter;
+    }
 
 }

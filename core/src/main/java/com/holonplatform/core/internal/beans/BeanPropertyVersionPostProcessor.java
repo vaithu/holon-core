@@ -17,7 +17,6 @@ package com.holonplatform.core.internal.beans;
 
 import com.holonplatform.core.beans.BeanProperty;
 import com.holonplatform.core.beans.BeanPropertyPostProcessor;
-import com.holonplatform.core.beans.Identifier;
 import com.holonplatform.core.beans.Version;
 import com.holonplatform.core.internal.Logger;
 import jakarta.annotation.Priority;

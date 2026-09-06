@@ -75,7 +75,7 @@ public class SpringSecurityPermission implements Permission {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((authority == null) ? 0 : authority.hashCode());
+		result = prime * result + ((getPermission().orElse(null) == null) ? 0 : getPermission().get().hashCode());
 		return result;
 	}
 
@@ -89,15 +89,14 @@ public class SpringSecurityPermission implements Permission {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Permission))
 			return false;
-		SpringSecurityPermission other = (SpringSecurityPermission) obj;
-		if (authority == null) {
-			if (other.authority != null)
-				return false;
-		} else if (!authority.equals(other.authority))
-			return false;
-		return true;
+		Permission other = (Permission) obj;
+		final String permission = getPermission().orElse(null);
+		if (permission == null) {
+			return !other.getPermission().isPresent();
+		}
+		return permission.equals(other.getPermission().orElse(null));
 	}
 
 }

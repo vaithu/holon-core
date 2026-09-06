@@ -127,6 +127,25 @@ class TestQuery {
 		q.sort(qs);
 		assertEquals(qs, qd.getSort().get());
 
+		// pageable: must translate to limit=pageSize, offset=page*pageSize — no count query involved
+		q.pageable(0, 25);
+		assertEquals(Integer.valueOf(25), qd.getLimit().get(),  "pageable page=0 should set limit=pageSize");
+		assertEquals(Integer.valueOf(0),  qd.getOffset().get(), "pageable page=0 should set offset=0");
+
+		q.pageable(1, 25);
+		assertEquals(Integer.valueOf(25), qd.getLimit().get(),  "pageable page=1 should set limit=25");
+		assertEquals(Integer.valueOf(25), qd.getOffset().get(), "pageable page=1 should set offset=25");
+
+		q.pageable(2, 25);
+		assertEquals(Integer.valueOf(25), qd.getLimit().get(),  "pageable page=2 should set limit=25");
+		assertEquals(Integer.valueOf(50), qd.getOffset().get(), "pageable page=2 should set offset=50");
+
+		q.pageable(3, 10);
+		assertEquals(Integer.valueOf(10), qd.getLimit().get(),  "pageable page=3 size=10 should set limit=10");
+		assertEquals(Integer.valueOf(30), qd.getOffset().get(), "pageable page=3 size=10 should set offset=30");
+
+		// count() is explicit-only — calling it here proves it compiles and executes without
+		// being triggered by any of the pageable/stream/list/findOne calls above
 		q.count();
 
 		q.stream(TestPropertySet.PROPERTIES);

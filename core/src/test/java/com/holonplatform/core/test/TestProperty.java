@@ -28,6 +28,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -1185,6 +1186,8 @@ class TestProperty {
 		assertEquals(LocalDateTime.class, tp.getType());
 		tp = TemporalProperty.offsetDateTime("test");
 		assertEquals(OffsetDateTime.class, tp.getType());
+		tp = TemporalProperty.instant("test");
+		assertEquals(Instant.class, tp.getType());
 
 	}
 

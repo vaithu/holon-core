@@ -67,9 +67,14 @@ public interface BeanQuery<T> extends BeanQueryBuilder<BeanQuery<T>> {
 	}
 
 	/**
-	 * Count all the results of a query.
+	 * Execute a <strong>separate</strong> COUNT query and return the total number of results.
+	 * <p>
+	 * <strong>This method is explicit-only.</strong> It is <em>never</em> called automatically by any other query
+	 * method (such as {@link #stream()} or {@link #list()}). Use {@link #pageable(int, int)} for offset-based
+	 * pagination that avoids issuing count queries entirely.
+	 * </p>
 	 * @return Total results count
-	 * @throws DataAccessException Error in query execution
+	 * @throws com.holonplatform.core.exceptions.DataAccessException Error in query execution
 	 */
 	long count();
 

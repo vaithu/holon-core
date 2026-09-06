@@ -20,6 +20,12 @@ import com.holonplatform.spring.EnableBeanContext;
 
 /**
  * JDBC module logger provider.
+ * <p>
+ * This logger is a thin wrapper around SLF4J (see {@link Logger#create(String)}) and does not configure or override
+ * the underlying logging framework appender or output pattern in any way. As a consequence, it is fully compatible
+ * with the Spring Boot structured logging support (the {@code logging.structured.format.*} configuration
+ * properties): enabling structured logging on the application side requires no Holon-specific configuration.
+ * </p>
  *
  * @since 5.0.0
  */

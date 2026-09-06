@@ -15,8 +15,6 @@
  */
 package com.holonplatform.core.internal.datastore;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -151,13 +149,7 @@ public abstract class AbstractDatastore<X extends DatastoreCommodityContext>
 
 			// load from META-INF/services
 			final List<DatastoreCommodityFactory> factories = new LinkedList<>();
-			Iterable<? extends DatastoreCommodityFactory> loaded = AccessController
-					.doPrivileged(new PrivilegedAction<Iterable<? extends DatastoreCommodityFactory>>() {
-						@Override
-						public Iterable<? extends DatastoreCommodityFactory> run() {
-							return ServiceLoader.load(cft, classLoader);
-						}
-					});
+			Iterable<? extends DatastoreCommodityFactory> loaded = ServiceLoader.load(cft, classLoader);
 			loaded.forEach(f -> {
 				factories.add(f);
 			});
@@ -196,13 +188,7 @@ public abstract class AbstractDatastore<X extends DatastoreCommodityContext>
 					+ "] using ServiceLoader with service name: " + ert.getName());
 
 			// load from META-INF/services
-			Iterable<? extends ExpressionResolver> loaded = AccessController
-					.doPrivileged(new PrivilegedAction<Iterable<? extends ExpressionResolver>>() {
-						@Override
-						public Iterable<? extends ExpressionResolver> run() {
-							return ServiceLoader.load(ert, classLoader);
-						}
-					});
+			Iterable<? extends ExpressionResolver> loaded = ServiceLoader.load(ert, classLoader);
 			loaded.forEach(er -> {
 				addExpressionResolver(er);
 				LOGGER.debug(() -> "Registered ExpressionResolver [" + er.getClass().getName() + "]");

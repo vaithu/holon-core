@@ -15,18 +15,17 @@
  */
 package com.holonplatform.core.internal.beans;
 
+import java.util.Optional;
+
 import com.holonplatform.core.beans.BeanDataTarget;
 import com.holonplatform.core.beans.BeanPropertySet;
 import com.holonplatform.core.internal.utils.ObjectUtils;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-
-import java.util.Optional;
 
 /**
  * Default {@link BeanDataTarget} implementation.
  *
  * @param <T> Bean type
+ *
  * @since 5.1.0
  */
 public class DefaultBeanDataTarget<T> implements BeanDataTarget<T> {
@@ -39,34 +38,14 @@ public class DefaultBeanDataTarget<T> implements BeanDataTarget<T> {
 
     /**
      * Constructor.
-     *
      * @param beanClass Bean class (not null)
      */
     public DefaultBeanDataTarget(Class<? extends T> beanClass) {
         super();
         ObjectUtils.argumentNotNull(beanClass, "Bean class must be not null");
         this.beanClass = beanClass;
-        this.name = getEntityName();//beanClass.getSimpleName().toLowerCase();
+        this.name = beanClass.getSimpleName().toLowerCase();
         this.dataPath = BeanPropertySet.create(beanClass).getDataPath().orElse(null);
-    }
-/*
-	String tableName = getTableName();
-		this.name = tableName != null ? tableName : beanClass.getSimpleName().toLowerCase();
-
-	private String getTableName() {
-		if (beanClass.isAnnotationPresent(Table.class)) {
-			Table table = beanClass.getAnnotation(Table.class);
-			return table.name();
-		}
-		return beanClass.getSimpleName().toLowerCase();
-	}
-*/
-    private String getEntityName() {
-        if (beanClass.isAnnotationPresent(Entity.class)) {
-            Entity entity = beanClass.getAnnotation(Entity.class);
-            return entity.name();
-        }
-        return beanClass.getSimpleName().toLowerCase();
     }
 
     /*
