@@ -20,9 +20,12 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
@@ -221,6 +224,33 @@ public final class FormatUtils implements Serializable {
 	public static boolean isValidEmailAddress(CharSequence email) {
 		ObjectUtils.argumentNotNull(email, "Email must be not null");
 		return Pattern.matches(EMAIL_RFC822_REGEXP_PATTERN, email);
+	}
+
+	/**
+	 * Normalize a {@link Temporal} value to make it suitable for date/time formatting.
+	 * <p>
+	 * Some {@link Temporal} types, such as {@link Instant}, do not support the date and time fields required by the
+	 * localized date/time formatters. Such values are converted to a {@link ZonedDateTime} using the default time zone.
+	 * </p>
+	 * @param temporal The temporal value (may be null)
+	 * @return A temporal value which supports the date and time fields, or the given value if no conversion is required
+	 */
+	public static Temporal toFormattableTemporal(Temporal temporal) {
+		return toFormattableTemporal(temporal, null);
+	}
+
+	/**
+	 * Normalize a {@link Temporal} value to make it suitable for date/time formatting, using given time zone.
+	 * @param temporal The temporal value (may be null)
+	 * @param zone The time zone to use to convert instant-based temporal values (may be null, the system default time
+	 *        zone is used in such case)
+	 * @return A temporal value which supports the date and time fields, or the given value if no conversion is required
+	 */
+	public static Temporal toFormattableTemporal(Temporal temporal, ZoneId zone) {
+		if (temporal instanceof Instant instant) {
+			return instant.atZone((zone != null) ? zone : ZoneId.systemDefault());
+		}
+		return temporal;
 	}
 
 	/**

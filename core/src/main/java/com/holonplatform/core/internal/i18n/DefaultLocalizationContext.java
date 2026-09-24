@@ -17,6 +17,7 @@ package com.holonplatform.core.internal.i18n;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.util.Date;
@@ -96,6 +97,11 @@ public class DefaultLocalizationContext implements LocalizationContext, MessageR
 	 * Default times TemporalFormat style
 	 */
 	private TemporalFormat defaultTimeFormatStyle;
+
+	/**
+	 * Default time zone for instant-based temporal values
+	 */
+	private ZoneId defaultZone;
 
 	/**
 	 * Default boolean localization
@@ -503,6 +509,48 @@ public class DefaultLocalizationContext implements LocalizationContext, MessageR
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.holonplatform.core.i18n.LocalizationContext#getZone()
+	 */
+	@Override
+	public Optional<ZoneId> getZone() {
+		final Localization lzn = getLocalization();
+		if (lzn != null) {
+			final Optional<ZoneId> zone = getLocalizationZone(lzn);
+			if (zone.isPresent()) {
+				return zone;
+			}
+		}
+		return Optional.ofNullable(defaultZone);
+	}
+
+	/**
+	 * Get the time zone bound to given {@link Localization}, checking the parent localizations hierarchy.
+	 * @param localization The localization (not null)
+	 * @return Optional localization time zone
+	 */
+	private static Optional<ZoneId> getLocalizationZone(Localization localization) {
+		Localization lzn = localization;
+		while (lzn != null) {
+			final Optional<ZoneId> zone = lzn.getZone();
+			if (zone.isPresent()) {
+				return zone;
+			}
+			lzn = lzn.getParent().orElse(null);
+		}
+		return Optional.empty();
+	}
+
+	/**
+	 * Set the default time zone to use for instant-based temporal values
+	 * @param zone the default time zone to set
+	 */
+	public void setDefaultZone(ZoneId zone) {
+		this.defaultZone = zone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.holonplatform.core.i18n.LocalizationContext#format(java.util.Date,
 	 * com.holonplatform.core.i18n.TemporalFormat,
 	 * com.holonplatform.core.i18n.TemporalFormat)
@@ -596,8 +644,10 @@ public class DefaultLocalizationContext implements LocalizationContext, MessageR
 	@Override
 	public String format(Temporal temporal, TemporalFormat dateFormat, TemporalFormat timeFormat) {
 		if (temporal != null) {
-			return getDateTimeFormatter(TemporalType.getTemporalType(temporal).orElse(null), dateFormat, timeFormat)
-					.format(temporal);
+			// some temporal types, e.g. Instant, do not support the fields required by the date/time formatters
+			final Temporal value = FormatUtils.toFormattableTemporal(temporal, getZone().orElse(null));
+			return getDateTimeFormatter(TemporalType.getTemporalType(value).orElse(null), dateFormat, timeFormat)
+					.format(value);
 		}
 		return null;
 	}
@@ -958,6 +1008,17 @@ public class DefaultLocalizationContext implements LocalizationContext, MessageR
 		@Override
 		public Builder withDefaultTimeTemporalFormat(TemporalFormat format) {
 			context.setDefaultTimeFormatStyle(format);
+			return this;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see com.holonplatform.core.i18n.LocalizationContext.Builder#withDefaultZone(java.time.ZoneId)
+		 */
+		@Override
+		public Builder withDefaultZone(ZoneId zone) {
+			context.setDefaultZone(zone);
 			return this;
 		}
 

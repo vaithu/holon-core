@@ -31,6 +31,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -484,6 +485,16 @@ public class DefaultBeanIntrospector implements BeanIntrospector {
                 (annotations != null) ? annotations : new Annotation[0]).parent(parent)
                 .readMethod(propertyDescriptor.getReadMethod()).writeMethod(propertyDescriptor.getWriteMethod())
                 .field(propertyField).annotations(annotations);
+        if (TypeUtils.isBoolean(propertyDescriptor.getPropertyType()) && !property.getWriteMethod().isPresent()) {
+            try {
+                Method writeMethod = findBooleanWriteMethod(beanClass, propertyDescriptor);
+                if (writeMethod != null) {
+                    property.writeMethod(writeMethod);
+                }
+            } catch (SecurityException e) {
+                // keep field fallback
+            }
+        }
 
         if (parent == null && parentPath != null) {
             property.parent(parentPath);
@@ -572,8 +583,41 @@ public class DefaultBeanIntrospector implements BeanIntrospector {
         return null;
     }
 
+    private static String capitalize(String value) {
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
+        if (value.length() == 1) {
+            return value.toUpperCase(Locale.ROOT);
+        }
+        return Character.toUpperCase(value.charAt(0)) + value.substring(1);
+    }
+
+    private static Method findBooleanWriteMethod(Class<?> beanClass, PropertyDescriptor descriptor) {
+        String methodName = "set" + capitalize(descriptor.getName());
+        Class<?>[] candidates = descriptor.getPropertyType() == Boolean.class
+                ? new Class<?>[] { Boolean.class, boolean.class }
+                : new Class<?>[] { boolean.class, Boolean.class };
+        for (Class<?> parameterType : candidates) {
+            try {
+                return beanClass.getMethod(methodName, parameterType);
+            } catch (NoSuchMethodException e) {
+                // try next candidate
+            }
+        }
+        for (Method method : beanClass.getMethods()) {
+            if (method.getName().equals(methodName) && method.getParameterCount() == 1) {
+                Class<?> parameterType = method.getParameterTypes()[0];
+                if (TypeUtils.isBoolean(parameterType)) {
+                    return method;
+                }
+            }
+        }
+        return null;
+    }
+
     /*
-     * Check a a property type should be considered a potentially nested bean property container.
+     * Check a property type should be considered a potentially nested bean property container.
      */
     private static boolean isIntrospectable(Class<?> propertyClass) {
         return propertyClass != Object.class && !propertyClass.isArray() && !propertyClass.isPrimitive()

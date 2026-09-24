@@ -16,6 +16,7 @@
 package com.holonplatform.core.i18n;
 
 import java.io.Serializable;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -65,6 +66,16 @@ public interface Localization extends Serializable {
 	Optional<TemporalFormat> getDefaultTimeTemporalFormat();
 
 	/**
+	 * Optional time zone to use to format temporal values which represent an instant on the time-line, for example
+	 * {@link java.time.Instant} values.
+	 * @return The localization time zone, or an empty Optional to use the default time zone
+	 * @since 12.0.0
+	 */
+	default Optional<ZoneId> getZone() {
+		return Optional.empty();
+	}
+
+	/**
 	 * Builder to create {@link Localization} instances
 	 * @param locale Locale bound to Localization (not null)
 	 * @return LocalizationBuilder
@@ -107,6 +118,17 @@ public interface Localization extends Serializable {
 		 * @return this
 		 */
 		Builder defaultTimeTemporalFormat(TemporalFormat defaultTimeTemporalFormat);
+
+		/**
+		 * Set the time zone to use to format temporal values which represent an instant on the time-line, for example
+		 * {@link java.time.Instant} values.
+		 * @param zone The time zone to set (may be null)
+		 * @return this
+		 * @since 12.0.0
+		 */
+		default Builder zone(ZoneId zone) {
+			throw new UnsupportedOperationException("Time zone configuration is not supported by this builder");
+		}
 
 		/**
 		 * Build {@link Localization} instance

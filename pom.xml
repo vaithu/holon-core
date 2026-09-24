@@ -2,9 +2,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.holon-platform</groupId>
+		<groupId>com.iyensoft</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.1.7</version>
+		<version>2.1.0</version>
 	</parent>
 
 	<groupId>com.holon-platform.core</groupId>
@@ -63,7 +63,7 @@
 		<servlet.api>6.1.0</servlet.api>
 
 		<!-- slf4j -->
-		<slf4j.version>2.0.18</slf4j.version>
+		<slf4j.version>2.0.19</slf4j.version>
 
         <!-- Apache commons lang -->
         <commons.lang.version>3.19.0</commons.lang.version>
@@ -72,13 +72,13 @@
         <jsonwebtoken.version>0.12.6</jsonwebtoken.version>
 
 		<!-- Spring -->
-		<spring-framework.version>7.0.8</spring-framework.version>
+		<spring-framework.version>7.0.9</spring-framework.version>
 
 		<!-- Spring Security -->
-	        <spring.security.version>7.1.0</spring.security.version>
+	        <spring.security.version>7.1.1</spring.security.version>
 
 		<!-- Spring Boot -->
-	        <spring.boot.version>4.1.0</spring.boot.version>
+	        <spring.boot.version>4.1.1</spring.boot.version>
 
 		<!-- JavaBeans Validation -->
 		<jakarta.validation.api.version>3.1.1</jakarta.validation.api.version>
@@ -87,7 +87,7 @@
 	        <jackson.databind.version>2.21.4</jackson.databind.version>
 	        <jackson.jakarta.rs.version>2.21.4</jackson.jakarta.rs.version>
 
-		<!-- JAX-RS API (aligned with Spring Boot 4.1.0 / Jersey 4.x) -->
+		<!-- JAX-RS API (aligned with Spring Boot 4.1.1 / Jersey 4.x) -->
 		<ws.rs.api.version>4.0.0</ws.rs.api.version>
 
 		<!-- Test -->
@@ -95,12 +95,12 @@
 	        <mockito.version>5.23.0</mockito.version>
 
 		<p6spy.version>2.0.1</p6spy.version>
-		<hibernate.version>7.4.1.Final</hibernate.version>
+		<hibernate.version>7.4.5.Final</hibernate.version>
 
 		<!-- Micrometer Observation API (optional, for downstream Observability SPI adoption) -->
 		<micrometer.version>1.17.1</micrometer.version>
 
-		<!-- JAXB runtime (glassfish-jaxb.version=4.0.9 in Spring Boot 4.1.0 BOM) -->
+		<!-- JAXB runtime (glassfish-jaxb.version=4.0.9 in Spring Boot 4.1.1 BOM) -->
 		<jaxb.runtime.version>4.0.9</jaxb.runtime.version>
 
 		<!-- Maven plugin versions -->
@@ -477,6 +477,18 @@
 				<groupId>com.github.gavlyukovskiy</groupId>
 				<artifactId>p6spy-spring-boot-starter</artifactId>
 				<version>${p6spy.version}</version>
+			</dependency>
+
+			<!-- pin transitive JUnit Jupiter artifacts (e.g. pulled by jersey-test-framework) to the managed version -->
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter</artifactId>
+				<version>${junit.jupiter.api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-params</artifactId>
+				<version>${junit.jupiter.api.version}</version>
 			</dependency>
 
 		</dependencies>
