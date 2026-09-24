@@ -74,10 +74,16 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.github.gavlyukovskiy/p6spy-spring-boot-starter -->
+		<!-- https://mvnrepository.com/artifact/com.github.gavlyukovskiy/p6spy-spring-boot-starter
+		     Optional: this starter auto-configures a P6Spy DataSource decorator. Leaking it
+		     transitively would force SQL logging on every consumer, and double-proxy the
+		     connection for consumers that already enable P6Spy themselves (e.g. via a
+		     `jdbc:p6spy:` URL), making every statement be logged twice. Applications that
+		     want P6Spy SQL logging must declare this starter explicitly. -->
 		<dependency>
 			<groupId>com.github.gavlyukovskiy</groupId>
 			<artifactId>p6spy-spring-boot-starter</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>

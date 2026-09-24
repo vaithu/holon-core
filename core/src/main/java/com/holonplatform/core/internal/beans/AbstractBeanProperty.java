@@ -16,7 +16,6 @@
 package com.holonplatform.core.internal.beans;
 
 import java.lang.annotation.Annotation;
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -44,17 +43,32 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	/**
 	 * Getter method
 	 */
-	private transient WeakReference<Method> readMethod;
+	private transient Method readMethod;
 
 	/**
 	 * Setter method
 	 */
-	private transient WeakReference<Method> writeMethod;
+	private transient Method writeMethod;
 
 	/**
 	 * Field
 	 */
-	private transient WeakReference<Field> field;
+	private transient Field field;
+
+	/**
+	 * Getter method descriptor, to restore the method reference after deserialization
+	 */
+	private MemberDescriptor readMethodDescriptor;
+
+	/**
+	 * Setter method descriptor, to restore the method reference after deserialization
+	 */
+	private MemberDescriptor writeMethodDescriptor;
+
+	/**
+	 * Field descriptor, to restore the field reference after deserialization
+	 */
+	private MemberDescriptor fieldDescriptor;
 
 	/**
 	 * Declared field annotations
@@ -119,7 +133,10 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	 */
 	@Override
 	public Optional<Method> getReadMethod() {
-		return Optional.ofNullable(readMethod != null ? readMethod.get() : null);
+		if (readMethod == null) {
+			readMethod = resolveMethod(readMethodDescriptor);
+		}
+		return Optional.ofNullable(readMethod);
 	}
 
 	/*
@@ -128,7 +145,10 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	 */
 	@Override
 	public Optional<Method> getWriteMethod() {
-		return Optional.ofNullable(writeMethod != null ? writeMethod.get() : null);
+		if (writeMethod == null) {
+			writeMethod = resolveMethod(writeMethodDescriptor);
+		}
+		return Optional.ofNullable(writeMethod);
 	}
 
 	/*
@@ -137,7 +157,10 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	 */
 	@Override
 	public Optional<Field> getField() {
-		return Optional.ofNullable(field != null ? field.get() : null);
+		if (field == null) {
+			field = resolveField(fieldDescriptor);
+		}
+		return Optional.ofNullable(field);
 	}
 
 	/*
@@ -183,7 +206,8 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	 */
 	@Override
 	public BeanProperty.Builder<T> readMethod(Method method) {
-		this.readMethod = (method != null) ? new WeakReference<>(method) : null;
+		this.readMethod = method;
+		this.readMethodDescriptor = MemberDescriptor.create(method);
 		return this;
 	}
 
@@ -193,7 +217,8 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	 */
 	@Override
 	public BeanProperty.Builder<T> writeMethod(Method method) {
-		this.writeMethod = (method != null) ? new WeakReference<>(method) : null;
+		this.writeMethod = method;
+		this.writeMethodDescriptor = MemberDescriptor.create(method);
 		return this;
 	}
 
@@ -203,7 +228,8 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	 */
 	@Override
 	public BeanProperty.Builder<T> field(Field field) {
-		this.field = (field != null) ? new WeakReference<>(field) : null;
+		this.field = field;
+		this.fieldDescriptor = MemberDescriptor.create(field);
 		return this;
 	}
 
@@ -288,6 +314,89 @@ public abstract class AbstractBeanProperty<T> extends AbstractPathProperty<T, Be
 	@Override
 	public String toString() {
 		return "BeanProperty [getName()=" + getName() + ", getType()=" + getType() + "]";
+	}
+
+	/**
+	 * Resolve the {@link Method} described by given descriptor, if available.
+	 * @param descriptor The member descriptor (may be null)
+	 * @return The resolved method, or <code>null</code> if not available
+	 */
+	private static Method resolveMethod(MemberDescriptor descriptor) {
+		if (descriptor == null) {
+			return null;
+		}
+		try {
+			Method method = descriptor.getDeclaringClass().getDeclaredMethod(descriptor.getName(),
+					descriptor.getParameterTypes());
+			if (!java.lang.reflect.Modifier.isPublic(descriptor.getDeclaringClass().getModifiers())) {
+				method.trySetAccessible();
+			}
+			return method;
+		} catch (NoSuchMethodException | SecurityException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Resolve the {@link Field} described by given descriptor, if available.
+	 * @param descriptor The member descriptor (may be null)
+	 * @return The resolved field, or <code>null</code> if not available
+	 */
+	private static Field resolveField(MemberDescriptor descriptor) {
+		if (descriptor == null) {
+			return null;
+		}
+		try {
+			return descriptor.getDeclaringClass().getDeclaredField(descriptor.getName());
+		} catch (NoSuchFieldException | SecurityException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Serializable descriptor of a class member ({@link Method} or {@link Field}), used to restore the member
+	 * reflection reference when the transient member reference is not available, for example after property
+	 * deserialization.
+	 */
+	private static final class MemberDescriptor implements java.io.Serializable {
+
+		private static final long serialVersionUID = 1L;
+
+		private static final Class<?>[] NO_PARAMETERS = new Class<?>[0];
+
+		private final Class<?> declaringClass;
+		private final String name;
+		private final Class<?>[] parameterTypes;
+
+		private MemberDescriptor(Class<?> declaringClass, String name, Class<?>[] parameterTypes) {
+			this.declaringClass = declaringClass;
+			this.name = name;
+			this.parameterTypes = parameterTypes;
+		}
+
+		static MemberDescriptor create(Method method) {
+			return (method != null) ? new MemberDescriptor(method.getDeclaringClass(), method.getName(),
+					method.getParameterTypes()) : null;
+		}
+
+		static MemberDescriptor create(Field field) {
+			return (field != null)
+					? new MemberDescriptor(field.getDeclaringClass(), field.getName(), NO_PARAMETERS)
+					: null;
+		}
+
+		Class<?> getDeclaringClass() {
+			return declaringClass;
+		}
+
+		String getName() {
+			return name;
+		}
+
+		Class<?>[] getParameterTypes() {
+			return parameterTypes;
+		}
+
 	}
 
 }

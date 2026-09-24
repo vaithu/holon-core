@@ -19,8 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Calendar;
@@ -30,6 +35,7 @@ import org.junit.jupiter.api.Test;
 
 import com.holonplatform.core.DataMappable;
 import com.holonplatform.core.beans.BeanIntrospector;
+import com.holonplatform.core.beans.BeanProperty;
 import com.holonplatform.core.beans.BeanPropertySet;
 import com.holonplatform.core.property.BooleanProperty;
 import com.holonplatform.core.property.NumericProperty;
@@ -198,6 +204,101 @@ class TestBeanIntrospector {
 
 		assertNotEquals(p1, p2);
 		assertEquals(p1, p3);
+	}
+
+	@Test
+	void testBooleanBeanPropertyWriteMethod() {
+		BeanPropertySet<BooleanAccessorBean> set = BeanPropertySet.create(BooleanAccessorBean.class);
+
+		assertTrue(set.getProperty("active").isPresent());
+
+		BooleanAccessorBean bean = new BooleanAccessorBean();
+		set.write("active", Boolean.FALSE, bean);
+
+		assertFalse(bean.isActive());
+		assertEquals(Boolean.FALSE, set.read("active", bean));
+	}
+
+	public static final class BooleanAccessorBean {
+		private boolean active = true;
+
+		public boolean isActive() {
+		    return active;
+		}
+
+		public Boolean getActive() {
+		    return active;
+		}
+
+		public void setActive(boolean active) {
+		    this.active = active;
+		}
+	}
+
+	@Test
+	void testBeanPropertyAccessorsSurviveGarbageCollection() {
+		final BeanPropertySet<StandardBooleanBean> set = BeanPropertySet.create(StandardBooleanBean.class);
+
+		// ensure weak references have been cleared by the garbage collector
+		final java.lang.ref.WeakReference<Object> sentinel = new java.lang.ref.WeakReference<>(new Object());
+		for (int i = 0; i < 20 && sentinel.get() != null; i++) {
+			System.gc();
+		}
+		assertNull(sentinel.get());
+
+		final BeanProperty<?> property = (BeanProperty<?>) set.property("active");
+		assertTrue(property.getWriteMethod().isPresent());
+		assertTrue(property.getField().isPresent());
+
+		final StandardBooleanBean bean = new StandardBooleanBean();
+		set.write("active", Boolean.FALSE, bean);
+		assertFalse(bean.isActive());
+		assertEquals(Boolean.FALSE, set.read("active", bean));
+
+		set.write("name", "test", bean);
+		assertEquals("test", bean.getName());
+	}
+
+	@Test
+	void testBeanPropertyAccessorsSurviveSerialization() throws Exception {
+		final BeanPropertySet<StandardBooleanBean> set = BeanPropertySet.create(StandardBooleanBean.class);
+
+		final BeanProperty<?> property = (BeanProperty<?>) set.property("active");
+
+		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		try (ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+			oos.writeObject(property);
+		}
+		final BeanProperty<?> deserialized;
+		try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()))) {
+			deserialized = (BeanProperty<?>) ois.readObject();
+		}
+
+		assertTrue(deserialized.getReadMethod().isPresent());
+		assertTrue(deserialized.getWriteMethod().isPresent());
+		assertTrue(deserialized.getField().isPresent());
+	}
+
+	public static class StandardBooleanBean {
+
+		private boolean active = true;
+		private String name;
+
+		public boolean isActive() {
+			return active;
+		}
+
+		public void setActive(boolean active) {
+			this.active = active;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
 	}
 
 	@Test

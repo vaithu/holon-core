@@ -266,8 +266,11 @@ public enum DefaultStringValuePresenter implements StringValuePresenter {
 	 */
 	private static String convertTemporal(Temporal value) {
 		if (value != null) {
-			return LocalizationContext.getCurrent().filter(l -> l.isLocalized()).map((c) -> c.format(value))
-					.orElse(convertTemporalWithDefaultLocale(value));
+			final Optional<LocalizationContext> localizationContext = LocalizationContext.getCurrent();
+			// a localized context formats the value using its own time zone
+			return localizationContext.filter(l -> l.isLocalized()).map((c) -> c.format(value))
+					.orElseGet(() -> convertTemporalWithDefaultLocale(FormatUtils.toFormattableTemporal(value,
+							localizationContext.flatMap(LocalizationContext::getZone).orElse(null))));
 		}
 		return null;
 	}
@@ -340,16 +343,19 @@ public enum DefaultStringValuePresenter implements StringValuePresenter {
 	 */
 	private static String convertTemporalWithDefaultLocale(Temporal value) {
 		// use default formatters
-		final TemporalType type = TemporalType.getTemporalType(value).orElse(TemporalType.DATE);
+		final Temporal temporal = FormatUtils.toFormattableTemporal(value);
+		final TemporalType type = TemporalType.getTemporalType(temporal).orElse(TemporalType.DATE);
 		switch (type) {
 		case DATE_TIME:
 			return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).withLocale(Locale.getDefault())
-					.format(value);
+					.format(temporal);
 		case TIME:
-			return DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(Locale.getDefault()).format(value);
+			return DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(Locale.getDefault())
+					.format(temporal);
 		case DATE:
 		default:
-			return DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(Locale.getDefault()).format(value);
+			return DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(Locale.getDefault())
+					.format(temporal);
 		}
 	}
 

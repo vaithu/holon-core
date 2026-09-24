@@ -15,6 +15,7 @@
  */
 package com.holonplatform.core.internal.i18n;
 
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -52,6 +53,10 @@ public class DefaultLocalization implements Localization {
 	 * Default time format style
 	 */
 	private TemporalFormat defaultTimeTemporalFormat;
+	/*
+	 * Time zone to use for instant-based temporal values
+	 */
+	private ZoneId zone;
 
 	/**
 	 * Constructor
@@ -144,13 +149,30 @@ public class DefaultLocalization implements Localization {
 
 	/*
 	 * (non-Javadoc)
+	 * @see com.holonplatform.core.i18n.Localization#getZone()
+	 */
+	@Override
+	public Optional<ZoneId> getZone() {
+		return Optional.ofNullable(zone);
+	}
+
+	/**
+	 * Set the time zone to use to format instant-based temporal values
+	 * @param zone the time zone to set
+	 */
+	public void setZone(ZoneId zone) {
+		this.zone = zone;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "DefaultLocalization [locale=" + locale + ", parent=" + parent + ", defaultDecimalPositions="
 				+ defaultDecimalPositions + ", defaultDateTemporalFormat=" + defaultDateTemporalFormat
-				+ ", defaultTimeTemporalFormat=" + defaultTimeTemporalFormat + "]";
+				+ ", defaultTimeTemporalFormat=" + defaultTimeTemporalFormat + ", zone=" + zone + "]";
 	}
 
 	/**
@@ -208,6 +230,16 @@ public class DefaultLocalization implements Localization {
 		@Override
 		public Builder defaultTimeTemporalFormat(TemporalFormat defaultTimeTemporalFormat) {
 			localization.setDefaultTimeTemporalFormat(defaultTimeTemporalFormat);
+			return this;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see com.holonplatform.core.i18n.Localization.Builder#zone(java.time.ZoneId)
+		 */
+		@Override
+		public Builder zone(ZoneId zone) {
+			localization.setZone(zone);
 			return this;
 		}
 

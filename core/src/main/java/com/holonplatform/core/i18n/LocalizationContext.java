@@ -21,6 +21,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.util.Date;
@@ -104,6 +105,20 @@ public interface LocalizationContext {
 	 * @return Optional context Locale, or an empty Optional if context is not localized
 	 */
 	Optional<Locale> getLocale();
+
+	/**
+	 * Get the time zone to use to format temporal values which represent an instant on the time-line, for example
+	 * {@link java.time.Instant} values.
+	 * <p>
+	 * The zone is obtained from the current {@link Localization#getZone()}, falling back to the context default zone,
+	 * if configured. When no zone is available, the system default zone is used to format such values.
+	 * </p>
+	 * @return Optional context time zone, or an empty Optional if no zone is configured
+	 * @since 12.0.0
+	 */
+	default Optional<ZoneId> getZone() {
+		return Optional.empty();
+	}
 
 	/**
 	 * Get the symbol to be used as message arguments placeholder.
@@ -582,6 +597,20 @@ public interface LocalizationContext {
 		 * @return this
 		 */
 		Builder withDefaultTimeTemporalFormat(TemporalFormat format);
+
+		/**
+		 * Set the default time zone to use to format temporal values which represent an instant on the time-line, for
+		 * example {@link java.time.Instant} values.
+		 * <p>
+		 * This is overriden by any {@link Localization#getZone()} value.
+		 * </p>
+		 * @param zone The default time zone (may be null)
+		 * @return this
+		 * @since 12.0.0
+		 */
+		default Builder withDefaultZone(ZoneId zone) {
+			throw new UnsupportedOperationException("Time zone configuration is not supported by this builder");
+		}
 
 		/**
 		 * Disable caching of date/time formatters

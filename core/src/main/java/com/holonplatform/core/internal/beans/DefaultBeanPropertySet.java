@@ -15,7 +15,6 @@
  */
 package com.holonplatform.core.internal.beans;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -68,7 +67,7 @@ public class DefaultBeanPropertySet<T> extends DefaultPropertySet<PathProperty<?
 	/**
 	 * Bean class to which this property set refers
 	 */
-	private final transient WeakReference<Class<? extends T>> beanClass;
+	private final Class<? extends T> beanClass;
 
 	/**
 	 * Constructor.
@@ -78,7 +77,7 @@ public class DefaultBeanPropertySet<T> extends DefaultPropertySet<PathProperty<?
 	 */
 	public <P extends PathProperty<?>> DefaultBeanPropertySet(Class<? extends T> beanClass, Collection<P> properties) {
 		super(properties);
-		this.beanClass = new WeakReference<>(beanClass);
+		this.beanClass = beanClass;
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class DefaultBeanPropertySet<T> extends DefaultPropertySet<PathProperty<?
 	 */
 	@Override
 	public Class<? extends T> getBeanClass() {
-		return beanClass.get();
+		return beanClass;
 	}
 
 	/*

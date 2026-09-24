@@ -23,10 +23,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,6 +50,7 @@ import com.holonplatform.core.i18n.LocalizationContext;
 import com.holonplatform.core.i18n.MessageProvider;
 import com.holonplatform.core.i18n.NumberFormatFeature;
 import com.holonplatform.core.i18n.TemporalFormat;
+import com.holonplatform.core.presentation.StringValuePresenter;
 import com.holonplatform.core.internal.i18n.DefaultLocalization;
 import com.holonplatform.core.internal.i18n.DefaultLocalizationContext;
 import com.holonplatform.core.temporal.TemporalType;
@@ -287,6 +293,64 @@ class TestI18n {
 
 		assertEquals("18:30", ctx.format(time, TemporalFormat.SHORT));
 
+	}
+
+	@Test
+	void testInstantFormat() {
+
+		final LocalizationContext ctx = LocalizationContext.builder().build();
+		ctx.localize(Locale.ITALIAN);
+
+		final ZonedDateTime zdt = ZonedDateTime.of(LocalDateTime.of(1979, Month.MARCH, 9, 18, 30, 15),
+				ZoneId.systemDefault());
+		final Instant instant = zdt.toInstant();
+
+		// an Instant must be formatted using the default time zone, not fail with
+		// UnsupportedTemporalTypeException
+		assertEquals(ctx.format((Temporal) zdt), ctx.format(instant));
+		assertEquals("09/03/79, 18:30", ctx.format(instant));
+	}
+
+	@Test
+	void testInstantPresentation() {
+		final ZonedDateTime zdt = ZonedDateTime.of(LocalDateTime.of(1979, Month.MARCH, 9, 18, 30, 15),
+				ZoneId.systemDefault());
+		final Instant instant = zdt.toInstant();
+
+		// without a localization context, the default Locale formatters are used
+		final String presented = StringValuePresenter.getDefault().present(Instant.class, instant);
+		assertNotNull(presented);
+		assertEquals(StringValuePresenter.getDefault().present(ZonedDateTime.class, zdt), presented);
+	}
+
+	@Test
+	void testInstantZonedFormat() {
+
+		// 2024-06-01T12:00:00Z
+		final Instant instant = ZonedDateTime.of(LocalDateTime.of(2024, Month.JUNE, 1, 12, 0, 0), ZoneOffset.UTC)
+				.toInstant();
+
+		final LocalizationContext india = LocalizationContext.builder().build();
+		india.localize(Localization.builder(Locale.ITALY).zone(ZoneId.of("Asia/Kolkata"))
+				.defaultDateTemporalFormat(TemporalFormat.SHORT).defaultTimeTemporalFormat(TemporalFormat.SHORT)
+				.build());
+
+		final LocalizationContext newYork = LocalizationContext.builder().build();
+		newYork.localize(Localization.builder(Locale.ITALY).zone(ZoneId.of("America/New_York"))
+				.defaultDateTemporalFormat(TemporalFormat.SHORT).defaultTimeTemporalFormat(TemporalFormat.SHORT)
+				.build());
+
+		// same instant, different wall-clock time per user zone (New York is in DST: UTC-4)
+		assertEquals("01/06/24, 17:30", india.format(instant));
+		assertEquals("01/06/24, 08:00", newYork.format(instant));
+
+		// context default zone is used when the Localization does not declare one
+		final LocalizationContext fallback = LocalizationContext.builder().withDefaultZone(ZoneId.of("Asia/Kolkata"))
+				.withDefaultDateTemporalFormat(TemporalFormat.SHORT)
+				.withDefaultTimeTemporalFormat(TemporalFormat.SHORT).build();
+		fallback.localize(Locale.ITALY);
+		assertEquals("01/06/24, 17:30", fallback.format(instant));
+		assertEquals(ZoneId.of("Asia/Kolkata"), fallback.getZone().orElse(null));
 	}
 
 	@Test
